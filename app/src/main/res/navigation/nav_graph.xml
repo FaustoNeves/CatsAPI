@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/BreedsFragment">
+
+    <fragment
+        android:id="@+id/BreedsFragment"
+        android:name="com.fausto.cats.ui.breeds.BreedsFragment"
+        android:label="@string/breeds_fragment_label"
+        tools:layout="@layout/fragment_breeds">
+
+        <action
+            android:id="@+id/action_BreedsFragment_to_BreedDetailFragment"
+            app:destination="@id/BreedDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/BreedDetailFragment"
+        android:name="com.fausto.cats.ui.details.BreedDetailFragment"
+        android:label="@string/breed_detail_fragment_label"
+        tools:layout="@layout/fragment_breed_detail">
+
+        <action
+            android:id="@+id/action_BreedDetailFragment_to_BreedsFragment"
+            app:destination="@id/BreedsFragment" />
+    </fragment>
+</navigation>
