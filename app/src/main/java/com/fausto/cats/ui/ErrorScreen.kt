@@ -27,8 +27,8 @@ class ErrorScreen(
     ): View {
 
         return ScreenErrorBinding.inflate(inflater, container, false).run {
-            dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.WHITE))
+//            dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+//            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.WHITE))
             _binding = this
             root
         }

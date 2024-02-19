@@ -1,19 +1,20 @@
 package com.fausto.cats.ui.breeds
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import com.fausto.cats.BuildConfig
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.fausto.cats.databinding.FragmentBreedsBinding
+import com.fausto.cats.domain.model.BreedsModel
+import com.fausto.cats.domain.model.SectionModel
 import com.fausto.cats.ui.ErrorScreen
-import com.fausto.cats.ui.details.BreedDetailViewState
-import com.fausto.cats.ui.details.ImageViewState
+import com.fausto.cats.ui.breeds.adapter.SectionAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -46,26 +47,51 @@ class BreedsFragment : Fragment() {
     private fun setupObservers() {
         viewModel.breedsViewState.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is BreedsViewState.Loading -> {
-                    binding.loadingScreen.root.isVisible = true
-                }
+                is BreedsViewState.Loading -> setupLoadingView()
 
-                is BreedsViewState.Success -> {
-                    binding.loadingScreen.root.isVisible = false
-                    Log.e("success data", state.breeds.toString())
-                    Log.e("success data token", BuildConfig.API_KEY)
-                }
+                is BreedsViewState.Success -> setupSuccessView(state)
 
-                is BreedsViewState.Error -> {
-                    binding.loadingScreen.root.isVisible = false
-                    ErrorScreen { viewModel.getBreeds() }.apply {
-                        isCancelable = false
-                    }.show(parentFragmentManager, "")
-                    Log.e("error data", state.errorMessage)
-                }
+                is BreedsViewState.Error -> setupErrorView()
             }
         }
+    }
 
+    private fun setupLoadingView() {
+        binding.loadingScreen.root.isVisible = true
+    }
+
+    private fun setupSuccessView(state: BreedsViewState.Success) {
+        with(binding) {
+            loadingScreen.root.isVisible = false
+            sectionRv.isVisible = true
+            val sectionsList = mutableListOf<SectionModel>()
+            val breedsList = mutableListOf(
+                BreedsModel("1", "aby"), BreedsModel("1", "aby"), BreedsModel("1", "aby")
+            )
+            val aLetterList = SectionModel("A", breedsList)
+            val bLetterList = SectionModel("B", breedsList)
+            val cLetterList = SectionModel("C", breedsList)
+            sectionsList.add(
+                aLetterList,
+            )
+            sectionsList.add(
+                bLetterList,
+            )
+            sectionsList.add(
+                cLetterList,
+            )
+            sectionRv.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            sectionRv.adapter = SectionAdapter(sectionsList)
+        }
+    }
+
+    private fun setupErrorView() {
+        binding.loadingScreen.root.isVisible = false
+        ErrorScreen { viewModel.getBreeds() }.apply {
+            isCancelable = false
+        }.show(parentFragmentManager, "")
+    }
 //        viewModel.breedDetailViewState.observe(viewLifecycleOwner) { state ->
 //            when (state) {
 //                is BreedDetailViewState.Loading -> {
@@ -97,7 +123,6 @@ class BreedsFragment : Fragment() {
 //                }
 //            }
 //        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -24,14 +24,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        val tokenFile = project.rootProject.file("cats.properties")
-        val properties = Properties()
-        properties.load(tokenFile.inputStream())
-        val apiKey = properties.getProperty("cats.api.token") ?: "erro"
-
-        buildConfigField(
-            type = "String", name = "API_KEY", value = apiKey
-        )
     }
 
     buildTypes {
