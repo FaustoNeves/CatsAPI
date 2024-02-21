@@ -1,12 +1,14 @@
 package com.fausto.cats.ui.breeds
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -62,27 +64,20 @@ class BreedsFragment : Fragment() {
 
     private fun setupSuccessView(state: BreedsViewState.Success) {
         with(binding) {
+            state.breeds.forEach {
+                Log.e("success data section", it.section.toString())
+                Log.e("success data", it.breedsList.toString())
+            }
             loadingScreen.root.isVisible = false
             sectionRv.isVisible = true
-            val sectionsList = mutableListOf<SectionModel>()
-            val breedsList = mutableListOf(
-                BreedsModel("1", "aby"), BreedsModel("1", "aby"), BreedsModel("1", "aby")
-            )
-            val aLetterList = SectionModel("A", breedsList)
-            val bLetterList = SectionModel("B", breedsList)
-            val cLetterList = SectionModel("C", breedsList)
-            sectionsList.add(
-                aLetterList,
-            )
-            sectionsList.add(
-                bLetterList,
-            )
-            sectionsList.add(
-                cLetterList,
-            )
             sectionRv.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            sectionRv.adapter = SectionAdapter(sectionsList)
+            sectionRv.addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(), DividerItemDecoration.VERTICAL
+                )
+            )
+            sectionRv.adapter = SectionAdapter(state.breeds)
         }
     }
 

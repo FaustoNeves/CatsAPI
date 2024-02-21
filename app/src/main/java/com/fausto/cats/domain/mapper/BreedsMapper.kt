@@ -13,7 +13,7 @@ internal fun BreedImageResponse.toModel(): BreedImageModel {
 
 internal fun BreedsResponse.toModel(): BreedsModel {
     return BreedsModel(
-        id = id ?: "", name = name ?: ""
+        section = name?.first().toString(), id = id ?: "", name = name ?: ""
     )
 }
 

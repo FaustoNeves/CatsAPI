@@ -1,9 +1,11 @@
 package com.fausto.cats.ui.breeds
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fausto.cats.domain.model.SectionModel
 import com.fausto.cats.domain.usecase.GetBreedByIdUseCase
 import com.fausto.cats.domain.usecase.GetBreedsUseCase
 import com.fausto.cats.domain.usecase.GetImagesByIdUseCase
@@ -28,7 +30,8 @@ internal class BreedsViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val response = useCase.getBreeds()
-                _breedsViewState.value = BreedsViewState.Success(response)
+                val sectionModelsList = SectionModel(breedsList = response).buildSections(response)
+                _breedsViewState.value = BreedsViewState.Success(sectionModelsList)
             } catch (e: Exception) {
                 _breedsViewState.value = BreedsViewState.Error("An error occurred: ${e.message}")
             }

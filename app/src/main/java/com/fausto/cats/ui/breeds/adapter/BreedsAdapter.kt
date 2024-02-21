@@ -24,6 +24,6 @@ internal class BreedsAdapter(private val breedsList: List<BreedsModel>) :
     override fun getItemCount() = breedsList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.breedName.text = breedsList[0].name
+        holder.breedName.text = breedsList[position].name
     }
 }
