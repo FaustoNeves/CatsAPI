@@ -6,8 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fausto.cats.databinding.SectionItemAdapterBinding
 import com.fausto.cats.domain.model.SectionModel
 
-internal class SectionAdapter(private val sectionsList: List<SectionModel>) :
-    RecyclerView.Adapter<SectionAdapter.ViewHolder>() {
+internal typealias SectionAdapterClickListener = ((breedId: String) -> Unit)
+
+internal class SectionAdapter(
+    private val sectionsList: List<SectionModel>, private val listener: SectionAdapterClickListener
+) : RecyclerView.Adapter<SectionAdapter.ViewHolder>() {
+
     class ViewHolder(binding: SectionItemAdapterBinding) : RecyclerView.ViewHolder(binding.root) {
 
         var sectionName = binding.sectionName
@@ -23,6 +27,7 @@ internal class SectionAdapter(private val sectionsList: List<SectionModel>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.sectionName.text = sectionsList[position].section
-        holder.breedsRecyclerView.adapter = BreedsAdapter(sectionsList[position].breedsList)
+        holder.breedsRecyclerView.adapter =
+            BreedsAdapter(sectionsList[position].breedsList, listener)
     }
 }

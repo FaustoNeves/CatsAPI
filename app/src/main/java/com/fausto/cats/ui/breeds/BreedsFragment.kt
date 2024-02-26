@@ -1,20 +1,15 @@
 package com.fausto.cats.ui.breeds
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.fausto.cats.databinding.FragmentBreedsBinding
-import com.fausto.cats.domain.model.BreedsModel
-import com.fausto.cats.domain.model.SectionModel
 import com.fausto.cats.ui.ErrorScreen
 import com.fausto.cats.ui.breeds.adapter.SectionAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,10 +35,7 @@ class BreedsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupObservers()
-
         viewModel.getBreeds()
-//        viewModel.getBreedDetail()
-//        viewModel.getImage("beng")
     }
 
     private fun setupObservers() {
@@ -64,20 +56,16 @@ class BreedsFragment : Fragment() {
 
     private fun setupSuccessView(state: BreedsViewState.Success) {
         with(binding) {
-            state.breeds.forEach {
-                Log.e("success data section", it.section.toString())
-                Log.e("success data", it.breedsList.toString())
-            }
             loadingScreen.root.isVisible = false
             sectionRv.isVisible = true
-            sectionRv.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             sectionRv.addItemDecoration(
                 DividerItemDecoration(
                     requireContext(), DividerItemDecoration.VERTICAL
                 )
             )
-            sectionRv.adapter = SectionAdapter(state.breeds)
+            sectionRv.adapter = SectionAdapter(state.breeds) {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -87,37 +75,6 @@ class BreedsFragment : Fragment() {
             isCancelable = false
         }.show(parentFragmentManager, "")
     }
-//        viewModel.breedDetailViewState.observe(viewLifecycleOwner) { state ->
-//            when (state) {
-//                is BreedDetailViewState.Loading -> {
-//
-//                }
-//
-//                is BreedDetailViewState.Success -> {
-//                    Log.e("success data", state.breeds.toString())
-//                }
-//
-//                is BreedDetailViewState.Error -> {
-//
-//                }
-//            }
-//        }
-//
-//        viewModel.imageViewState.observe(viewLifecycleOwner) { state ->
-//            when (state) {
-//                is ImageViewState.Loading -> {
-//
-//                }
-//
-//                is ImageViewState.Success -> {
-//                    Log.e("images", state.images.toString())
-//                }
-//
-//                is ImageViewState.Error -> {
-//
-//                }
-//            }
-//        }
 
     override fun onDestroyView() {
         super.onDestroyView()

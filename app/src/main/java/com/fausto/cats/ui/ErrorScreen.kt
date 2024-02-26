@@ -1,7 +1,5 @@
 package com.fausto.cats.ui
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,10 +23,7 @@ class ErrorScreen(
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
         return ScreenErrorBinding.inflate(inflater, container, false).run {
-//            dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-//            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.WHITE))
             _binding = this
             root
         }
