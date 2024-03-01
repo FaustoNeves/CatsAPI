@@ -12,6 +12,9 @@ internal interface CatsService {
     @GET("breeds")
     suspend fun getBreeds(): List<BreedsResponse>
 
+    @GET("breeds/search")
+    suspend fun getBreedsBySearch(@Query("q") breedQuery: String): List<BreedsResponse>
+
     @GET("images/{imageId}")
     suspend fun getBreedById(
         @Path("imageId") breedId: String
@@ -22,4 +25,5 @@ internal interface CatsService {
         @Query("limit") limit: Int = 10,
         @Query("breed_id") breedId: String,
     ): List<BreedImageResponse>
+
 }

@@ -1,4 +1,4 @@
-package com.fausto.cats.ui
+package com.fausto.cats.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.fragment.app.DialogFragment
 import com.fausto.cats.R
 import com.fausto.cats.databinding.ScreenErrorBinding
 
-class ErrorScreen(
+internal class ErrorScreen(
     private val retryAction: () -> Unit
 ) : DialogFragment() {
 

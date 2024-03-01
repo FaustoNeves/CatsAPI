@@ -3,4 +3,6 @@
     <string name="breeds_fragment_label">Cat Breeds</string>
     <string name="breed_detail_fragment_label">Breed Detail</string>
     <string name="try_again_button_text">Try Again</string>
+    <string name="search_breed">Search breed</string>
+    <string name="no_breeds_found">No breeds found</string>
 </resources>

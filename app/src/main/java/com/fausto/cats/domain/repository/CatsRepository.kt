@@ -7,6 +7,7 @@ import retrofit2.http.Query
 
 internal interface CatsRepository {
     suspend fun getBreeds(): List<BreedsResponse>
+    suspend fun getBreedsBySearch(breedQuery: String): List<BreedsResponse>
     suspend fun getBreedById(breedId: String): BreedResponse
     suspend fun getImagesById(
         breedId: String

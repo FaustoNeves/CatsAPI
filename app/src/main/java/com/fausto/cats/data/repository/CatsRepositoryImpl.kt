@@ -12,6 +12,8 @@ internal class CatsRepositoryImpl @Inject constructor(
 ) : CatsRepository {
 
     override suspend fun getBreeds(): List<BreedsResponse> = catsService.getBreeds()
+    override suspend fun getBreedsBySearch(breedQuery: String) =
+        catsService.getBreedsBySearch(breedQuery)
 
     override suspend fun getBreedById(
         breedId: String
@@ -19,4 +21,6 @@ internal class CatsRepositoryImpl @Inject constructor(
 
     override suspend fun getImagesById(breedId: String): List<BreedImageResponse> =
         catsService.getImagesById(breedId = breedId)
+
+
 }

@@ -4,6 +4,8 @@ import com.fausto.cats.data.repository.CatsRepositoryImpl
 import com.fausto.cats.domain.repository.CatsRepository
 import com.fausto.cats.domain.usecase.GetBreedByIdUseCase
 import com.fausto.cats.domain.usecase.GetBreedByIdUseCaseImpl
+import com.fausto.cats.domain.usecase.GetBreedsBySearchUseCase
+import com.fausto.cats.domain.usecase.GetBreedsBySearchUseCaseImpl
 import com.fausto.cats.domain.usecase.GetBreedsUseCase
 import com.fausto.cats.domain.usecase.GetBreedsUseCaseImpl
 import com.fausto.cats.domain.usecase.GetImagesByIdUseCase
@@ -20,8 +22,12 @@ internal abstract class CatsModule {
     @Binds
     abstract fun bindCatsRepository(catsRepository: CatsRepositoryImpl): CatsRepository
 
+
     @Binds
-    abstract fun bindsCatsUseCase(useCase: GetBreedsUseCaseImpl): GetBreedsUseCase
+    abstract fun bindsGetBreedsUseCase(useCase: GetBreedsUseCaseImpl): GetBreedsUseCase
+
+    @Binds
+    abstract fun bindGetBreedsBySearchUseCase(useCaseImpl: GetBreedsBySearchUseCaseImpl): GetBreedsBySearchUseCase
 
     @Binds
     abstract fun bindsGetBreedByIdUseCase(useCase: GetBreedByIdUseCaseImpl): GetBreedByIdUseCase
