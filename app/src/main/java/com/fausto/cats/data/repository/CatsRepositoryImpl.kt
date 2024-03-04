@@ -21,6 +21,4 @@ internal class CatsRepositoryImpl @Inject constructor(
 
     override suspend fun getImagesById(breedId: String): List<BreedImageResponse> =
         catsService.getImagesById(breedId = breedId)
-
-
 }

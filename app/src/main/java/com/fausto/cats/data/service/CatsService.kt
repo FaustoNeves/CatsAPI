@@ -25,5 +25,4 @@ internal interface CatsService {
         @Query("limit") limit: Int = 10,
         @Query("breed_id") breedId: String,
     ): List<BreedImageResponse>
-
 }

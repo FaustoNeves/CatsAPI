@@ -9,14 +9,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.fausto.cats.R
 import com.fausto.cats.databinding.FragmentBreedsBinding
 import com.fausto.cats.ui.base.ErrorScreen
 import com.fausto.cats.ui.breeds.adapter.SectionAdapter
@@ -75,9 +72,23 @@ class BreedsFragment : Fragment() {
 
     private fun setupSearchAction() {
         with(binding) {
+            var hasUserTyped = false
             searchTextInputEditText.addTextChangedListener(object : TextWatcher {
                 private val DELAY_MS = 600L
                 private val handler = Handler(Looper.getMainLooper())
+
+                val breedsRunnable = Runnable {
+                    if (hasUserTyped)
+                        viewModel.interpret(BreedsInteract.OnRefreshAction)
+                }
+
+                val searchBreedsRunnable = Runnable {
+                    viewModel.interpret(
+                        BreedsInteract.OnSearchBreedAction(
+                            searchTextInputEditText.text.toString()
+                        )
+                    )
+                }
 
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
@@ -87,19 +98,10 @@ class BreedsFragment : Fragment() {
 
                 override fun afterTextChanged(p0: Editable?) {
                     if (p0.toString().isBlank()) {
-                        val breedsRunnable = Runnable {
-                            viewModel.interpret(BreedsInteract.OnRefreshAction)
-                        }
                         handler.removeCallbacks(breedsRunnable)
                         handler.postDelayed(breedsRunnable, DELAY_MS)
                     } else {
-                        val searchBreedsRunnable = Runnable {
-                            viewModel.interpret(
-                                BreedsInteract.OnSearchBreedAction(
-                                    searchTextInputEditText.text.toString()
-                                )
-                            )
-                        }
+                        hasUserTyped = true
                         handler.removeCallbacks(searchBreedsRunnable)
                         handler.postDelayed(searchBreedsRunnable, DELAY_MS)
                     }

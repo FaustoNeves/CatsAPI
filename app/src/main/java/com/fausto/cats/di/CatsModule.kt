@@ -22,7 +22,6 @@ internal abstract class CatsModule {
     @Binds
     abstract fun bindCatsRepository(catsRepository: CatsRepositoryImpl): CatsRepository
 
-
     @Binds
     abstract fun bindsGetBreedsUseCase(useCase: GetBreedsUseCaseImpl): GetBreedsUseCase
 

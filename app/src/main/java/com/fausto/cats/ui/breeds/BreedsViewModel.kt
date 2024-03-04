@@ -1,18 +1,12 @@
 package com.fausto.cats.ui.breeds
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fausto.cats.domain.model.SectionModel
-import com.fausto.cats.domain.usecase.GetBreedByIdUseCase
 import com.fausto.cats.domain.usecase.GetBreedsBySearchUseCase
 import com.fausto.cats.domain.usecase.GetBreedsUseCase
-import com.fausto.cats.domain.usecase.GetImagesByIdUseCase
-import com.fausto.cats.ui.breeds.adapter.BreedsBySearchViewState
-import com.fausto.cats.ui.details.BreedDetailViewState
-import com.fausto.cats.ui.details.ImageViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,19 +18,15 @@ internal class BreedsViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _breedsViewState = MutableLiveData<BreedsViewState>()
-    val breedsViewState: LiveData<BreedsViewState> = _breedsViewState
+    val breedsViewState: LiveData<BreedsViewState> get() = _breedsViewState
 
     fun interpret(interaction: BreedsInteract) {
         when (interaction) {
-            is BreedsInteract.ViewCreated -> fetchBreeds()
-            is BreedsInteract.OnRefreshAction -> fetchBreeds()
-            is BreedsInteract.OnErrorAction -> fetchBreeds()
+            is BreedsInteract.ViewCreated -> getBreeds()
+            is BreedsInteract.OnRefreshAction -> getBreeds()
+            is BreedsInteract.OnErrorAction -> getBreeds()
             is BreedsInteract.OnSearchBreedAction -> getBreedsBySearch(interaction.breedQuery)
         }
-    }
-
-    private fun fetchBreeds() {
-        getBreeds()
     }
 
     private fun getBreeds() {

@@ -16,7 +16,6 @@ internal class SectionAdapter(
 
         var sectionName = binding.sectionName
         val breedsRecyclerView = binding.breedsRv
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
