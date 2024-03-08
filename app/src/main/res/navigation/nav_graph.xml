@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/BreedDetailFragment"
-        android:name="com.fausto.cats.ui.details.BreedDetailFragment"
+        android:name="com.fausto.cats.ui.details.BreedDetailBaseFragment"
         android:label="@string/breed_detail_fragment_label"
         tools:layout="@layout/fragment_breed_detail">
 

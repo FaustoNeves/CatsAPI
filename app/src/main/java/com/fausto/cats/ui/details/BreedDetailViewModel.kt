@@ -1,6 +1,5 @@
 package com.fausto.cats.ui.details
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,16 +19,17 @@ internal class BreedDetailViewModel @Inject constructor(private val getBreedById
     fun interpret(interaction: BreedDetailInteract) {
         when (interaction) {
             is BreedDetailInteract.ViewCreated -> getBreedDetail(interaction.breedId)
+            is BreedDetailInteract.OnErrorAction -> getBreedDetail(interaction.breedId)
         }
     }
 
     private fun getBreedDetail(breedId: String) {
+        _breedDetailViewState.value = BreedDetailViewState.Loading
         viewModelScope.launch {
             try {
                 val response = getBreedByIdUseCase.getBreedById(breedId)
                 _breedDetailViewState.value = BreedDetailViewState.Success(response)
             } catch (e: Exception) {
-                Log.e("exception", e.message.toString())
                 _breedDetailViewState.value = BreedDetailViewState.Error(e.message.toString())
             }
         }
