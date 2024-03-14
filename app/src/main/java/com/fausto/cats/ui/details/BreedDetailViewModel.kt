@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fausto.cats.domain.usecase.GetBreedByIdUseCase
+import com.fausto.common.result.ResultWrapper
+import com.fausto.common.result.getResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,13 +26,16 @@ internal class BreedDetailViewModel @Inject constructor(private val getBreedById
     }
 
     private fun getBreedDetail(breedId: String) {
-        _breedDetailViewState.value = BreedDetailViewState.Loading
         viewModelScope.launch {
-            try {
-                val response = getBreedByIdUseCase.getBreedById(breedId)
-                _breedDetailViewState.value = BreedDetailViewState.Success(response)
-            } catch (e: Exception) {
-                _breedDetailViewState.value = BreedDetailViewState.Error(e.message.toString())
+            _breedDetailViewState.value = BreedDetailViewState.Loading
+            when (val response = getResult {
+                getBreedByIdUseCase.getBreedById(breedId)
+            }) {
+                is ResultWrapper.Success -> _breedDetailViewState.value =
+                    BreedDetailViewState.Success(response.data)
+
+                is ResultWrapper.Error -> _breedDetailViewState.value =
+                    BreedDetailViewState.Error(response.exception?.message.toString())
             }
         }
     }

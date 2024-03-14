@@ -93,6 +93,7 @@ internal class BreedDetailBaseFragment : Fragment() {
     private fun setupLoadingView() {
         with(binding) {
             loadingScreen.root.isVisible = true
+            loadingScreen.loadingAnimation.isVisible = true
             tabLayout.isVisible = false
             viewPager.isVisible = false
         }

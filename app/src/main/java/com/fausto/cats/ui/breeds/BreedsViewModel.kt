@@ -35,7 +35,6 @@ internal class BreedsViewModel @Inject constructor(
         viewModelScope.launch {
             _breedsViewState.value = BreedsViewState.Loading
             when (val response = getResult { getBreedsUseCase.getBreeds() }) {
-                is ResultWrapper.Loading -> _breedsViewState.value = BreedsViewState.Loading
                 is ResultWrapper.Success -> {
                     val sectionModelsList =
                         SectionModel(breedsList = response.data).buildSections(response.data)
@@ -55,7 +54,6 @@ internal class BreedsViewModel @Inject constructor(
             _breedsViewState.value = BreedsViewState.Loading
             when (val response =
                 getResult { getBreedBySearchUseCase.getBreedsBySearch(breedQuery) }) {
-                is ResultWrapper.Loading -> _breedsViewState.value = BreedsViewState.Loading
                 is ResultWrapper.Success -> {
                     val sectionModelsList =
                         SectionModel(breedsList = response.data).buildSections(response.data)
