@@ -118,6 +118,7 @@ class BreedsFragment : Fragment() {
     private fun setupLoadingView() {
         with(binding) {
             loadingScreen.root.isVisible = true
+            searchTextInputLayout.isVisible = false
             sectionRv.isVisible = false
         }
     }
@@ -127,6 +128,7 @@ class BreedsFragment : Fragment() {
             loadingScreen.root.isVisible = false
             sectionRv.isVisible = true
             noDataAvailableScreen.root.isVisible = false
+            searchTextInputLayout.isVisible = true
             if (state.sections.isNotEmpty()) {
                 sectionRv.addItemDecoration(
                     DividerItemDecoration(

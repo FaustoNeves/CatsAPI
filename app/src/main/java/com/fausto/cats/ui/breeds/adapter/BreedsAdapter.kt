@@ -1,11 +1,10 @@
 package com.fausto.cats.ui.breeds.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fausto.cats.databinding.BreedItemAdapterBinding
-import com.fausto.cats.domain.model.BreedsModel
+import com.fausto.model.BreedsModel
 
 internal class BreedsAdapter(
     private val breedsList: List<BreedsModel>, private val listener: SectionAdapterClickListener?

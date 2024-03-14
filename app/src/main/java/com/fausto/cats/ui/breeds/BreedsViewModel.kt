@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fausto.cats.domain.model.SectionModel
 import com.fausto.cats.domain.usecase.GetBreedsBySearchUseCase
 import com.fausto.cats.domain.usecase.GetBreedsUseCase
+import com.fausto.common.result.ResultWrapper
+import com.fausto.common.result.getResult
+import com.fausto.model.SectionModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,27 +32,38 @@ internal class BreedsViewModel @Inject constructor(
     }
 
     private fun getBreeds() {
-        _breedsViewState.value = BreedsViewState.Loading
         viewModelScope.launch {
-            try {
-                val response = getBreedsUseCase.getBreeds()
-                val sectionModelsList = SectionModel(breedsList = response).buildSections(response)
-                _breedsViewState.value = BreedsViewState.Success(sectionModelsList)
-            } catch (e: Exception) {
-                _breedsViewState.value = BreedsViewState.Error("An error occurred: ${e.message}")
+            _breedsViewState.value = BreedsViewState.Loading
+            when (val response = getResult { getBreedsUseCase.getBreeds() }) {
+                is ResultWrapper.Loading -> _breedsViewState.value = BreedsViewState.Loading
+                is ResultWrapper.Success -> {
+                    val sectionModelsList =
+                        SectionModel(breedsList = response.data).buildSections(response.data)
+                    _breedsViewState.value = BreedsViewState.Success(sectionModelsList)
+                }
+
+                is ResultWrapper.Error -> {
+                    _breedsViewState.value =
+                        BreedsViewState.Error(response.exception?.message.toString())
+                }
             }
         }
     }
 
     private fun getBreedsBySearch(breedQuery: String) {
-        _breedsViewState.value = BreedsViewState.Loading
         viewModelScope.launch {
-            try {
-                val response = getBreedBySearchUseCase.getBreedsBySearch(breedQuery)
-                val sectionModelsList = SectionModel(breedsList = response).buildSections(response)
-                _breedsViewState.value = BreedsViewState.Success(sectionModelsList)
-            } catch (e: Exception) {
-                _breedsViewState.value = BreedsViewState.Error("An error occurred: ${e.message}")
+            _breedsViewState.value = BreedsViewState.Loading
+            when (val response =
+                getResult { getBreedBySearchUseCase.getBreedsBySearch(breedQuery) }) {
+                is ResultWrapper.Loading -> _breedsViewState.value = BreedsViewState.Loading
+                is ResultWrapper.Success -> {
+                    val sectionModelsList =
+                        SectionModel(breedsList = response.data).buildSections(response.data)
+                    _breedsViewState.value = BreedsViewState.Success(sectionModelsList)
+                }
+
+                is ResultWrapper.Error -> _breedsViewState.value =
+                    BreedsViewState.Error(response.exception?.message.toString())
             }
         }
     }

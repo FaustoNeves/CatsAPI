@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.fausto.cats.databinding.SectionItemAdapterBinding
-import com.fausto.cats.domain.model.SectionModel
+import com.fausto.model.SectionModel
 
 internal typealias SectionAdapterClickListener = ((breedId: String) -> Unit)
 

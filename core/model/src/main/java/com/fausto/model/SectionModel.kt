@@ -1,6 +1,6 @@
-package com.fausto.cats.domain.model
+package com.fausto.model
 
-internal class SectionModel(
+class SectionModel(
     val section: String? = null, val breedsList: List<BreedsModel>
 ) {
     fun buildSections(breedsList: List<BreedsModel>): List<SectionModel> {

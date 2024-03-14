@@ -3,9 +3,9 @@ package com.fausto.cats.domain.mapper
 import com.fausto.cats.data.response.BreedDetailResponse
 import com.fausto.cats.data.response.BreedResponse
 import com.fausto.cats.data.response.WeightResponse
-import com.fausto.cats.domain.model.BreedDetailModel
-import com.fausto.cats.domain.model.BreedModel
-import com.fausto.cats.domain.model.WeightModel
+import com.fausto.model.BreedDetailModel
+import com.fausto.model.BreedModel
+import com.fausto.model.WeightModel
 
 internal fun BreedResponse.toModel(): BreedModel {
     return BreedModel(id = id ?: "",

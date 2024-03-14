@@ -1,6 +1,6 @@
-package com.fausto.cats.domain.model
+package com.fausto.model
 
-internal data class BreedDetailModel(
+data class BreedDetailModel(
     val weight: WeightModel?,
     val id: String,
     val name: String,

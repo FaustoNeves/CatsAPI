@@ -80,4 +80,7 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 
     implementation("com.squareup.picasso:picasso:2.8")
+
+    implementation(project(":core:common"))
+    implementation(project(":core:model"))
 }

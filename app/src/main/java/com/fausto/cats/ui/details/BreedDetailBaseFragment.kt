@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.fausto.cats.R
 import com.fausto.cats.databinding.FragmentBreedDetailBinding
-import com.fausto.cats.domain.model.BreedModel
 import com.fausto.cats.ui.base.ErrorScreen
 import com.fausto.cats.ui.util.GradientTransformation
 import com.fausto.cats.ui.util.ViewPagerAdapter
@@ -18,7 +17,6 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 internal class BreedDetailBaseFragment : Fragment() {
@@ -52,7 +50,7 @@ internal class BreedDetailBaseFragment : Fragment() {
                 }
 
                 is BreedDetailViewState.Success -> {
-                    setupSuccessView(breedDetailViewState.breed)
+                    setupSuccessView(breedDetailViewState)
                 }
 
                 is BreedDetailViewState.Error -> {
@@ -80,14 +78,14 @@ internal class BreedDetailBaseFragment : Fragment() {
         }
     }
 
-    private fun setupSuccessView(breedModel: BreedModel) {
+    private fun setupSuccessView(state: BreedDetailViewState.Success) {
         with(binding) {
             tabLayout.isVisible = true
             viewPager.isVisible = true
             loadingScreen.root.isVisible = false
             loadingScreen.loadingAnimation.isVisible = false
-            setCatBanner(breedModel.url)
-            catNamme.text = breedModel.breeds[0].name
+            setCatBanner(state.breed.url)
+            catNamme.text = state.breed.breeds[0].name
         }
         setupLayout()
     }

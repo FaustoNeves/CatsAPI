@@ -1,6 +1,6 @@
 package com.fausto.cats.ui.details
 
-import com.fausto.cats.domain.model.BreedImageModel
+import com.fausto.model.BreedImageModel
 
 internal sealed class ImageViewState {
     object Loading : ImageViewState()

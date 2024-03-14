@@ -1,6 +1,6 @@
 package com.fausto.cats.ui.breeds.adapter
 
-import com.fausto.cats.domain.model.BreedsModel
+import com.fausto.model.BreedsModel
 
 internal sealed class BreedsBySearchViewState {
     object Loading : BreedsBySearchViewState()

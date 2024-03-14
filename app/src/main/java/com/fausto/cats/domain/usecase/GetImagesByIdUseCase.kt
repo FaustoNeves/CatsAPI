@@ -1,8 +1,8 @@
 package com.fausto.cats.domain.usecase
 
 import com.fausto.cats.domain.mapper.toModel
-import com.fausto.cats.domain.model.BreedImageModel
 import com.fausto.cats.domain.repository.CatsRepository
+import com.fausto.model.BreedImageModel
 import javax.inject.Inject
 
 internal fun interface GetImagesByIdUseCase {

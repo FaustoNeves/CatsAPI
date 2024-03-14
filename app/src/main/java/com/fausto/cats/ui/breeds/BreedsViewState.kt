@@ -1,7 +1,6 @@
 package com.fausto.cats.ui.breeds
 
-import com.fausto.cats.domain.model.BreedsModel
-import com.fausto.cats.domain.model.SectionModel
+import com.fausto.model.SectionModel
 
 internal sealed class BreedsViewState {
     object Loading : BreedsViewState()
