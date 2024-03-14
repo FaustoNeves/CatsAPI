@@ -1,13 +1,13 @@
-package com.fausto.cats.data.service
+package com.fausto.network.service
 
-import com.fausto.cats.data.response.BreedImageResponse
-import com.fausto.cats.data.response.BreedResponse
-import com.fausto.cats.data.response.BreedsResponse
+import com.fausto.network.model.BreedImageResponse
+import com.fausto.network.model.BreedResponse
+import com.fausto.network.model.BreedsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-internal interface CatsService {
+interface CatsService {
 
     @GET("breeds")
     suspend fun getBreeds(): List<BreedsResponse>

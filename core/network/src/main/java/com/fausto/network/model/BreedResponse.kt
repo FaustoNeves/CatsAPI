@@ -1,5 +1,5 @@
-package com.fausto.cats.data.response
+package com.fausto.network.model
 
-internal data class BreedResponse(
+data class BreedResponse(
     val id: String?, val url: String?, val breeds: List<BreedDetailResponse>?
 )

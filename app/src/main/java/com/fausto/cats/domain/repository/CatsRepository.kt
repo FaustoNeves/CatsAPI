@@ -1,9 +1,8 @@
 package com.fausto.cats.domain.repository
 
-import com.fausto.cats.data.response.BreedImageResponse
-import com.fausto.cats.data.response.BreedResponse
-import com.fausto.cats.data.response.BreedsResponse
-import retrofit2.http.Query
+import com.fausto.network.model.BreedImageResponse
+import com.fausto.network.model.BreedResponse
+import com.fausto.network.model.BreedsResponse
 
 internal interface CatsRepository {
     suspend fun getBreeds(): List<BreedsResponse>

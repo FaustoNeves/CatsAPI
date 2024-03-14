@@ -1,6 +1,6 @@
-package com.fausto.cats.di
+package com.fausto.network.di
 
-import com.fausto.cats.data.service.CatsService
+import com.fausto.network.service.CatsService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

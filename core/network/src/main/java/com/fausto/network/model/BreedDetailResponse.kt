@@ -1,9 +1,8 @@
-package com.fausto.cats.data.response
+package com.fausto.network.model
 
 import com.google.gson.annotations.SerializedName
 
-
-internal data class BreedDetailResponse(
+data class BreedDetailResponse(
     val weight: WeightResponse?,
     val id: String?,
     val name: String?,

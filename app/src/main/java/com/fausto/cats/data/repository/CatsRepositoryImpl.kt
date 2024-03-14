@@ -1,10 +1,10 @@
 package com.fausto.cats.data.repository
 
-import com.fausto.cats.data.response.BreedImageResponse
-import com.fausto.cats.data.response.BreedResponse
-import com.fausto.cats.data.response.BreedsResponse
-import com.fausto.cats.data.service.CatsService
 import com.fausto.cats.domain.repository.CatsRepository
+import com.fausto.network.model.BreedImageResponse
+import com.fausto.network.model.BreedResponse
+import com.fausto.network.model.BreedsResponse
+import com.fausto.network.service.CatsService
 import javax.inject.Inject
 
 internal class CatsRepositoryImpl @Inject constructor(
