@@ -1,13 +1,12 @@
-package com.fausto.cats.data.repository
+package com.fausto.data.repository
 
-import com.fausto.cats.domain.repository.CatsRepository
 import com.fausto.network.model.BreedImageResponse
 import com.fausto.network.model.BreedResponse
 import com.fausto.network.model.BreedsResponse
 import com.fausto.network.service.CatsService
 import javax.inject.Inject
 
-internal class CatsRepositoryImpl @Inject constructor(
+class CatsRepositoryImpl @Inject constructor(
     private val catsService: CatsService,
 ) : CatsRepository {
 

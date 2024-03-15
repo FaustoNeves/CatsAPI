@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fausto.cats.domain.usecase.GetBreedsBySearchUseCase
-import com.fausto.cats.domain.usecase.GetBreedsUseCase
 import com.fausto.common.result.ResultWrapper
 import com.fausto.common.result.getResult
+import com.fausto.domain.usecase.GetBreedsBySearchUseCase
+import com.fausto.domain.usecase.GetBreedsUseCase
 import com.fausto.model.SectionModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

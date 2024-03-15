@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.fausto.data"
+    namespace = "com.fausto.domain"
     compileSdk = 33
 
     defaultConfig {
@@ -46,5 +46,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
+    implementation(project(":core:model"))
+    implementation(project(":core:data"))
     implementation(project(":core:network"))
 }

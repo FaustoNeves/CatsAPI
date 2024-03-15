@@ -1,15 +1,15 @@
-package com.fausto.cats.domain.usecase
+package com.fausto.domain.usecase
 
-import com.fausto.cats.domain.mapper.toModel
-import com.fausto.cats.domain.repository.CatsRepository
+import com.fausto.data.repository.CatsRepository
 import com.fausto.model.BreedsModel
+import com.fausto.network.mapper.toModel
 import javax.inject.Inject
 
-internal fun interface GetBreedsBySearchUseCase {
+fun interface GetBreedsBySearchUseCase {
     suspend fun getBreedsBySearch(breedQuery: String): List<BreedsModel>
 }
 
-internal class GetBreedsBySearchUseCaseImpl @Inject constructor(
+class GetBreedsBySearchUseCaseImpl @Inject constructor(
     private val catsRepository: CatsRepository
 ) : GetBreedsBySearchUseCase {
     override suspend fun getBreedsBySearch(breedQuery: String): List<BreedsModel> {

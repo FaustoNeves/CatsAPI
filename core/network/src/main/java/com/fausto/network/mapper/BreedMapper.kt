@@ -1,4 +1,4 @@
-package com.fausto.cats.domain.mapper
+package com.fausto.network.mapper
 
 import com.fausto.model.BreedDetailModel
 import com.fausto.model.BreedModel
@@ -7,13 +7,13 @@ import com.fausto.network.model.BreedDetailResponse
 import com.fausto.network.model.BreedResponse
 import com.fausto.network.model.WeightResponse
 
-internal fun BreedResponse.toModel(): BreedModel {
+fun BreedResponse.toModel(): BreedModel {
     return BreedModel(id = id ?: "",
         url = url ?: "",
         breeds = breeds?.map { it.toModel() } ?: emptyList())
 }
 
-internal fun BreedDetailResponse.toModel(): BreedDetailModel {
+fun BreedDetailResponse.toModel(): BreedDetailModel {
     return BreedDetailModel(
         weight = weight?.toModel(),
         id = id ?: "",
@@ -25,7 +25,7 @@ internal fun BreedDetailResponse.toModel(): BreedDetailModel {
     )
 }
 
-internal fun WeightResponse.toModel(): WeightModel {
+fun WeightResponse.toModel(): WeightModel {
     return WeightModel(
         imperial = imperial ?: "", metric = metric ?: ""
     )
