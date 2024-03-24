@@ -1,13 +1,14 @@
 package com.fausto.breeddetails
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.fausto.breeddetails.databinding.FragmentBreedDetailBinding
 import com.fausto.designsystem.utils.ErrorScreen
 import com.fausto.designsystem.utils.GradientTransformation
@@ -37,16 +38,23 @@ class BreedDetailBaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupLayout()
-        handleDeeplink()
         setupObservers()
+        handleDeeplink()
+        initViewActions()
     }
 
     private fun handleDeeplink() {
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("breedquery")
+            ?.observe(viewLifecycleOwner) { breedQuery ->
+                Toast.makeText(requireContext(), breedQuery, Toast.LENGTH_SHORT).show()
+                // Handle the breedQuery
+            }
+
         val deeplinkUri = requireActivity().intent.data
         deeplinkUri?.let {
             val breedQuery = it.getQueryParameter("breedquery")
             breedQuery?.let { imageId ->
-                initViewActions(imageId)
+                viewModel.interpret(BreedDetailInteract.HandleDeeplink(imageId))
             }
         }
     }
@@ -69,8 +77,8 @@ class BreedDetailBaseFragment : Fragment() {
         }
     }
 
-    private fun initViewActions(breedId: String) {
-        viewModel.interpret(BreedDetailInteract.ViewCreated(breedId))
+    private fun initViewActions() {
+        viewModel.interpret(BreedDetailInteract.ViewCreated)
     }
 
     private fun setupErrorView() {
@@ -79,7 +87,7 @@ class BreedDetailBaseFragment : Fragment() {
             loadingScreen.root.isVisible = false
             loadingScreen.loadingAnimation.isVisible = false
             ErrorScreen {
-                viewModel.interpret(BreedDetailInteract.OnErrorAction(viewModel.breedId.toString()))
+                viewModel.interpret(BreedDetailInteract.OnErrorAction)
             }.apply {
                 isCancelable = false
             }.show(parentFragmentManager, "")
@@ -92,8 +100,7 @@ class BreedDetailBaseFragment : Fragment() {
             loadingScreen.root.isVisible = false
             loadingScreen.loadingAnimation.isVisible = false
             setCatBanner(state.breed.url)
-//            catName.text = state.breed.breeds[0].name
-            collpasingToolbar.title = state.breed.breeds[0].name
+            catName.text = state.breed.breeds[0].name
         }
     }
 
@@ -115,7 +122,6 @@ class BreedDetailBaseFragment : Fragment() {
 
             TabLayoutMediator(tabLayout, viewPager) { tab: TabLayout.Tab, position: Int ->
                 tab.text = requireContext().getString(tabs[position].title)
-                Log.e("setupLayout", tab.text.toString())
             }.attach()
         }
     }

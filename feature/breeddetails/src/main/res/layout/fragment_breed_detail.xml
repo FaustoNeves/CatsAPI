@@ -8,6 +8,7 @@
     <include
         android:id="@+id/loading_screen"
         layout="@layout/loading_screen"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,6 +37,7 @@
                 android:id="@+id/collpasing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:expandedTitleGravity="bottom|center_horizontal"
                 app:layout_scrollFlags="scroll">
 
                 <ImageView

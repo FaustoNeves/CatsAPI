@@ -136,15 +136,12 @@ class BreedsFragment : Fragment() {
                     )
                 )
                 sectionRv.adapter = SectionAdapter(state.sections) {
+                    viewModel.interpret(BreedsInteract.OnBreedClickAction(it))
 //                    adb shell am start -a android.intent.action.VIEW -d "cats://catsapp/details?breedquery=0XYvRd7o"
                     val request =
-                        NavDeepLinkRequest.Builder.fromUri("cats://catsapp/details?breedquery=$it".toUri())
+                        NavDeepLinkRequest.Builder.fromUri("cats://catsapp/details".toUri())
                             .build()
                     findNavController().navigate(request)
-//                    val action = BreedsFragmentDirections.actionBreedsFragmentToBreedDetailFragment(
-//                        breedQuery = it
-//                    )
-//                    findNavController().navigate(action)
                 }
             } else {
                 noDataAvailableScreen.root.isVisible = true

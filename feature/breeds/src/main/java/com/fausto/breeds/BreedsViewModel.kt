@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fausto.common.result.ResultWrapper
 import com.fausto.common.result.getResult
+import com.fausto.datastore.querybreed.QueryBreedIdManager
 import com.fausto.domain.usecase.GetBreedsBySearchUseCase
 import com.fausto.domain.usecase.GetBreedsUseCase
 import com.fausto.model.SectionModel
@@ -17,6 +18,7 @@ import javax.inject.Inject
 internal class BreedsViewModel @Inject constructor(
     private val getBreedsUseCase: GetBreedsUseCase,
     private val getBreedBySearchUseCase: GetBreedsBySearchUseCase,
+    private val queryBreedIdManager: QueryBreedIdManager,
 ) : ViewModel() {
 
     private val _breedsViewState = MutableLiveData<BreedsViewState>()
@@ -28,6 +30,7 @@ internal class BreedsViewModel @Inject constructor(
             is BreedsInteract.OnRefreshAction -> getBreeds()
             is BreedsInteract.OnErrorAction -> getBreeds()
             is BreedsInteract.OnSearchBreedAction -> getBreedsBySearch(interaction.breedQuery)
+            is BreedsInteract.OnBreedClickAction -> saveBreedQueryId(interaction.breedQueryId)
         }
     }
 
@@ -64,5 +67,14 @@ internal class BreedsViewModel @Inject constructor(
                     BreedsViewState.Error(response.exception?.message.toString())
             }
         }
+    }
+
+    private fun saveBreedQueryId(breedQueryId: String) {
+        viewModelScope.launch {
+            queryBreedIdManager.saveQueryBreedId(breedQueryId)
+        }
+//            .invokeOnCompletion {
+//
+//        }
     }
 }
