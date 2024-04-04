@@ -1,15 +1,17 @@
-package com.fausto.breeds
+package com.fausto.breeds.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fausto.breeds.tracking.trackScreenView
 import com.fausto.common.result.ResultWrapper
 import com.fausto.common.result.getResult
 import com.fausto.datastore.querybreed.QueryBreedIdManager
 import com.fausto.domain.usecase.GetBreedsBySearchUseCase
 import com.fausto.domain.usecase.GetBreedsUseCase
 import com.fausto.model.SectionModel
+import com.fausto.tracking.analytics.Analytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,6 +21,7 @@ internal class BreedsViewModel @Inject constructor(
     private val getBreedsUseCase: GetBreedsUseCase,
     private val getBreedBySearchUseCase: GetBreedsBySearchUseCase,
     private val queryBreedIdManager: QueryBreedIdManager,
+    val analytics: Analytics
 ) : ViewModel() {
 
     private val _breedsViewState = MutableLiveData<BreedsViewState>()
@@ -36,6 +39,7 @@ internal class BreedsViewModel @Inject constructor(
 
     private fun getBreeds() {
         viewModelScope.launch {
+            trackScreenView()
             _breedsViewState.value = BreedsViewState.Loading
             when (val response = getResult { getBreedsUseCase.getBreeds() }) {
                 is ResultWrapper.Success -> {
@@ -45,8 +49,7 @@ internal class BreedsViewModel @Inject constructor(
                 }
 
                 is ResultWrapper.Error -> {
-                    _breedsViewState.value =
-                        BreedsViewState.Error(response.exception?.message.toString())
+                    _breedsViewState.value = BreedsViewState.Error(response.exception?.message.toString())
                 }
             }
         }
@@ -73,8 +76,5 @@ internal class BreedsViewModel @Inject constructor(
         viewModelScope.launch {
             queryBreedIdManager.saveQueryBreedId(breedQueryId)
         }
-//            .invokeOnCompletion {
-//
-//        }
     }
 }

@@ -6,13 +6,13 @@
     app:startDestination="@id/BreedsFragment">
     <fragment
         android:id="@+id/BreedsFragment"
-        android:name="com.fausto.breeds.BreedsFragment"
+        android:name="com.fausto.breeds.ui.BreedsFragment"
         android:label="@string/breeds_fragment_label"
         tools:layout="@layout/fragment_breeds">
     </fragment>
     <fragment
         android:id="@+id/BreedDetailFragment"
-        android:name="com.fausto.breeddetails.BreedDetailBaseFragment"
+        android:name="com.fausto.breeddetails.base.ui.BreedDetailBaseFragment"
         android:label="@string/breed_detail_fragment_label"
         tools:layout="@layout/fragment_breed_detail">
         <deepLink app:uri="cats://catsapp/details" />

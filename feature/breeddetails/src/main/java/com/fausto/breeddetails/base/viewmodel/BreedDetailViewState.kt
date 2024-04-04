@@ -1,4 +1,4 @@
-package com.fausto.breeddetails
+package com.fausto.breeddetails.base.viewmodel
 
 import com.fausto.model.BreedModel
 

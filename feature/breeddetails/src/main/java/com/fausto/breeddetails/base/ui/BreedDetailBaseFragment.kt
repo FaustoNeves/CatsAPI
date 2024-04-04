@@ -1,14 +1,17 @@
-package com.fausto.breeddetails
+package com.fausto.breeddetails.base.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import com.fausto.breeddetails.base.ui.BreedDetailBaseFragment.BreedDetailsBaseFragmentConstants.BREED_QUERY
+import com.fausto.breeddetails.base.viewmodel.BreedDetailInteract
+import com.fausto.breeddetails.base.viewmodel.BreedDetailViewModel
+import com.fausto.breeddetails.base.viewmodel.BreedDetailViewState
 import com.fausto.breeddetails.databinding.FragmentBreedDetailBinding
 import com.fausto.designsystem.utils.ErrorScreen
 import com.fausto.designsystem.utils.GradientTransformation
@@ -39,24 +42,7 @@ class BreedDetailBaseFragment : Fragment() {
 
         setupLayout()
         setupObservers()
-        handleDeeplink()
         initViewActions()
-    }
-
-    private fun handleDeeplink() {
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("breedquery")
-            ?.observe(viewLifecycleOwner) { breedQuery ->
-                Toast.makeText(requireContext(), breedQuery, Toast.LENGTH_SHORT).show()
-                // Handle the breedQuery
-            }
-
-        val deeplinkUri = requireActivity().intent.data
-        deeplinkUri?.let {
-            val breedQuery = it.getQueryParameter("breedquery")
-            breedQuery?.let { imageId ->
-                viewModel.interpret(BreedDetailInteract.HandleDeeplink(imageId))
-            }
-        }
     }
 
     private fun setupObservers() {
@@ -78,7 +64,20 @@ class BreedDetailBaseFragment : Fragment() {
     }
 
     private fun initViewActions() {
-        viewModel.interpret(BreedDetailInteract.ViewCreated)
+        if (requireActivity().intent.data != null) {
+            val deeplinkUri = requireActivity().intent.data
+            requireActivity().intent.data = null
+            deeplinkUri?.let {
+                Log.e("breedId full deeplink", it.toString())
+                val breedQuery = it.getQueryParameter(BREED_QUERY)
+                breedQuery?.let { imageId ->
+                    Log.e("breedId from deeplink", imageId)
+                    viewModel.interpret(BreedDetailInteract.HandleDeeplink(imageId))
+                }
+            }
+        } else {
+            viewModel.interpret(BreedDetailInteract.ViewCreated)
+        }
     }
 
     private fun setupErrorView() {
@@ -135,4 +134,9 @@ class BreedDetailBaseFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    object BreedDetailsBaseFragmentConstants {
+        const val BREED_QUERY = "breedquery"
+    }
 }
+

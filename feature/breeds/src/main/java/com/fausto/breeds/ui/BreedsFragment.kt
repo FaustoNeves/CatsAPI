@@ -1,4 +1,4 @@
-package com.fausto.breeds
+package com.fausto.breeds.ui
 
 import android.os.Bundle
 import android.os.Handler
@@ -18,6 +18,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fausto.breeds.adapter.SectionAdapter
 import com.fausto.breeds.databinding.FragmentBreedsBinding
+import com.fausto.breeds.ui.BreedsFragment.BreedsFragmentConstants.BREED_DETAILS_BASE_FRAGMENT_DEEPLINK
+import com.fausto.breeds.viewmodel.BreedsInteract
+import com.fausto.breeds.viewmodel.BreedsViewModel
+import com.fausto.breeds.viewmodel.BreedsViewState
 import com.fausto.designsystem.utils.ErrorScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -139,7 +143,7 @@ class BreedsFragment : Fragment() {
                     viewModel.interpret(BreedsInteract.OnBreedClickAction(it))
 //                    adb shell am start -a android.intent.action.VIEW -d "cats://catsapp/details?breedquery=0XYvRd7o"
                     val request =
-                        NavDeepLinkRequest.Builder.fromUri("cats://catsapp/details".toUri())
+                        NavDeepLinkRequest.Builder.fromUri(BREED_DETAILS_BASE_FRAGMENT_DEEPLINK.toUri())
                             .build()
                     findNavController().navigate(request)
                 }
@@ -162,5 +166,9 @@ class BreedsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    object BreedsFragmentConstants {
+        const val BREED_DETAILS_BASE_FRAGMENT_DEEPLINK = "cats://catsapp/details"
     }
 }

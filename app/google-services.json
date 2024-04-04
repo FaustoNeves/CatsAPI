@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "907881708465",
+    "project_id": "cats-a7536",
+    "storage_bucket": "cats-a7536.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907881708465:android:12f6a3f48e11821389db90",
+        "android_client_info": {
+          "package_name": "com.fausto.cats"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyuY1cPPfU-Wl4Ldui7xq6NarUo4SZFIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

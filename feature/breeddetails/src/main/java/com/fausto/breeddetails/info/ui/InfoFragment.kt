@@ -1,4 +1,4 @@
-package com.fausto.breeddetails.info
+package com.fausto.breeddetails.info.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.fausto.breeddetails.BreedDetailViewModel
 import com.fausto.breeddetails.R
+import com.fausto.breeddetails.base.viewmodel.BreedDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
