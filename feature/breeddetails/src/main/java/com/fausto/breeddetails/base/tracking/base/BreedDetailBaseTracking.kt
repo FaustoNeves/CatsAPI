@@ -1,4 +1,4 @@
-package com.fausto.breeddetails.base.tracking
+package com.fausto.breeddetails.base.tracking.base
 
 import com.fausto.breeddetails.base.viewmodel.BreedDetailViewModel
 import com.fausto.tracking.constants.breeddetail.base.BreedDetailsAnalyticsValues

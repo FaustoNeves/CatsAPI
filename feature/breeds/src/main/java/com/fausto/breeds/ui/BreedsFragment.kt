@@ -19,9 +19,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fausto.breeds.adapter.SectionAdapter
 import com.fausto.breeds.databinding.FragmentBreedsBinding
 import com.fausto.breeds.ui.BreedsFragment.BreedsFragmentConstants.BREED_DETAILS_BASE_FRAGMENT_DEEPLINK
-import com.fausto.breeds.viewmodel.BreedsInteract
 import com.fausto.breeds.viewmodel.BreedsViewModel
-import com.fausto.breeds.viewmodel.BreedsViewState
+import com.fausto.breeds.viewmodel.interact.BreedsInteract
+import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
 import com.fausto.designsystem.utils.ErrorScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -58,7 +58,7 @@ class BreedsFragment : Fragment() {
 
                 is BreedsViewState.Success -> setupSuccessView(state)
 
-                is BreedsViewState.Error -> setupErrorView()
+                is BreedsViewState.Error -> setupErrorView(state)
             }
         }
     }
@@ -154,9 +154,9 @@ class BreedsFragment : Fragment() {
         }
     }
 
-    private fun setupErrorView() {
+    private fun setupErrorView(state: BreedsViewState.Error) {
         binding.loadingScreen.root.isVisible = false
-        ErrorScreen {
+        ErrorScreen(state.errorMessage) {
             viewModel.interpret(BreedsInteract.OnErrorAction)
         }.apply {
             isCancelable = false

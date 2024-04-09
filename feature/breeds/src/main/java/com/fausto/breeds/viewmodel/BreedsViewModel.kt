@@ -1,10 +1,13 @@
 package com.fausto.breeds.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fausto.breeds.tracking.trackScreenView
+import com.fausto.breeds.viewmodel.interact.BreedsInteract
+import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
 import com.fausto.common.result.ResultWrapper
 import com.fausto.common.result.getResult
 import com.fausto.datastore.querybreed.QueryBreedIdManager

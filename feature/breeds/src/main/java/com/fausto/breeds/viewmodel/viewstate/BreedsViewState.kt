@@ -1,4 +1,4 @@
-package com.fausto.breeds.viewmodel
+package com.fausto.breeds.viewmodel.viewstate
 
 import com.fausto.model.SectionModel
 

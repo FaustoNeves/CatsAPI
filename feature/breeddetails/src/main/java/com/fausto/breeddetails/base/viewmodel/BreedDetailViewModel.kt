@@ -1,15 +1,17 @@
 package com.fausto.breeddetails.base.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fausto.breeddetails.base.tracking.trackScreenView
+import com.fausto.breeddetails.base.tracking.base.trackScreenView
+import com.fausto.breeddetails.base.viewmodel.interact.base.BreedDetailInteract
+import com.fausto.breeddetails.base.viewmodel.viewstate.base.BreedDetailViewState
 import com.fausto.common.result.ResultWrapper
 import com.fausto.common.result.getResult
 import com.fausto.datastore.querybreed.QueryBreedIdManager
 import com.fausto.domain.usecase.GetBreedByIdUseCase
+import com.fausto.model.BreedDetailModel
 import com.fausto.tracking.analytics.Analytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
@@ -40,9 +42,12 @@ internal class BreedDetailViewModel @Inject constructor(
             when (val response = getResult {
                 getBreedByIdUseCase.getBreedById(breedId)
             }) {
-                is ResultWrapper.Success -> _breedDetailViewState.value = BreedDetailViewState.Success(response.data)
+                is ResultWrapper.Success -> {
+                    _breedDetailViewState.value = BreedDetailViewState.Success(response.data)
+                }
 
-                is ResultWrapper.Error -> _breedDetailViewState.value = BreedDetailViewState.Error(response.exception?.message.toString())
+                is ResultWrapper.Error -> _breedDetailViewState.value =
+                    BreedDetailViewState.Error(response.exception?.message.toString())
             }
         }
     }
@@ -54,7 +59,6 @@ internal class BreedDetailViewModel @Inject constructor(
                 BreedDetailViewState.Error(exception.message.toString())
             }
                 .collect { queryBreedId ->
-                    Log.e("breedId from datastore", queryBreedId.toString())
                     queryBreedId?.let { getBreedDetail(it) }
                 }
         }

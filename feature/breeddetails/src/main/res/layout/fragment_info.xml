@@ -1,11 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Info Fragment" />
+        android:layout_margin="20sp">
 
-</FrameLayout>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cat_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="The Abyssinian is easy to care for, and a joy to have in your home. They’re affectionate cats and love both people and other animals." />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cat_temperament"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            app:layout_constraintEnd_toEndOf="@id/cat_description"
+            app:layout_constraintStart_toStartOf="@id/cat_description"
+            app:layout_constraintTop_toBottomOf="@id/cat_description"
+            tools:text="Temperament: Active, Energetic, Independent, Intelligent, Gentle" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cat_origin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            app:layout_constraintEnd_toEndOf="@id/cat_temperament"
+            app:layout_constraintStart_toStartOf="@id/cat_temperament"
+            app:layout_constraintTop_toBottomOf="@id/cat_temperament"
+            tools:text="Origin: Egypt" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cat_weight_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:text="@string/weight"
+            app:layout_constraintEnd_toEndOf="@id/cat_origin"
+            app:layout_constraintStart_toStartOf="@id/cat_origin"
+            app:layout_constraintTop_toBottomOf="@id/cat_origin" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cat_weight_metric"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="10sp"
+            app:layout_constraintEnd_toEndOf="@id/cat_weight_title"
+            app:layout_constraintStart_toStartOf="@id/cat_weight_title"
+            app:layout_constraintTop_toBottomOf="@id/cat_weight_title"
+            tools:text="Imperial: 7  -  10 lbs" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cat_weight_imperial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="10sp"
+            app:layout_constraintEnd_toEndOf="@id/cat_weight_metric"
+            app:layout_constraintStart_toStartOf="@id/cat_weight_metric"
+            app:layout_constraintTop_toBottomOf="@id/cat_weight_metric"
+            tools:text="Imperial: 3 - 5 kg" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/cat_lifespan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            app:layout_constraintEnd_toEndOf="@id/cat_weight_imperial"
+            app:layout_constraintStart_toStartOf="@id/cat_weight_imperial"
+            app:layout_constraintTop_toBottomOf="@id/cat_weight_imperial"
+            tools:text="Lifespan: 14 - 15 years" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

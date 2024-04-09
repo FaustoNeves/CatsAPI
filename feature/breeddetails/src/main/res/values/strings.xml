@@ -2,4 +2,10 @@
 <resources>
     <string name="info_tab_title">Info</string>
     <string name="gallery_tab_title">Gallery</string>
+    <string name="weight">Weight</string>
+    <string name="temperament">Temperament: %s</string>
+    <string name="origin">Origin: %s</string>
+    <string name="weight_metric">%s kgs</string>
+    <string name="weight_imperial">%s lbs</string>
+    <string name="lifespan">Lifespan: %s years</string>
 </resources>

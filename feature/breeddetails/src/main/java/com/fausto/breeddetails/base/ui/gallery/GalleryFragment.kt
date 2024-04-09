@@ -1,4 +1,4 @@
-package com.fausto.breeddetails.gallery.ui
+package com.fausto.breeddetails.base.ui.gallery
 
 import android.os.Bundle
 import android.view.LayoutInflater

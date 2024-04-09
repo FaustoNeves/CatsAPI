@@ -1,4 +1,4 @@
-package com.fausto.breeddetails.base.ui
+package com.fausto.breeddetails.base.ui.base
 
 import android.os.Bundle
 import android.util.Log
@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.fausto.breeddetails.base.ui.BreedDetailBaseFragment.BreedDetailsBaseFragmentConstants.BREED_QUERY
-import com.fausto.breeddetails.base.viewmodel.BreedDetailInteract
+import com.fausto.breeddetails.base.ui.base.BreedDetailBaseFragment.BreedDetailsBaseFragmentConstants.BREED_QUERY
 import com.fausto.breeddetails.base.viewmodel.BreedDetailViewModel
-import com.fausto.breeddetails.base.viewmodel.BreedDetailViewState
+import com.fausto.breeddetails.base.viewmodel.interact.base.BreedDetailInteract
+import com.fausto.breeddetails.base.viewmodel.viewstate.base.BreedDetailViewState
 import com.fausto.breeddetails.databinding.FragmentBreedDetailBinding
 import com.fausto.designsystem.utils.ErrorScreen
 import com.fausto.designsystem.utils.GradientTransformation
@@ -25,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class BreedDetailBaseFragment : Fragment() {
 
     private var _binding: FragmentBreedDetailBinding? = null
-    private val viewModel: BreedDetailViewModel by viewModels()
+    private val viewModel: BreedDetailViewModel by activityViewModels()
 
     private val binding get() = _binding!!
 
@@ -46,18 +47,18 @@ class BreedDetailBaseFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.breedDetailViewState.observe(viewLifecycleOwner) { breedDetailViewState ->
-            when (breedDetailViewState) {
+        viewModel.breedDetailViewState.observe(viewLifecycleOwner) { state ->
+            when (state) {
                 is BreedDetailViewState.Loading -> {
                     setupLoadingView()
                 }
 
                 is BreedDetailViewState.Success -> {
-                    setupSuccessView(breedDetailViewState)
+                    setupSuccessView(state)
                 }
 
                 is BreedDetailViewState.Error -> {
-                    setupErrorView()
+                    setupErrorView(state)
                 }
             }
         }
@@ -80,12 +81,12 @@ class BreedDetailBaseFragment : Fragment() {
         }
     }
 
-    private fun setupErrorView() {
+    private fun setupErrorView(state: BreedDetailViewState.Error) {
         with(binding) {
             successView.isVisible = false
             loadingScreen.root.isVisible = false
             loadingScreen.loadingAnimation.isVisible = false
-            ErrorScreen {
+            ErrorScreen(state.errorMessage) {
                 viewModel.interpret(BreedDetailInteract.OnErrorAction)
             }.apply {
                 isCancelable = false
@@ -95,6 +96,7 @@ class BreedDetailBaseFragment : Fragment() {
 
     private fun setupSuccessView(state: BreedDetailViewState.Success) {
         with(binding) {
+            state.breed.breeds[0]
             successView.isVisible = true
             loadingScreen.root.isVisible = false
             loadingScreen.loadingAnimation.isVisible = false

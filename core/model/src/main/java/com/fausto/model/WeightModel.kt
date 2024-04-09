@@ -1,5 +1,8 @@
 package com.fausto.model
 
 data class WeightModel(
-    val imperial: String, val metric: String
+    //lbs
+    val imperial: String,
+    //kg
+    val metric: String
 )
