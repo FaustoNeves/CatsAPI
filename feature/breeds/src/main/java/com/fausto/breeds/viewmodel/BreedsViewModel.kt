@@ -1,6 +1,5 @@
 package com.fausto.breeds.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,7 @@ import com.fausto.breeds.viewmodel.interact.BreedsInteract
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
 import com.fausto.common.result.ResultWrapper
 import com.fausto.common.result.getResult
-import com.fausto.datastore.querybreed.QueryBreedIdManager
+import com.fausto.datastore.querybreed.BreedIdsManager
 import com.fausto.domain.usecase.GetBreedsBySearchUseCase
 import com.fausto.domain.usecase.GetBreedsUseCase
 import com.fausto.model.SectionModel
@@ -23,7 +22,7 @@ import javax.inject.Inject
 internal class BreedsViewModel @Inject constructor(
     private val getBreedsUseCase: GetBreedsUseCase,
     private val getBreedBySearchUseCase: GetBreedsBySearchUseCase,
-    private val queryBreedIdManager: QueryBreedIdManager,
+    private val breedIdsManager: BreedIdsManager,
     val analytics: Analytics
 ) : ViewModel() {
 
@@ -36,7 +35,10 @@ internal class BreedsViewModel @Inject constructor(
             is BreedsInteract.OnRefreshAction -> getBreeds()
             is BreedsInteract.OnErrorAction -> getBreeds()
             is BreedsInteract.OnSearchBreedAction -> getBreedsBySearch(interaction.breedQuery)
-            is BreedsInteract.OnBreedClickAction -> saveBreedQueryId(interaction.breedQueryId)
+            is BreedsInteract.OnBreedClickAction -> saveReferenceImageId(
+                interaction.referenceImageId,
+                interaction.queryBreedId
+            )
         }
     }
 
@@ -75,9 +77,10 @@ internal class BreedsViewModel @Inject constructor(
         }
     }
 
-    private fun saveBreedQueryId(breedQueryId: String) {
+    private fun saveReferenceImageId(referenceImageId: String, queryBreedId: String) {
         viewModelScope.launch {
-            queryBreedIdManager.saveQueryBreedId(breedQueryId)
+            breedIdsManager.saveReferenceImageId(referenceImageId)
+            breedIdsManager.saveQueryBreedId(queryBreedId)
         }
     }
 }

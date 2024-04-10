@@ -16,9 +16,9 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.fausto.breeds.adapter.SectionAdapter
 import com.fausto.breeds.databinding.FragmentBreedsBinding
 import com.fausto.breeds.ui.BreedsFragment.BreedsFragmentConstants.BREED_DETAILS_BASE_FRAGMENT_DEEPLINK
+import com.fausto.breeds.ui.adapter.SectionAdapter
 import com.fausto.breeds.viewmodel.BreedsViewModel
 import com.fausto.breeds.viewmodel.interact.BreedsInteract
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
@@ -139,14 +139,15 @@ class BreedsFragment : Fragment() {
                         requireContext(), DividerItemDecoration.VERTICAL
                     )
                 )
-                sectionRv.adapter = SectionAdapter(state.sections) {
-                    viewModel.interpret(BreedsInteract.OnBreedClickAction(it))
+                sectionRv.adapter =
+                    SectionAdapter(state.sections) { referenceImageId, queryBreedId ->
+                        viewModel.interpret(BreedsInteract.OnBreedClickAction(referenceImageId, queryBreedId))
 //                    adb shell am start -a android.intent.action.VIEW -d "cats://catsapp/details?breedquery=0XYvRd7o"
-                    val request =
-                        NavDeepLinkRequest.Builder.fromUri(BREED_DETAILS_BASE_FRAGMENT_DEEPLINK.toUri())
-                            .build()
-                    findNavController().navigate(request)
-                }
+                        val request =
+                            NavDeepLinkRequest.Builder.fromUri(BREED_DETAILS_BASE_FRAGMENT_DEEPLINK.toUri())
+                                .build()
+                        findNavController().navigate(request)
+                    }
             } else {
                 noDataAvailableScreen.root.isVisible = true
                 sectionRv.isVisible = false

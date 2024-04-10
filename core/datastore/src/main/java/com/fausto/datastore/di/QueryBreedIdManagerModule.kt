@@ -1,7 +1,7 @@
 package com.fausto.datastore.di
 
 import android.content.Context
-import com.fausto.datastore.querybreed.QueryBreedIdManager
+import com.fausto.datastore.querybreed.BreedIdsManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,5 +17,5 @@ object QueryBreedIdManagerModule {
     @Singleton
     fun providesDataStoreManager(
         @ApplicationContext context: Context
-    ) = QueryBreedIdManager(context)
+    ) = BreedIdsManager(context)
 }

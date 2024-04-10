@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.fausto.breeddetails.R
-import com.fausto.breeddetails.base.viewmodel.BreedDetailViewModel
-import com.fausto.breeddetails.base.viewmodel.viewstate.base.BreedDetailViewState
+import com.fausto.breeddetails.base.viewmodel.base_info.BreedDetailViewModel
+import com.fausto.breeddetails.base.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.breeddetails.databinding.FragmentInfoBinding
 import dagger.hilt.android.AndroidEntryPoint
 

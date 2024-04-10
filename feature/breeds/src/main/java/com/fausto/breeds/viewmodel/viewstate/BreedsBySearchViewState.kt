@@ -1,4 +1,4 @@
-package com.fausto.breeds.adapter
+package com.fausto.breeds.viewmodel.viewstate
 
 import com.fausto.model.BreedsModel
 

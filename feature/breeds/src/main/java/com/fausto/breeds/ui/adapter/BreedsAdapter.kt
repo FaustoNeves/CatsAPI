@@ -1,4 +1,4 @@
-package com.fausto.breeds.adapter
+package com.fausto.breeds.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,7 +17,9 @@ internal class BreedsAdapter(
 
         init {
             binding.root.setOnClickListener {
-                listener?.invoke(breedsList[adapterPosition].id)
+                breedsList[adapterPosition].apply {
+                    listener?.invoke(referenceImageId, queryBreedId)
+                }
             }
         }
     }

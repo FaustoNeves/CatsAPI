@@ -1,4 +1,4 @@
-package com.fausto.breeds.adapter
+package com.fausto.breeds.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fausto.breeds.databinding.SectionItemAdapterBinding
 import com.fausto.model.SectionModel
 
-internal typealias SectionAdapterClickListener = ((breedId: String) -> Unit)
+internal typealias SectionAdapterClickListener = ((referenceImageId: String, queryBreedId: String) -> Unit)
 
 internal class SectionAdapter(
     private val sectionsList: List<SectionModel>, private val listener: SectionAdapterClickListener
