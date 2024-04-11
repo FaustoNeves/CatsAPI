@@ -1,8 +1,11 @@
 package com.fausto.breeddetails.base.viewmodel.gallery
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fausto.breeddetails.base.viewmodel.gallery.interact.GalleryInteract
+import com.fausto.breeddetails.base.viewmodel.gallery.viewstate.GalleryViewState
 import com.fausto.common.result.ResultWrapper
 import com.fausto.common.result.getResult
 import com.fausto.datastore.querybreed.BreedIdsManager
@@ -20,6 +23,9 @@ internal class GalleryViewModel @Inject constructor(
     val analytics: Analytics
 ) : ViewModel() {
 
+    private val _galleryViewState = MutableLiveData<GalleryViewState>()
+    val galleryViewState: LiveData<GalleryViewState> = _galleryViewState
+
     fun interpret(interaction: GalleryInteract) {
         when (interaction) {
             is GalleryInteract.ViewCrated -> getImagesById()
@@ -28,18 +34,19 @@ internal class GalleryViewModel @Inject constructor(
 
     private fun getImagesById() {
         viewModelScope.launch {
-            val queryBreedId = breedIdsManager.getQueryBreedId().catch { exception ->
-                //Handle error
+            _galleryViewState.postValue(GalleryViewState.Loading)
+            breedIdsManager.getQueryBreedId().catch { exception ->
+                _galleryViewState.postValue(exception.message?.let { GalleryViewState.Error(it) })
             }.collect { queryBreedId ->
                 when (val result = getResult {
                     queryBreedId?.let { getImagesByIdUseCase.getImagesById(it) }
                 }) {
                     is ResultWrapper.Success -> {
-
+                        _galleryViewState.postValue(result.data?.let { GalleryViewState.Success(it) })
                     }
 
                     is ResultWrapper.Error -> {
-
+                        _galleryViewState.postValue(GalleryViewState.Error(result.exception?.message.toString()))
                     }
                 }
             }

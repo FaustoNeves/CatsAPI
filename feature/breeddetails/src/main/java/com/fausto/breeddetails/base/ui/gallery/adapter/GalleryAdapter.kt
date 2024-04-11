@@ -2,10 +2,11 @@ package com.fausto.breeddetails.base.ui.gallery.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.fausto.breeddetails.databinding.GalleryItemAdapterBinding
+import com.fausto.designsystem.utils.GradientTransformation
 import com.fausto.model.BreedImageModel
+import com.squareup.picasso.Picasso
 
 internal class GalleryAdapter(private val imagesList: List<BreedImageModel>) :
     RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder>() {
@@ -13,7 +14,10 @@ internal class GalleryAdapter(private val imagesList: List<BreedImageModel>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(url: String) {
-            binding.galleryImage.setImageURI(url.toUri())
+            Picasso.get().load(url).error(com.fausto.designsystem.R.drawable.baseline_error_24)
+                .transform(
+                    GradientTransformation()
+                ).into(binding.galleryImage)
         }
     }
 
