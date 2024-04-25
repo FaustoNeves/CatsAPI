@@ -1,4 +1,4 @@
-package com.fausto.breeddetails.base.viewmodel.base_info.interact
+package com.fausto.breeddetails.viewmodel.base_info.interact
 
 internal sealed interface BreedDetailInteract {
     object BaseViewCreated : BreedDetailInteract

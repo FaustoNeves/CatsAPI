@@ -12,7 +12,7 @@
     </fragment>
     <fragment
         android:id="@+id/BreedDetailFragment"
-        android:name="com.fausto.breeddetails.base.ui.base.BreedDetailBaseFragment"
+        android:name="com.fausto.breeddetails.ui.base.BreedDetailBaseFragment"
         android:label="@string/breed_detail_fragment_label"
         tools:layout="@layout/fragment_breed_detail">
         <deepLink app:uri="cats://catsapp/details" />

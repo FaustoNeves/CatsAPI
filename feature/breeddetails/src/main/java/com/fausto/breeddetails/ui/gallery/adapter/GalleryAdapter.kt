@@ -14,10 +14,9 @@ internal class GalleryAdapter(private val imagesList: List<BreedImageModel>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(url: String) {
-            Picasso.get().load(url).error(com.fausto.designsystem.R.drawable.baseline_error_24)
-                .transform(
-                    GradientTransformation()
-                ).into(binding.galleryImage)
+            Picasso.get().load(url).transform(
+                GradientTransformation()
+            ).into(binding.galleryImage)
         }
     }
 

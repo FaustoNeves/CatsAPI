@@ -1,11 +1,11 @@
-package com.fausto.breeddetails.base.viewmodel.base_info
+package com.fausto.breeddetails.viewmodel.base_info
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fausto.breeddetails.base.tracking.base.trackScreenView
-import com.fausto.breeddetails.base.viewmodel.base_info.interact.BreedDetailInteract
+import com.fausto.breeddetails.tracking.base_info.trackScreenView
+import com.fausto.breeddetails.viewmodel.base_info.interact.BreedDetailInteract
 import com.fausto.breeddetails.base.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.common.result.ResultWrapper
 import com.fausto.common.result.getResult
@@ -13,6 +13,7 @@ import com.fausto.datastore.querybreed.BreedIdsManager
 import com.fausto.domain.usecase.GetBreedByIdUseCase
 import com.fausto.tracking.analytics.Analytics
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -36,8 +37,8 @@ internal class BreedDetailViewModel @Inject constructor(
     }
 
     private fun getBreedDetail(breedId: String) {
+        trackScreenView()
         viewModelScope.launch {
-            trackScreenView()
             when (val response = getResult {
                 getBreedByIdUseCase.getBreedById(breedId)
             }) {
@@ -55,8 +56,9 @@ internal class BreedDetailViewModel @Inject constructor(
             _breedDetailViewState.value = BreedDetailViewState.Loading
             breedIdsManager.getReferenceImageId().catch { exception ->
                 BreedDetailViewState.Error(exception.message.toString())
-            }.collect { referenceImageid ->
-                referenceImageid?.let { getBreedDetail(it) }
+            }.collect { referenceImageId ->
+                referenceImageId?.let { getBreedDetail(it) }
+                cancel()
             }
         }
     }

@@ -25,6 +25,7 @@ class ErrorScreen(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        this.isCancelable = false
         with(binding) {
             screenErrorText.text = errorMessage
             tryAgainButton.setOnClickListener {

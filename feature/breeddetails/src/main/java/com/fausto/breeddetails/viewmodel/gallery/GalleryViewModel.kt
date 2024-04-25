@@ -1,11 +1,12 @@
-package com.fausto.breeddetails.base.viewmodel.gallery
+package com.fausto.breeddetails.viewmodel.gallery
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fausto.breeddetails.base.viewmodel.gallery.interact.GalleryInteract
-import com.fausto.breeddetails.base.viewmodel.gallery.viewstate.GalleryViewState
+import com.fausto.breeddetails.tracking.gallery.trackScreenView
+import com.fausto.breeddetails.viewmodel.gallery.interact.GalleryInteract
+import com.fausto.breeddetails.viewmodel.gallery.viewstate.GalleryViewState
 import com.fausto.common.result.ResultWrapper
 import com.fausto.common.result.getResult
 import com.fausto.datastore.querybreed.BreedIdsManager
@@ -29,10 +30,12 @@ internal class GalleryViewModel @Inject constructor(
     fun interpret(interaction: GalleryInteract) {
         when (interaction) {
             is GalleryInteract.ViewCrated -> getImagesById()
+            is GalleryInteract.OnErrorAction -> getImagesById()
         }
     }
 
     private fun getImagesById() {
+        trackScreenView()
         viewModelScope.launch {
             _galleryViewState.postValue(GalleryViewState.Loading)
             breedIdsManager.getQueryBreedId().catch { exception ->

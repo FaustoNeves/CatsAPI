@@ -8,3 +8,9 @@ internal fun BreedsViewModel.trackScreenView() {
         analytics.setBundle(SCREEN_TYPE, SCREEN_NAME)
     })
 }
+
+internal fun BreedsViewModel.trackSelectedItem(catBreed: String) {
+    analytics.trackSelectItem(BreedsAnalyticsValues.run {
+        analytics.setBundle(SCREEN_TYPE, catBreed)
+    })
+}

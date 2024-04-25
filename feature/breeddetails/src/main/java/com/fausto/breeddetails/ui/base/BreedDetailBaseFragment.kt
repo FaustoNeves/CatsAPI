@@ -1,4 +1,4 @@
-package com.fausto.breeddetails.base.ui.base
+package com.fausto.breeddetails.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.fausto.breeddetails.base.ui.base.BreedDetailBaseFragment.BreedDetailsBaseFragmentConstants.BREED_QUERY
-import com.fausto.breeddetails.base.viewmodel.base_info.BreedDetailViewModel
-import com.fausto.breeddetails.base.viewmodel.base_info.interact.BreedDetailInteract
+import com.fausto.breeddetails.ui.base.BreedDetailBaseFragment.BreedDetailsBaseFragmentConstants.BREED_QUERY
+import com.fausto.breeddetails.viewmodel.base_info.BreedDetailViewModel
+import com.fausto.breeddetails.viewmodel.base_info.interact.BreedDetailInteract
 import com.fausto.breeddetails.base.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.breeddetails.databinding.FragmentBreedDetailBinding
 import com.fausto.designsystem.utils.ErrorScreen
@@ -84,8 +84,6 @@ class BreedDetailBaseFragment : Fragment() {
             loadingScreen.loadingAnimation.isVisible = false
             ErrorScreen(state.errorMessage) {
                 viewModel.interpret(BreedDetailInteract.BaseOnErrorAction)
-            }.apply {
-                isCancelable = false
             }.show(parentFragmentManager, "")
         }
     }

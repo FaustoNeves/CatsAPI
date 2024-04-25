@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fausto.breeds.tracking.trackScreenView
+import com.fausto.breeds.tracking.trackSelectedItem
 import com.fausto.breeds.viewmodel.interact.BreedsInteract
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
 import com.fausto.common.result.ResultWrapper
@@ -43,8 +44,8 @@ internal class BreedsViewModel @Inject constructor(
     }
 
     private fun getBreeds() {
+        trackScreenView()
         viewModelScope.launch {
-            trackScreenView()
             _breedsViewState.value = BreedsViewState.Loading
             when (val response = getResult { getBreedsUseCase.getBreeds() }) {
                 is ResultWrapper.Success -> {
@@ -78,6 +79,7 @@ internal class BreedsViewModel @Inject constructor(
     }
 
     private fun saveReferenceImageId(referenceImageId: String, queryBreedId: String) {
+        trackSelectedItem(queryBreedId)
         viewModelScope.launch {
             breedIdsManager.saveReferenceImageId(referenceImageId)
             breedIdsManager.saveQueryBreedId(queryBreedId)

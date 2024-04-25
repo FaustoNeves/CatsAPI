@@ -159,8 +159,6 @@ class BreedsFragment : Fragment() {
         binding.loadingScreen.root.isVisible = false
         ErrorScreen(state.errorMessage) {
             viewModel.interpret(BreedsInteract.OnErrorAction)
-        }.apply {
-            isCancelable = false
         }.show(parentFragmentManager, "")
     }
 

@@ -1,10 +1,10 @@
-package com.fausto.breeddetails.base.ui.base
+package com.fausto.breeddetails.ui.base
 
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.fausto.breeddetails.R
-import com.fausto.breeddetails.base.ui.gallery.GalleryFragment
-import com.fausto.breeddetails.base.ui.info.InfoFragment
+import com.fausto.breeddetails.ui.gallery.GalleryFragment
+import com.fausto.breeddetails.ui.info.InfoFragment
 
 internal enum class BreedDetailTabItem(
     @StringRes val title: Int, val createFragmentInstance: () -> Fragment

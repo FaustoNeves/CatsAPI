@@ -1,17 +1,18 @@
-package com.fausto.breeddetails.base.ui.gallery
+package com.fausto.breeddetails.ui.gallery
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.fausto.breeddetails.base.ui.gallery.adapter.GalleryAdapter
-import com.fausto.breeddetails.base.viewmodel.gallery.GalleryViewModel
-import com.fausto.breeddetails.base.viewmodel.gallery.interact.GalleryInteract
-import com.fausto.breeddetails.base.viewmodel.gallery.viewstate.GalleryViewState
 import com.fausto.breeddetails.databinding.FragmentGalleryBinding
+import com.fausto.breeddetails.viewmodel.gallery.GalleryViewModel
+import com.fausto.breeddetails.viewmodel.gallery.interact.GalleryInteract
+import com.fausto.breeddetails.viewmodel.gallery.viewstate.GalleryViewState
+import com.fausto.designsystem.utils.ErrorScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,22 +44,33 @@ internal class GalleryFragment : Fragment() {
 
                 is GalleryViewState.Success -> setupSuccessView(state)
 
-                is GalleryViewState.Error -> setupErrorView()
+                is GalleryViewState.Error -> setupErrorView(state)
             }
         }
     }
 
     private fun setupLoadingView() {
-        Toast.makeText(requireContext(), "loading", Toast.LENGTH_SHORT).show()
+        with(binding) {
+            successView.isVisible = false
+            loadingView.root.isVisible = true
+        }
     }
 
     private fun setupSuccessView(state: GalleryViewState.Success) {
         with(binding) {
+            loadingView.root.isVisible = false
+            successView.isVisible = true
             galleryRv.adapter = GalleryAdapter(state.imagesList)
         }
     }
 
-    private fun setupErrorView() {
-        Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+    private fun setupErrorView(state: GalleryViewState.Error) {
+        with(binding) {
+            loadingView.root.isVisible = false
+            successView.isVisible = false
+        }
+        ErrorScreen(state.errorMessage) {
+            viewModel.interpret(GalleryInteract.OnErrorAction)
+        }.show(parentFragmentManager, "")
     }
 }
