@@ -51,7 +51,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/search_text_input_layout" />
 
-                <com.google.android.material.textfield.TextInputLayout
+                <com.fausto.designsystem.components.textfield.SearchTextInput
                     android:id="@+id/search_text_input_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                         android:layout_height="match_parent"
                         android:maxLines="1" />
 
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.fausto.designsystem.components.textfield.SearchTextInput>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/section_rv"

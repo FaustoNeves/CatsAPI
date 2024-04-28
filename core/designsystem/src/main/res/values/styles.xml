@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Typograhpy" />
+
+    <style name="typography_hint_text_input" parent="Typograhpy">
+        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:fontFamily">@font/merriweather_regular</item>
+    </style>
+
+    <style name="typography_section" parent="Typograhpy">
+        <item name="android:textSize">@dimen/text_size_20</item>
+        <item name="android:fontFamily">@font/ptsans_bold</item>
+    </style>
+
+    <style name="typography_display" parent="Typograhpy">
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="typography_main_title" parent="Typograhpy">
+        <item name="android:textSize">@dimen/text_size_48</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+</resources>

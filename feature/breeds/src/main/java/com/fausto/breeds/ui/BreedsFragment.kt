@@ -122,6 +122,7 @@ class BreedsFragment : Fragment() {
     private fun setupLoadingView() {
         with(binding) {
             loadingScreen.root.isVisible = true
+            noDataAvailableScreen.root.isVisible = false
             searchTextInputLayout.isVisible = false
             sectionRv.isVisible = false
         }
@@ -156,7 +157,10 @@ class BreedsFragment : Fragment() {
     }
 
     private fun setupErrorView(state: BreedsViewState.Error) {
-        binding.loadingScreen.root.isVisible = false
+        with(binding) {
+            loadingScreen.root.isVisible = false
+            noDataAvailableScreen.root.isVisible = false
+        }
         ErrorScreen(state.errorMessage) {
             viewModel.interpret(BreedsInteract.OnErrorAction)
         }.show(parentFragmentManager, "")

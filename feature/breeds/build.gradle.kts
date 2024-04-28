@@ -61,4 +61,5 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:datastore"))
     implementation(project(":core:tracking"))
+    implementation(project(":core:texts"))
 }

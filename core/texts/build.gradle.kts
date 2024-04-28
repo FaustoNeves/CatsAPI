@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.fausto.designsystem"
+    namespace = "com.fausto.texts"
     compileSdk = 33
 
     defaultConfig {
@@ -24,14 +24,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "17"
-    }
-    buildFeatures {
-        viewBinding = true
+        jvmTarget = "1.8"
     }
 }
 
@@ -43,11 +40,4 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-
-    implementation("com.squareup.picasso:picasso:2.8")
-
-    val lottieVersion = "3.4.0"
-    implementation("com.airbnb.android:lottie:$lottieVersion")
-
-    implementation(project(":core:texts"))
 }

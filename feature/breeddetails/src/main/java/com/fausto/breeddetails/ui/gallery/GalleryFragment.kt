@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.fausto.breeddetails.base.ui.gallery.adapter.GalleryAdapter
+import com.fausto.breeddetails.ui.gallery.adapter.GalleryAdapter
 import com.fausto.breeddetails.databinding.FragmentGalleryBinding
 import com.fausto.breeddetails.viewmodel.gallery.GalleryViewModel
 import com.fausto.breeddetails.viewmodel.gallery.interact.GalleryInteract

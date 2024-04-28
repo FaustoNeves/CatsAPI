@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App -->
+    <string name="app_name">Cats</string>
+
+    <!-- Breeds-->
+    <string name="breeds_fragment_label">Cat Breeds</string>
+    <string name="search_breed">Breed search</string>
+    <string name="no_breeds_found">No breeds found</string>
+
+    <!-- Breed Detail -->
+    <string name="breed_detail_fragment_label">Breed Detail</string>
     <string name="info_tab_title">Info</string>
     <string name="gallery_tab_title">Gallery</string>
     <string name="weight">Weight</string>

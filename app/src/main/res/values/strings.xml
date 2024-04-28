@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">Cats</string>
-    <string name="breeds_fragment_label">Cat Breeds</string>
-    <string name="breed_detail_fragment_label">Breed Detail</string>
-    <string name="no_breeds_found">No breeds found</string>
-</resources>
