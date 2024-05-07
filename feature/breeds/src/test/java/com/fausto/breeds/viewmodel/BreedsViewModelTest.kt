@@ -11,9 +11,13 @@ import com.fausto.model.BreedsModel
 import com.fausto.model.SectionModel
 import com.fausto.tracking.analytics.Analytics
 import io.mockk.MockKAnnotations
+import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.just
+import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -26,6 +30,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import kotlin.math.exp
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class BreedsViewModelTest {
@@ -63,7 +68,7 @@ internal class BreedsViewModelTest {
     }
 
     @Test
-    fun `test getBreeds success`() = runTest {
+    fun `test getBreeds success`() {
         val breedModelMock1 = BreedsModel("A", "a", "a", "a")
         val breedsModelListMock = listOf(breedModelMock1)
         coEvery { getBreedsUseCase.getBreeds() } returns ResultWrapper.Success(breedsModelListMock)
@@ -71,14 +76,17 @@ internal class BreedsViewModelTest {
         breedsViewModel.interpret(BreedsInteract.ViewCreated)
 
         val sectionMock = "A"
-        val sectionModelMock = SectionModel(sectionMock, breedsModelListMock)
-        val expectedViewState =
-            BreedsViewState.Success(breedsModelListMock.map { sectionModelMock })
+        val sectionsListMock = breedsModelListMock.map {
+            SectionModel(
+                sectionMock, listOf(breedModelMock1)
+            )
+        }
+        val expectedViewState = BreedsViewState.Success(sectionsListMock)
         assertEquals(breedsViewModel.breedsViewState.value, expectedViewState)
     }
 
     @Test
-    fun `test getBreeds error`() = runTest {
+    fun `test getBreeds error`() {
         val errorMessage = "Failed to retrieve breeds"
         val errorResult = ResultWrapper.Error(Exception(errorMessage))
         coEvery { getBreedsUseCase.getBreeds() } returns errorResult
@@ -87,5 +95,46 @@ internal class BreedsViewModelTest {
 
         val expectedViewState = BreedsViewState.Error(errorMessage)
         assertEquals(expectedViewState, breedsViewModel.breedsViewState.value)
+    }
+
+    @Test
+    fun `test searchBreeds success`() {
+        val breedQuery = "abys"
+        val searchedBreedModelMock = BreedsModel("A", "abys", "referenceImageId", "name")
+        val searchedBreedsModelMockList = listOf(searchedBreedModelMock)
+        val sectionMock = "A"
+        coEvery { getBreedBySearchUseCase.getBreedsBySearch(breedQuery) } returns ResultWrapper.Success(
+            searchedBreedsModelMockList
+        )
+        breedsViewModel.interpret(BreedsInteract.OnSearchBreedAction(breedQuery))
+        val sectionsListMock = searchedBreedsModelMockList.map {
+            SectionModel(sectionMock, listOf(it))
+        }
+        val expectedViewState = BreedsViewState.Success(sectionsListMock)
+        assertEquals(expectedViewState, breedsViewModel.breedsViewState.value)
+    }
+
+    @Test
+    fun `test searchBreeds error`() {
+        val breedQuery = "abys"
+        val errorMessage = "Failed to retrieve breeds"
+        val errorResult = ResultWrapper.Error(Exception(errorMessage))
+        coEvery { getBreedBySearchUseCase.getBreedsBySearch(breedQuery) } returns errorResult
+        breedsViewModel.interpret(BreedsInteract.OnSearchBreedAction(breedQuery))
+        val expectedViewState = BreedsViewState.Error(errorMessage)
+        assertEquals(expectedViewState, breedsViewModel.breedsViewState.value)
+    }
+
+    @Test
+    fun `test breedItemClick`() {
+        val referenceImageId = "123"
+        val queryBreedId = "abys"
+        coEvery { breedIdsManager.saveReferenceImageId(referenceImageId) } just Runs
+        coEvery { breedIdsManager.saveQueryBreedId(queryBreedId) } just Runs
+
+        breedsViewModel.interpret(BreedsInteract.OnBreedClickAction(referenceImageId, queryBreedId))
+
+        coVerify { breedIdsManager.saveReferenceImageId(referenceImageId) }
+        coVerify { breedIdsManager.saveQueryBreedId(queryBreedId) }
     }
 }

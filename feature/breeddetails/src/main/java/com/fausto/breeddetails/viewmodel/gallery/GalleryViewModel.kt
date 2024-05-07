@@ -8,7 +8,6 @@ import com.fausto.breeddetails.tracking.gallery.trackScreenView
 import com.fausto.breeddetails.viewmodel.gallery.interact.GalleryInteract
 import com.fausto.breeddetails.viewmodel.gallery.viewstate.GalleryViewState
 import com.fausto.common.result.ResultWrapper
-import com.fausto.common.result.getResult
 import com.fausto.datastore.querybreed.BreedIdsManager
 import com.fausto.domain.usecase.GetImagesByIdUseCase
 import com.fausto.tracking.analytics.Analytics

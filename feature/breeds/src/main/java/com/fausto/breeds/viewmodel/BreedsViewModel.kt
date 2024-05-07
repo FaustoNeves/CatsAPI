@@ -9,7 +9,6 @@ import com.fausto.breeds.tracking.trackSelectedItem
 import com.fausto.breeds.viewmodel.interact.BreedsInteract
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
 import com.fausto.common.result.ResultWrapper
-import com.fausto.common.result.getResult
 import com.fausto.datastore.querybreed.BreedIdsManager
 import com.fausto.domain.usecase.GetBreedsBySearchUseCase
 import com.fausto.domain.usecase.GetBreedsUseCase

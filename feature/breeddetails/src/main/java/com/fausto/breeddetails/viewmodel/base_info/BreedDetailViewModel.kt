@@ -8,7 +8,6 @@ import com.fausto.breeddetails.tracking.base_info.trackScreenView
 import com.fausto.breeddetails.viewmodel.base_info.interact.BreedDetailInteract
 import com.fausto.breeddetails.base.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.common.result.ResultWrapper
-import com.fausto.common.result.getResult
 import com.fausto.datastore.querybreed.BreedIdsManager
 import com.fausto.domain.usecase.GetBreedByIdUseCase
 import com.fausto.tracking.analytics.Analytics
