@@ -60,6 +60,10 @@ dependencies {
 
     implementation("com.squareup.picasso:picasso:2.8")
 
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1-Beta")
+    testImplementation("io.mockk:mockk:1.13.10")
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
+
     implementation(project(":core:common"))
     implementation(project(":core:model"))
     implementation(project(":core:network"))
