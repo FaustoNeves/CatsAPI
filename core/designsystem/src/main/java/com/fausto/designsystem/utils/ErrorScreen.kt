@@ -8,7 +8,7 @@ import androidx.fragment.app.DialogFragment
 import com.fausto.designsystem.databinding.ScreenErrorBinding
 
 class ErrorScreen(
-    private val errorMessage: String, private val retryAction: () -> Unit
+    private val errorMessage: String?, private val retryAction: () -> Unit
 ) : DialogFragment() {
 
     private var _binding: ScreenErrorBinding? = null
@@ -27,7 +27,9 @@ class ErrorScreen(
         super.onViewCreated(view, savedInstanceState)
         this.isCancelable = false
         with(binding) {
-            screenErrorText.text = errorMessage
+            errorMessage?.let {
+                screenErrorText.text = it
+            }
             tryAgainButton.setOnClickListener {
                 retryAction.invoke()
                 dismiss()

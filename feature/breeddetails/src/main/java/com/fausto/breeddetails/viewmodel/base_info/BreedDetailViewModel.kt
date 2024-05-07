@@ -39,12 +39,11 @@ internal class BreedDetailViewModel @Inject constructor(
     private fun getBreedDetail(breedId: String) {
         trackScreenView()
         viewModelScope.launch {
-            when (val response = getResult {
-                getBreedByIdUseCase.getBreedById(breedId)
-            }) {
+            when (val response = getBreedByIdUseCase.getBreedById(breedId)) {
                 is ResultWrapper.Success -> {
                     _breedDetailViewState.value = BreedDetailViewState.Success(response.data)
                 }
+
                 is ResultWrapper.Error -> _breedDetailViewState.value =
                     BreedDetailViewState.Error(response.exception?.message.toString())
             }

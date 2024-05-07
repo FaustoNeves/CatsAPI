@@ -37,8 +37,7 @@ internal class BreedsViewModel @Inject constructor(
             is BreedsInteract.OnErrorAction -> getBreeds()
             is BreedsInteract.OnSearchBreedAction -> getBreedsBySearch(interaction.breedQuery)
             is BreedsInteract.OnBreedClickAction -> saveReferenceImageId(
-                interaction.referenceImageId,
-                interaction.queryBreedId
+                interaction.referenceImageId, interaction.queryBreedId
             )
         }
     }
@@ -47,7 +46,7 @@ internal class BreedsViewModel @Inject constructor(
         trackScreenView()
         viewModelScope.launch {
             _breedsViewState.value = BreedsViewState.Loading
-            when (val response = getResult { getBreedsUseCase.getBreeds() }) {
+            when (val response = getBreedsUseCase.getBreeds()) {
                 is ResultWrapper.Success -> {
                     val sectionModelsList =
                         SectionModel(breedsList = response.data).buildSections(response.data)
@@ -55,7 +54,8 @@ internal class BreedsViewModel @Inject constructor(
                 }
 
                 is ResultWrapper.Error -> {
-                    _breedsViewState.value = BreedsViewState.Error(response.exception?.message.toString())
+                    _breedsViewState.value =
+                        BreedsViewState.Error(response.exception?.message.toString())
                 }
             }
         }
@@ -64,8 +64,7 @@ internal class BreedsViewModel @Inject constructor(
     private fun getBreedsBySearch(breedQuery: String) {
         viewModelScope.launch {
             _breedsViewState.value = BreedsViewState.Loading
-            when (val response =
-                getResult { getBreedBySearchUseCase.getBreedsBySearch(breedQuery) }) {
+            when (val response = getBreedBySearchUseCase.getBreedsBySearch(breedQuery)) {
                 is ResultWrapper.Success -> {
                     val sectionModelsList =
                         SectionModel(breedsList = response.data).buildSections(response.data)

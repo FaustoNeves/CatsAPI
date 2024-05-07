@@ -66,7 +66,7 @@ internal class BreedsViewModelTest {
     fun `test getBreeds success`() = runTest {
         val breedModelMock1 = BreedsModel("A", "a", "a", "a")
         val breedsModelListMock = listOf(breedModelMock1)
-        coEvery { getBreedsUseCase.getBreeds() } returns ResultWrapper.Success(breedsModelListMock).data
+        coEvery { getBreedsUseCase.getBreeds() } returns ResultWrapper.Success(breedsModelListMock)
 
         breedsViewModel.interpret(BreedsInteract.ViewCreated)
 
@@ -75,5 +75,17 @@ internal class BreedsViewModelTest {
         val expectedViewState =
             BreedsViewState.Success(breedsModelListMock.map { sectionModelMock })
         assertEquals(breedsViewModel.breedsViewState.value, expectedViewState)
+    }
+
+    @Test
+    fun `test getBreeds error`() = runTest {
+        val errorMessage = "Failed to retrieve breeds"
+        val errorResult = ResultWrapper.Error(Exception(errorMessage))
+        coEvery { getBreedsUseCase.getBreeds() } returns errorResult
+
+        breedsViewModel.interpret(BreedsInteract.ViewCreated)
+
+        val expectedViewState = BreedsViewState.Error(errorMessage)
+        assertEquals(expectedViewState, breedsViewModel.breedsViewState.value)
     }
 }
