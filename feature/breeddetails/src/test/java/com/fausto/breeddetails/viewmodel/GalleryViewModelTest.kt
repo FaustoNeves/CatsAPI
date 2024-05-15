@@ -25,6 +25,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import kotlin.math.exp
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class GalleryViewModelTest {
@@ -71,5 +72,20 @@ internal class GalleryViewModelTest {
         galleryViewModel.interpret(GalleryInteract.ViewCrated)
         val expectedViewState = GalleryViewState.Success(listOfBreedImageModelMock)
         assertEquals(expectedViewState, galleryViewModel.galleryViewState.value)
+    }
+
+    @Test
+    fun `test getImages error`() {
+        val queryBreedId = "queryBreedId"
+        val errorMessage = "Failed to retrieve breed images"
+        val errorResult = ResultWrapper.Error(Exception(errorMessage))
+
+        coEvery { breedIdsManager.getQueryBreedId() } returns flowOf(queryBreedId)
+
+        coEvery { getImagesByIdUseCase.getImagesById(queryBreedId) } returns errorResult
+        galleryViewModel.interpret(GalleryInteract.ViewCrated)
+
+        val expectedViewState = GalleryViewState.Error(errorMessage)
+        assertEquals(galleryViewModel.galleryViewState.value, expectedViewState)
     }
 }
