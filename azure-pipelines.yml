@@ -27,9 +27,9 @@ steps:
   inputs:
     apkFiles: '**/*.apk'
     apksignerKeystoreFile: 'cats-key'
-    apksignerKeystorePassword: 'storepwd'
-    apksignerKeystoreAlias: 'key0'
-    apksignerKeyPassword: 'apppwd'
+    apksignerKeystorePassword: 'Kamigawa'
+    apksignerKeystoreAlias: 'cats-key'
+    apksignerKeyPassword: 'Kamigawa'
     zipalign: false
 
 - task: CopyFiles@2
