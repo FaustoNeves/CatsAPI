@@ -23,21 +23,10 @@ steps:
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'assembleDebug'
 
-- task: DownloadSecureFile@1
-  name: caCertificate
-  displayName: 'Download keystorefile'
-  inputs:
-    secureFile: 'cats-key.jks'
-
-- script: |
-    echo Installing $(caCertificate.secureFilePath) to the trusted CA directory...
-    sudo chown root:root $(caCertificate.secureFilePath)
-    sudo chmod a+r $(caCertificate.secureFilePath)
-    sudo ln -s -t /etc/ssl/certs/ $(caCertificate.secureFilePath)
-
 - task: AndroidSigning@3
   inputs:
     apkFiles: '**/*.apk'
+    apksign: true
     apksignerKeystoreFile: 'cats-key'
     apksignerKeystorePassword: 'Kamigawa'
     apksignerKeystoreAlias: 'cats-key'
