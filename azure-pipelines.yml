@@ -18,6 +18,28 @@ steps:
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '17.0.6testResultsFiles'
     jdkArchitectureOption: 'x64'
+    testRunTitle: true
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'assembleDebug'
+
+- task: AndroidSigning@3
+  inputs:
+    apkFiles: '**/*.apk'
+    apksignerKeystoreFile: 'cats-key'
+    apksignerKeystorePassword: 'storepwd'
+    apksignerKeystoreAlias: 'key0'
+    apksignerKeyPassword: 'apppwd'
+    zipalign: false
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: $(Build.SourcesDirectory)
+    contents: '**/*.apk'
+    targetFolder: '$(build.artifactStagingDirectory)'
+    overWrite: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
