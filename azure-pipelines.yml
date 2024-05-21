@@ -9,6 +9,9 @@ trigger:
 pool:
   vmImage: 'macos-latest'
 
+variables:
+  - group: android-signing-variables
+
 steps:
 - task: Gradle@2
   inputs:
@@ -28,7 +31,7 @@ steps:
     apkFiles: '**/*.apk'
     apksign: true
     apksignerKeystoreFile: 'cats_key.jks'
-    apksignerKeystorePassword: 'Kamigawa'
+    apksignerKeystorePassword: '$(key.password)'
     apksignerKeystoreAlias: '$(key.alias)'
     apksignerKeyPassword: '$(keystore.password)'
     zipalign: false
