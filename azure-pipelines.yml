@@ -30,7 +30,7 @@ steps:
   inputs:
     apkFiles: '**/*.apk'
     apksign: true
-    apksignerKeystoreFile: 'cats_key.jks'
+    apksignerKeystoreFile: '$(key.name)'
     apksignerKeystorePassword: '$(key.password)'
     apksignerKeystoreAlias: '$(key.alias)'
     apksignerKeyPassword: '$(keystore.password)'
