@@ -43,7 +43,14 @@ steps:
     targetFolder: '$(build.artifactStagingDirectory)'
     overWrite: true
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
+- task: GooglePlayRelease@4
   inputs:
+    authType: 'JsonFile'
+    serviceAccountKey: 'C:\Users\T-Gamer\Desktop\boletitows\-\catsapp'
+    applicationId: 'com.fausto.cats'
+    action: 'SingleBundle'
+    bundleFile: '**/*.apk'
+    track: 'alpha'
+    releaseName: 'First release generated through pipeline'
     PathtoPublish: '$(build.artifactstagingdirectory)'
+  displayName: 'Publish Artifact: drop'
