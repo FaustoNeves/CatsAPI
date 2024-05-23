@@ -53,4 +53,4 @@ steps:
     track: 'alpha'
     releaseName: 'First release generated through pipeline'
     PathtoPublish: '$(build.artifactstagingdirectory)'
-  displayName: 'Publish Artifact: drop'
+    Publish Artifact: 'drop'
