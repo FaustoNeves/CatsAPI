@@ -15,6 +15,7 @@ import com.fausto.domain.usecase.GetBreedsUseCase
 import com.fausto.model.SectionModel
 import com.fausto.tracking.analytics.Analytics
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -78,9 +79,8 @@ internal class BreedsViewModel @Inject constructor(
 
     private fun saveReferenceImageId(referenceImageId: String, queryBreedId: String) {
         trackSelectedItem(queryBreedId)
-        viewModelScope.launch {
-            breedIdsManager.saveReferenceImageId(referenceImageId)
-            breedIdsManager.saveQueryBreedId(queryBreedId)
+        viewModelScope.launch(Dispatchers.IO) {
+            breedIdsManager.saveReferenceImageId(referenceImageId, queryBreedId)
         }
     }
 }

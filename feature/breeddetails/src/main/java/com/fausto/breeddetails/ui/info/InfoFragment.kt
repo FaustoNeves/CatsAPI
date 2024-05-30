@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.fausto.breeddetails.base.viewmodel.base_info.viewstate.BreedDetailViewState
+import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.breeddetails.databinding.FragmentInfoBinding
 import com.fausto.breeddetails.viewmodel.base_info.BreedDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint

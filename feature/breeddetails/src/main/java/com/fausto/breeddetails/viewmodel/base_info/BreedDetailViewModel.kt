@@ -1,12 +1,13 @@
 package com.fausto.breeddetails.viewmodel.base_info
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fausto.breeddetails.tracking.base_info.trackScreenView
 import com.fausto.breeddetails.viewmodel.base_info.interact.BreedDetailInteract
-import com.fausto.breeddetails.base.viewmodel.base_info.viewstate.BreedDetailViewState
+import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.common.result.ResultWrapper
 import com.fausto.datastore.querybreed.BreedIdsManager
 import com.fausto.domain.usecase.GetBreedByIdUseCase
@@ -40,11 +41,15 @@ internal class BreedDetailViewModel @Inject constructor(
         viewModelScope.launch {
             when (val response = getBreedByIdUseCase.getBreedById(breedId)) {
                 is ResultWrapper.Success -> {
+                    Log.e("getBreedDetail 1", "success")
                     _breedDetailViewState.value = BreedDetailViewState.Success(response.data)
                 }
 
-                is ResultWrapper.Error -> _breedDetailViewState.value =
-                    BreedDetailViewState.Error(response.exception?.message.toString())
+                is ResultWrapper.Error -> {
+                    Log.e("getBreedDetail 1", "error")
+                    _breedDetailViewState.value =
+                        BreedDetailViewState.Error(response.exception?.message.toString())
+                }
             }
         }
     }
@@ -53,8 +58,10 @@ internal class BreedDetailViewModel @Inject constructor(
         viewModelScope.launch {
             _breedDetailViewState.value = BreedDetailViewState.Loading
             breedIdsManager.getReferenceImageId().catch { exception ->
+                Log.e("getReferenceImageId 1", "exception")
                 BreedDetailViewState.Error(exception.message.toString())
             }.collect { referenceImageId ->
+                Log.e("getReferenceImageId 1", referenceImageId.toString())
                 referenceImageId?.let { getBreedDetail(it) }
                 cancel()
             }
