@@ -21,21 +21,20 @@ class BreedIdsManager @Inject constructor(private val context: Context) {
         val QUERY_BREED_ID = stringPreferencesKey(DatastoreConstants.QUERY_BREED_ID)
     }
 
-    suspend fun saveReferenceImageId(referenceImageId: String) {
-        context.dataStore.edit { settings ->
-            settings[REFERENCE_IMAGE_ID] = referenceImageId
+    suspend fun saveReferenceImageId(referenceImageId: String, queryBreedId: String) {
+        context.dataStore.apply {
+            edit { settings ->
+                settings[REFERENCE_IMAGE_ID] = referenceImageId
+            }
+            edit { settings ->
+                settings[QUERY_BREED_ID] = queryBreedId
+            }
         }
     }
 
     fun getReferenceImageId(): Flow<String?> {
         return context.dataStore.data.map { settings ->
             settings[REFERENCE_IMAGE_ID]
-        }
-    }
-
-    suspend fun saveQueryBreedId(queryBreedId: String) {
-        context.dataStore.edit { settings ->
-            settings[QUERY_BREED_ID] = queryBreedId
         }
     }
 

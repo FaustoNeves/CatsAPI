@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import com.fausto.breeddetails.ui.base.BreedDetailBaseFragment.BreedDetailsBaseFragmentConstants.BREED_QUERY
 import com.fausto.breeddetails.viewmodel.base_info.BreedDetailViewModel
 import com.fausto.breeddetails.viewmodel.base_info.interact.BreedDetailInteract
-import com.fausto.breeddetails.base.viewmodel.base_info.viewstate.BreedDetailViewState
+import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.breeddetails.databinding.FragmentBreedDetailBinding
 import com.fausto.designsystem.utils.ErrorScreen
 import com.fausto.designsystem.utils.GradientTransformation
@@ -90,10 +90,9 @@ class BreedDetailBaseFragment : Fragment() {
 
     private fun setupSuccessView(state: BreedDetailViewState.Success) {
         with(binding) {
-            state.breed.breeds[0]
-            successView.isVisible = true
             loadingScreen.root.isVisible = false
             loadingScreen.loadingAnimation.isVisible = false
+            successView.isVisible = true
             setCatBanner(state.breed.url)
             catName.text = state.breed.breeds[0].name
         }

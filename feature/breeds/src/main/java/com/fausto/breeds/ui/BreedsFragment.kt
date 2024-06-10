@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -142,7 +143,13 @@ class BreedsFragment : Fragment() {
                 )
                 sectionRv.adapter =
                     SectionAdapter(state.sections) { referenceImageId, queryBreedId ->
-                        viewModel.interpret(BreedsInteract.OnBreedClickAction(referenceImageId, queryBreedId))
+                        viewModel.interpret(
+                            BreedsInteract.OnBreedClickAction(
+                                referenceImageId,
+                                queryBreedId
+                            )
+                        )
+                        Log.e("save id reference", referenceImageId)
 //                    adb shell am start -a android.intent.action.VIEW -d "cats://catsapp/details?breedquery=0XYvRd7o"
                         val request =
                             NavDeepLinkRequest.Builder.fromUri(BREED_DETAILS_BASE_FRAGMENT_DEEPLINK.toUri())

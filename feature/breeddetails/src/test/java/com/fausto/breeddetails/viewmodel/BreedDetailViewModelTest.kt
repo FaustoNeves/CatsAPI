@@ -1,7 +1,7 @@
 package com.fausto.breeddetails.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.fausto.breeddetails.base.viewmodel.base_info.viewstate.BreedDetailViewState
+import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.breeddetails.viewmodel.base_info.BreedDetailViewModel
 import com.fausto.breeddetails.viewmodel.base_info.interact.BreedDetailInteract
 import com.fausto.common.result.ResultWrapper
@@ -18,12 +18,8 @@ import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -32,7 +28,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
-import java.lang.reflect.Method
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class BreedDetailViewModelTest {
