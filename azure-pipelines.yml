@@ -46,7 +46,7 @@ steps:
 - task: GooglePlayRelease@4
   inputs:
     authType: 'JsonFile'
-    serviceAccountKey: 'C:\Users\T-Gamer\Desktop\boletitows\-\catsapp\cats-a7536-25d4d3f714aa'
+    serviceAccountKey: '$(serviceaccountkey)'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
     bundleFile: '**/*.apk'
