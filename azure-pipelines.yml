@@ -46,11 +46,7 @@ steps:
 - task: GooglePlayRelease@4
   inputs:
     serviceConnection: 'catsdevops'
-    authType: 'JsonFile'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
     bundleFile: '**/*.apk'
     track: 'alpha'
-    releaseName: 'First release generated through pipeline'
-    PathtoPublish: '$(build.artifactstagingdirectory)'
-    Publish Artifact: 'drop'
