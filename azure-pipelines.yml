@@ -48,5 +48,5 @@ steps:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
-    bundleFile: '$(System.ArtifactsDirectory)/com.fausto.cats.aab'
+    bundleFile: '$(build.artifactStagingDirectory)/**/*.apk'
     track: 'alpha'
