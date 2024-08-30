@@ -50,6 +50,6 @@ steps:
   inputs:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
-    action: 'SingleApk'
+    action: 'SingleBundle'
     bundleFile: '$(build.artifactStagingDirectory)/app/build/outputs/bundle/release/app-release.aab'
     track: 'alpha'
