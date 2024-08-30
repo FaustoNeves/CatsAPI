@@ -48,5 +48,7 @@ steps:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
-    bundleFile: '$(build.artifactStagingDirectory)/**/*.aab'
+    - script: ls -R $(build.artifactStagingDirectory)
+    displayName: 'List files in artifact staging directory'
+    bundleFile: '$(build.artifactStagingDirectory)/*.aab'
     track: 'alpha'
