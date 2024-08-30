@@ -26,15 +26,15 @@ steps:
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'bundleRelease'
 
-#- task: AndroidSigning@3
-#  inputs:
-#    apkFiles: '**/*.aab'
-#    apksign: true
-#    apksignerKeystoreFile: '$(key.name)'
-#    apksignerKeystorePassword: '$(key.password)'
-#    apksignerKeystoreAlias: '$(key.alias)'
-#    apksignerKeyPassword: '$(keystore.password)'
-#    zipalign: false
+- task: AndroidSigning@3
+  inputs:
+    apkFiles: '**/*.aab'
+    apksign: true
+    apksignerKeystoreFile: '$(key.name)'
+    apksignerKeystorePassword: '$(key.password)'
+    apksignerKeystoreAlias: '$(key.alias)'
+    apksignerKeyPassword: '$(keystore.password)'
+    zipalign: false
 
 - task: CopyFiles@2
   inputs:
