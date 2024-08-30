@@ -43,12 +43,13 @@ steps:
     targetFolder: '$(build.artifactStagingDirectory)'
     overWrite: true
 
+- script: ls -R $(build.artifactStagingDirectory)
+  displayName: 'List files in artifact staging directory'
+
 - task: GooglePlayRelease@4
   inputs:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
-    - script: ls -R $(build.artifactStagingDirectory)
-    displayName: 'List files in artifact staging directory'
     bundleFile: '$(build.artifactStagingDirectory)/*.aab'
     track: 'alpha'
