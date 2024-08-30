@@ -24,7 +24,7 @@ steps:
     testRunTitle: true
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'
-    tasks: 'assembleDebug'
+    tasks: 'bundleRelease'
 
 - task: AndroidSigning@3
   inputs:
@@ -51,5 +51,5 @@ steps:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleApk'
-    bundleFile: '$(build.artifactStagingDirectory)/app/build/outputs/apk/debug/app-debug.apk'
+    bundleFile: '$(build.artifactStagingDirectory)/app/build/outputs/bundle/release/app-release.aab'
     track: 'alpha'
