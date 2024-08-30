@@ -28,7 +28,7 @@ steps:
 
 - task: AndroidSigning@3
   inputs:
-    apkFiles: '**/*.apk'
+    apkFiles: '**/*.aab'
     apksign: false
     apksignerKeystoreFile: '$(key.name)'
     apksignerKeystorePassword: '$(key.password)'
@@ -39,7 +39,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: $(Build.SourcesDirectory)
-    contents: '**/*.apk'
+    contents: '**/*.aab'
     targetFolder: '$(build.artifactStagingDirectory)'
     overWrite: true
 
