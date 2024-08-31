@@ -42,4 +42,4 @@ steps:
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
     bundleFile: '$(build.artifactStagingDirectory)/app/build/outputs/bundle/release/app-release.aab'
-    track: 'alpha'
+    track: 'beta'
