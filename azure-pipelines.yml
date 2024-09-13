@@ -31,6 +31,7 @@ steps:
     apksignerKeystorePassword: '$(key.password)'
     apksignerKeystoreAlias: '$(key.alias)'
     apksignerKeyPassword: '$(keystore.password)'
+    apksignerArguments: --out $(Build.SourcesDirectory)/android/app/build/outputs/bundle/$(buildConfiguration)/.aab --verbose --min-sdk-version 22
     zipalign: false
 
 - task: CopyFiles@2
