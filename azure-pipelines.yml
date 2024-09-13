@@ -21,14 +21,11 @@ steps:
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '17.0.6testResultsFiles'
     jdkArchitectureOption: 'x64'
-    testRunTitle: true
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
     tasks: 'bundleRelease'
 
 - task: AndroidSigning@3
   inputs:
-    apkFiles: '**/*.aab'
+    apkFiles: 'app/build/outputs/bundle/release/app-release.aab'
     apksign: true
     apksignerKeystoreFile: '$(key.name)'
     apksignerKeystorePassword: '$(key.password)'
@@ -39,7 +36,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: $(Build.SourcesDirectory)
-    contents: '**/*.aab'
+    contents: 'app/build/outputs/bundle/release/app-release.aab'
     targetFolder: '$(build.artifactStagingDirectory)'
     overWrite: true
 
