@@ -27,7 +27,7 @@ steps:
     tasks: 'bundleRelease'
 
 - task: AndroidSigning@3
-   inputs:
+  inputs:
     apkFiles: '**/*.aab'
     apksign: true
     apksignerKeystoreFile: '$(key.name)'
