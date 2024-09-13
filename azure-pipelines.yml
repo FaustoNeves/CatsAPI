@@ -25,13 +25,13 @@ steps:
 
 - task: AndroidSigning@3
   inputs:
-    apkFiles: 'app/build/outputs/bundle/release/app-release.aab'
+    apkFiles: '**/*.aab'
     apksign: true
     apksignerKeystoreFile: '$(key.name)'
     apksignerKeystorePassword: '$(key.password)'
     apksignerKeystoreAlias: '$(key.alias)'
     apksignerKeyPassword: '$(keystore.password)'
-    apksignerArguments: --out 'app/build/outputs/bundle/release/app-release.aab' --verbose --min-sdk-version 22
+    apksignerArguments: --out '**/*.aab' --verbose --min-sdk-version 22
     zipalign: false
 
 - task: CopyFiles@2
