@@ -49,5 +49,5 @@ steps:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
-    bundleFile: '$(build.artifactStagingDirectory)/app/build/outputs/bundle/release/app-release.aab'
+    bundleFile: '$(build.artifactStagingDirectory)/app-release.aab'
     track: 'internal'
