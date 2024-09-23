@@ -9,45 +9,37 @@ trigger:
 pool:
   vmImage: 'macos-latest'
 
-variables:
-  - group: android-signing-variables
-
 steps:
 - task: Gradle@2
   inputs:
     workingDirectory: ''
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '17.0.6testResultsFiles'
-    jdkArchitectureOption: 'x64'
-    tasks: 'bundleRelease'
+    publishJUnitResults: false
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'assembleDebug'
 
 - task: AndroidSigning@3
   inputs:
-    apkFiles: '**/*.aab'
-    apksign: true
+    apkFiles: '**/*.apk'
     apksignerKeystoreFile: '$(key.name)'
     apksignerKeystorePassword: '$(key.password)'
     apksignerKeystoreAlias: '$(key.alias)'
     apksignerKeyPassword: '$(keystore.password)'
-    apksignerArguments: --out '**/*.aab' --verbose --min-sdk-version 22
     zipalign: false
-
+    
 - task: CopyFiles@2
   inputs:
     SourceFolder: $(Build.SourcesDirectory)
     contents: 'app/build/outputs/bundle/release/app-release.aab'
     targetFolder: '$(build.artifactStagingDirectory)'
     overWrite: true
-
-- script: ls -R $(build.artifactStagingDirectory)
-  displayName: 'List files in artifact staging directory'
-
+    
 - task: GooglePlayRelease@4
   inputs:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
-    bundleFile: '$(build.artifactStagingDirectory)/app/build/outputs/bundle/release/app-release.aab'
-    track: 'beta'
+    bundleFile: '**/*.aab'
+    track: 'internal'
+    releaseName: 'Loucuraaa'
