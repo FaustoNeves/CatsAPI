@@ -21,7 +21,17 @@ steps:
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '17.0.6testResultsFiles'
     jdkArchitectureOption: 'x64'
-    tasks: 'bundleRelease'
+    tasks: 'clean bundleRelease'
+
+- script: mkdir -p app/build/outputs/bundle/release
+  displayName: 'Create bundle release directory'
+
+- script: |
+    if [ ! -f app/build/outputs/bundle/release/app-release.aab ]; then
+      echo "AAB file not found after bundleRelease!"
+      exit 1
+    fi
+  displayName: 'Check if app-release.aab exists after bundleRelease'
 
 - task: AndroidSigning@3
   inputs:
@@ -33,6 +43,13 @@ steps:
     apksignerKeyPassword: '$(keystore.password)'
     apksignerArguments: --out 'app/build/outputs/bundle/release/app-release.aab' --verbose --min-sdk-version 22
     zipalign: false
+
+- script: |
+    if [ ! -f app/build/outputs/bundle/release/app-release.aab ]; then
+      echo "AAB file not found before copying!"
+      exit 1
+    fi
+  displayName: 'Check if app-release.aab exists before copying'
 
 - task: CopyFiles@2
   inputs:
