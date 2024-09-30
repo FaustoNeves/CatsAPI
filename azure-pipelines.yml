@@ -24,7 +24,7 @@ steps:
 
 - task: AndroidSigning@3
   inputs:
-    apkFiles: '**/*.apk'
+    apkFiles: '**/*.aab'
     apksign: true
     apksignerKeystoreFile: '$(key.name)'
     apksignerKeystorePassword: '$(key.password)'
@@ -35,7 +35,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: $(Build.SourcesDirectory)
-    contents: '**/*.apk'
+    contents: '**/*.aab'
     targetFolder: '$(build.artifactStagingDirectory)'
     overWrite: true
 
@@ -47,5 +47,5 @@ steps:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
-    bundleFile: '**/*.apk'
+    bundleFile: '**/*.aab'
     track: 'internal'
