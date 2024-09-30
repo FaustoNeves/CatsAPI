@@ -21,17 +21,7 @@ steps:
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '17.0.6testResultsFiles'
     jdkArchitectureOption: 'x64'
-    tasks: 'clean bundleRelease'
-
-- script: mkdir -p app/build/outputs/bundle/release
-  displayName: 'Create bundle release directory'
-
-- script: |
-    if [ ! -f app/build/outputs/bundle/release/app-release.aab ]; then
-      echo "AAB file not found after bundleRelease!"
-      exit 1
-    fi
-  displayName: 'Check if app-release.aab exists after bundleRelease'
+    tasks: 'bundleRelease'
 
 - task: AndroidSigning@3
   inputs:
@@ -44,17 +34,10 @@ steps:
     apksignerArguments: --out '**/*.aab' --verbose --min-sdk-version 22
     zipalign: false
 
-- script: |
-    if [ ! -f app/build/outputs/bundle/release/app-release.aab ]; then
-      echo "AAB file not found before copying!"
-      exit 1
-    fi
-  displayName: 'Check if app-release.aab exists before copying'
-
 - task: CopyFiles@2
   inputs:
     SourceFolder: $(Build.SourcesDirectory)
-    contents: '**/*.aab'
+    contents: 'app/build/outputs/bundle/release/app-release.aab'
     targetFolder: '$(build.artifactStagingDirectory)'
     overWrite: true
 
@@ -66,5 +49,5 @@ steps:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
-    bundleFile: '$(build.artifactStagingDirectory)/app-release.aab'
-    track: 'internal'
+    bundleFile: '$(build.artifactStagingDirectory)/app/build/outputs/bundle/release/app-release.aab'
+    track: 'beta'
