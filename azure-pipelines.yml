@@ -23,20 +23,15 @@ steps:
     jdkArchitectureOption: 'x64'
     tasks: 'bundleRelease'
 
-- script: |
-    echo "Listing contents of app/build/outputs/bundle/release:"
-    ls -al app/build/outputs/bundle/release
-  displayName: 'Verify AAB file after build'
-
 - task: AndroidSigning@3
   inputs:
-    apkFiles: 'app/build/outputs/bundle/release/app-release.aab'
+    apkFiles: '**/*.aab'
     apksign: true
     apksignerKeystoreFile: '$(key.name)'
     apksignerKeystorePassword: '$(key.password)'
     apksignerKeystoreAlias: '$(key.alias)'
     apksignerKeyPassword: '$(keystore.password)'
-    apksignerArguments: --out 'app/build/outputs/bundle/release/app-release.aab' --verbose --min-sdk-version 22
+    apksignerArguments: --out '**/*.aab' --verbose --min-sdk-version 22
     zipalign: false
 
 - task: CopyFiles@2
@@ -46,15 +41,13 @@ steps:
     targetFolder: '$(build.artifactStagingDirectory)'
     overWrite: true
 
-- script: |
-    echo "Listing contents of artifact staging directory:"
-    ls -al $(build.artifactStagingDirectory)
-  displayName: 'Verify AAB in artifact staging directory'
+- script: ls -R $(build.artifactStagingDirectory)
+  displayName: 'List files in artifact staging directory'
 
 - task: GooglePlayRelease@4
   inputs:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
-    bundleFile: '$(build.artifactStagingDirectory)/app-release.aab'
-    track: 'beta'
+    bundleFile: '$(build.artifactStagingDirectory)/app/build/outputs/bundle/release/app-release.aab'
+    track: 'internal'
