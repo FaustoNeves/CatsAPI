@@ -47,5 +47,6 @@ steps:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
+    bundleFile: '**/*.apk'
     apkFiles: '**/*.apk'
     track: 'internal'
