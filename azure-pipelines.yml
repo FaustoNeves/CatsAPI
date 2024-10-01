@@ -13,18 +13,14 @@ variables:
   - group: android-signing-variables
 
 steps:
-- task: Gradle@2
+- task: Gradle@3
   inputs:
-    workingDirectory: ''
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '17.0.6testResultsFiles'
     jdkArchitectureOption: 'x64'
-    testRunTitle: true
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
-    tasks: 'assembleDebug'
+    tasks: 'assembleRelease'
 
 - task: AndroidSigning@3
   inputs:
@@ -39,18 +35,17 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: $(Build.SourcesDirectory)
-    contents: '**/*.apk'
+    apkFiles: '**/*.apk'
     targetFolder: '$(build.artifactStagingDirectory)'
     overWrite: true
 
+- script: ls -R $(build.artifactStagingDirectory)
+  displayName: 'List files in artifact staging directory'
+
 - task: GooglePlayRelease@4
   inputs:
-    authType: 'JsonFile'
-    serviceAccountKey: 'C:\Users\T-Gamer\Desktop\boletitows\-\catsapp\cats-a7536-25d4d3f714aa'
+    serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
-    bundleFile: '**/*.apk'
-    track: 'alpha'
-    releaseName: 'First release generated through pipeline'
-    PathtoPublish: '$(build.artifactstagingdirectory)'
-    Publish Artifact: 'drop'
+    apkFiles: '**/*.apk'
+    track: 'internal'
