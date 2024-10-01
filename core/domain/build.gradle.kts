@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.fausto.domain"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24

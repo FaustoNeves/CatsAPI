@@ -80,6 +80,9 @@ internal class BreedsViewModel @Inject constructor(
     private fun saveReferenceImageId(referenceImageId: String, queryBreedId: String) {
         trackSelectedItem(queryBreedId)
         viewModelScope.launch(Dispatchers.IO) {
+            //Add a try catch in this case
+            //Add another state to BreedsViewState
+            //For success case, update the breedViewStateValue and observe it in the fragment. When triggered, navigate to the proper next screen
             breedIdsManager.saveReferenceImageId(referenceImageId, queryBreedId)
         }
     }
