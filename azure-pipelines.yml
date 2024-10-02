@@ -38,14 +38,19 @@ steps:
   inputs:
     secureFile: 'cats_key.jks'
 
+# Sign Android App Bundle with jarsigner
 - script: |
     echo "Signing Android App Bundle with jarsigner..."
-    jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$(DownloadKeystore.secureFilePath)" -storepass "$(KEYSTORE_PASS)" -keypass "$(KEY_PASS)" app-release.aab "$(ALIAS)"
+    jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
+    -keystore "$(DownloadKeystore.secureFilePath)" \
+    -storepass "$(KEYSTORE_PASS)" \
+    -keypass "$(KEY_PASS)" \
+    app-release.aab "$(ALIAS)"
   displayName: 'Sign Android App Bundle with jarsigner'
   env:
-    KEYSTORE_PASS: $(key.password)
-    KEY_PASS: $(keystore.password)
-    ALIAS: $(key.alias)
+    KEYSTORE_PASS: $(key.password)  # Ensure this variable is set in your Azure DevOps pipeline
+    KEY_PASS: $(keystore.password)   # Ensure this variable is set in your Azure DevOps pipeline
+    ALIAS: $(key.alias)               # Ensure this variable is set in your Azure DevOps pipeline
 
 - task: CopyFiles@2
   inputs:
