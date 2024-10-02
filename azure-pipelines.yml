@@ -48,5 +48,5 @@ steps:
     applicationId: 'com.fausto.cats'
     action: 'SingleApk'
     bundleFile: '**/*.aab'
-    apkFile: '**/*.apk'
+    apkFile: '**/*.aab'
     track: 'internal'
