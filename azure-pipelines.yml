@@ -44,6 +44,8 @@ steps:
     echo "Keystore password: $KEYSTORE_PASS"  # Be cautious when printing sensitive information
     echo "Key password: $KEY_PASS"  # Be cautious when printing sensitive information
     echo "Alias: $ALIAS"  # Be cautious when printing sensitive information
+    echo "Current directory contents:"
+    ls -la  # List files in the current directory
     jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
     -keystore "$(DownloadKeystore.secureFilePath)" \
     -storepass "$KEYSTORE_PASS" \
