@@ -33,11 +33,13 @@ steps:
 #    zipalign: false
 
 - script: |
-    jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
-    -keystore $(key.name) \
-    -storepass $(key.password) \
-    $(Build.ArtifactStagingDirectory)/app/build/outputs/bundle/release/app-release.aab $(key.alias)
+    jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$KEYSTORE_FILE" -storepass "$KEYSTORE_PASS" -keypass "$KEY_PASS" app-release.aab "$ALIAS"
   displayName: 'Sign Android App Bundle with jarsigner'
+  env:
+    KEYSTORE_FILE: $(key.name)
+    KEYSTORE_PASS: $(key.password)
+    KEY_PASS: $(keystore.password)
+    ALIAS: $(key.alias)
 
 - task: CopyFiles@2
   inputs:
