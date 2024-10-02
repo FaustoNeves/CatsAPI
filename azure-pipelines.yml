@@ -20,11 +20,11 @@ steps:
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '17.0.6testResultsFiles'
     jdkArchitectureOption: 'x64'
-    tasks: 'assembleRelease'
+    tasks: 'clean bundleRelease'
 
 - task: AndroidSigning@3
   inputs:
-    apkFiles: '**/*.apk'
+    apkFiles: '**/*.aab'
     apksign: true
     apksignerKeystoreFile: '$(key.name)'
     apksignerKeystorePassword: '$(key.password)'
@@ -35,7 +35,7 @@ steps:
 - task: CopyFiles@2
   inputs:
     SourceFolder: $(Build.SourcesDirectory)
-    apkFiles: '**/*.apk'
+    apkFiles: '**/*.aab'
     targetFolder: '$(build.artifactStagingDirectory)'
     overWrite: true
 
@@ -47,6 +47,6 @@ steps:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleApk'
-    bundleFile: '**/*.apk'
+    bundleFile: '**/*.aab'
     apkFile: '**/*.apk'
     track: 'internal'
