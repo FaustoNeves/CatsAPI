@@ -32,11 +32,17 @@ steps:
 #    apksignerKeyPassword: '$(keystore.password)'
 #    zipalign: false
 
+- task: DownloadSecureFile@1
+  name: DownloadKeystore
+  displayName: 'Download Keystore'
+  inputs:
+    secureFile: 'cats_key.jks'
+
 - script: |
-    jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$KEYSTORE_FILE" -storepass "$KEYSTORE_PASS" -keypass "$KEY_PASS" app-release.aab "$ALIAS"
+    echo "Signing Android App Bundle with jarsigner..."
+    jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore "$(DownloadKeystore.secureFilePath)" -storepass "$(KEYSTORE_PASS)" -keypass "$(KEY_PASS)" app-release.aab "$(ALIAS)"
   displayName: 'Sign Android App Bundle with jarsigner'
   env:
-    KEYSTORE_FILE: $(key.name)
     KEYSTORE_PASS: $(key.password)
     KEY_PASS: $(keystore.password)
     ALIAS: $(key.alias)
