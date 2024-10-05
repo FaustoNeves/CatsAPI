@@ -72,6 +72,6 @@ steps:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
-    bundleFile: '**/*.aab'
+    bundleFile: 'app/build/outputs/bundle/release/app-release.aab'
     apkFile: '**/*.aab'
     track: 'internal'
