@@ -50,7 +50,7 @@ steps:
     -keystore "$(DownloadKeystore.secureFilePath)" \
     -storepass "$KEYSTORE_PASS" \
     -keypass "$KEY_PASS" \
-    app-release.aab "$ALIAS"
+    app/build/outputs/bundle/release/app-release.aab "$ALIAS"
   displayName: 'Sign Android App Bundle with jarsigner'
   env:
     KEYSTORE_PASS: $(key.password)
@@ -59,7 +59,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: $(Build.SourcesDirectory)
+    SourceFolder: 'app/build/outputs/bundle/release/'
     apkFiles: '**/*.aab'
     targetFolder: '$(build.artifactStagingDirectory)'
     overWrite: true
