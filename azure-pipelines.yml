@@ -39,6 +39,11 @@ steps:
     secureFile: 'cats_key.jks'
 
 - script: |
+    echo "Removing existing signatures from the Android App Bundle..."
+    zip -d app/build/outputs/bundle/release/app-release.aab 'META-INF/*'
+  displayName: 'Remove existing signatures'
+
+- script: |
     echo "Signing Android App Bundle with jarsigner..."
     echo "Keystore file path: $(DownloadKeystore.secureFilePath)"
     echo "Keystore password: $KEYSTORE_PASS"  # Be cautious when printing sensitive information
