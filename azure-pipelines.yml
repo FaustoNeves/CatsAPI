@@ -50,6 +50,8 @@ steps:
     -keystore "$(DownloadKeystore.secureFilePath)" \
     -storepass "$KEYSTORE_PASS" \
     -keypass "$KEY_PASS" \
+    -tsa http://timestamp.digicert.com \  # Include timestamp authority to ensure validity
+    -signedjar app-release-signed.aab \
     app/build/outputs/bundle/release/app-release.aab "$ALIAS"
   displayName: 'Sign Android App Bundle with jarsigner'
   env:
@@ -72,6 +74,6 @@ steps:
     serviceConnection: 'catsdevops'
     applicationId: 'com.fausto.cats'
     action: 'SingleBundle'
-    bundleFile: 'app/build/outputs/bundle/release/app-release.aab'
+    bundleFile: 'app/build/outputs/bundle/release/app-release-signed.aab'
     apkFile: '**/*.aab'
     track: 'internal'
