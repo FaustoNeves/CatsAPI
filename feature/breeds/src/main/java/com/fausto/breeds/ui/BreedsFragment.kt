@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.fausto.breeds.databinding.FragmentBreedsBinding
-import com.fausto.breeds.ui.BreedsFragment.BreedsFragmentConstants.BREED_DETAILS_BASE_FRAGMENT_DEEPLINK
 import com.fausto.breeds.ui.adapter.SectionAdapter
 import com.fausto.breeds.viewmodel.BreedsViewModel
 import com.fausto.breeds.viewmodel.interact.BreedsInteract
@@ -60,6 +58,8 @@ class BreedsFragment : Fragment() {
                 is BreedsViewState.Success -> setupSuccessView(state)
 
                 is BreedsViewState.Error -> setupErrorView(state)
+
+                is BreedsViewState.SaveReferenceImageIdSuccess -> navigateToBreedDetailsFragment()
             }
         }
     }
@@ -149,12 +149,6 @@ class BreedsFragment : Fragment() {
                                 queryBreedId
                             )
                         )
-                        Log.e("save id reference", referenceImageId)
-//                    adb shell am start -a android.intent.action.VIEW -d "cats://catsapp/details?breedquery=0XYvRd7o"
-                        val request =
-                            NavDeepLinkRequest.Builder.fromUri(BREED_DETAILS_BASE_FRAGMENT_DEEPLINK.toUri())
-                                .build()
-                        findNavController().navigate(request)
                     }
             } else {
                 noDataAvailableScreen.root.isVisible = true
@@ -171,6 +165,14 @@ class BreedsFragment : Fragment() {
         ErrorScreen(state.errorMessage) {
             viewModel.interpret(BreedsInteract.OnErrorAction)
         }.show(parentFragmentManager, "")
+    }
+
+    private fun navigateToBreedDetailsFragment() {
+        //adb shell am start -a android.intent.action.VIEW -d "cats://catsapp/details?breedquery=0XYvRd7o"
+        val request =
+            NavDeepLinkRequest.Builder.fromUri(BreedsFragmentConstants.BREED_DETAILS_BASE_FRAGMENT_DEEPLINK.toUri())
+                .build()
+        findNavController().navigate(request)
     }
 
     override fun onDestroyView() {

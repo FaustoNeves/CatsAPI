@@ -10,6 +10,7 @@ import com.fausto.breeds.viewmodel.interact.BreedsInteract
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
 import com.fausto.common.result.ResultWrapper
 import com.fausto.datastore.querybreed.BreedIdsManager
+import com.fausto.datastore.querybreed.BreedIdsManagerImpl
 import com.fausto.domain.usecase.GetBreedsBySearchUseCase
 import com.fausto.domain.usecase.GetBreedsUseCase
 import com.fausto.model.SectionModel
@@ -80,10 +81,16 @@ internal class BreedsViewModel @Inject constructor(
     private fun saveReferenceImageId(referenceImageId: String, queryBreedId: String) {
         trackSelectedItem(queryBreedId)
         viewModelScope.launch(Dispatchers.IO) {
-            //Add a try catch in this case
-            //Add another state to BreedsViewState
-            //For success case, update the breedViewStateValue and observe it in the fragment. When triggered, navigate to the proper next screen
-            breedIdsManager.saveReferenceImageId(referenceImageId, queryBreedId)
+            when (val result =
+                breedIdsManager.saveReferenceImageId(referenceImageId, queryBreedId)) {
+                is ResultWrapper.Success -> {
+                    _breedsViewState.postValue(BreedsViewState.SaveReferenceImageIdSuccess)
+                }
+
+                is ResultWrapper.Error -> {
+                    BreedsViewState.Error(result.exception?.message.toString())
+                }
+            }
         }
     }
 }

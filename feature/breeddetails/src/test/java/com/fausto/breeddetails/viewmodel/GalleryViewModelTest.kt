@@ -5,7 +5,7 @@ import com.fausto.breeddetails.viewmodel.gallery.GalleryViewModel
 import com.fausto.breeddetails.viewmodel.gallery.interact.GalleryInteract
 import com.fausto.breeddetails.viewmodel.gallery.viewstate.GalleryViewState
 import com.fausto.common.result.ResultWrapper
-import com.fausto.datastore.querybreed.BreedIdsManager
+import com.fausto.datastore.querybreed.BreedIdsManagerImpl
 import com.fausto.domain.usecase.GetImagesByIdUseCase
 import com.fausto.model.BreedImageModel
 import com.fausto.tracking.analytics.Analytics
@@ -25,7 +25,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
-import kotlin.math.exp
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class GalleryViewModelTest {
@@ -39,7 +38,7 @@ internal class GalleryViewModelTest {
     private lateinit var getImagesByIdUseCase: GetImagesByIdUseCase
 
     @MockK
-    private lateinit var breedIdsManager: BreedIdsManager
+    private lateinit var breedIdsManager: BreedIdsManagerImpl
 
     @RelaxedMockK
     private lateinit var analytics: Analytics
