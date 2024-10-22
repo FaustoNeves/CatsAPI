@@ -37,20 +37,45 @@ internal class GalleryViewModel @Inject constructor(
         trackScreenView()
         viewModelScope.launch {
             _galleryViewState.postValue(GalleryViewState.Loading)
-            breedIdsManager.getQueryBreedId().catch { exception ->
-                _galleryViewState.postValue(exception.message?.let { GalleryViewState.Error(it) })
-            }.collect { queryBreedId ->
-                when (val result = queryBreedId?.let { getImagesByIdUseCase.getImagesById(it) }) {
-                    is ResultWrapper.Success -> {
-                        _galleryViewState.postValue(result.data.let { GalleryViewState.Success(it) })
+            when (val result = breedIdsManager.getQueryBreedId()) {
+                is ResultWrapper.Success -> {
+                    result.data.catch { exception ->
+                        _galleryViewState.postValue(GalleryViewState.Error(exception.message))
+                    }.collect { imageId ->
+                        imageId?.let { getImagesById(it) }
                     }
-
-                    is ResultWrapper.Error -> {
-                        _galleryViewState.postValue(GalleryViewState.Error(result.exception?.message.toString()))
-                    }
-
-                    null -> _galleryViewState.postValue(GalleryViewState.Error())
                 }
+
+                is ResultWrapper.Error -> {
+                    _galleryViewState.postValue(GalleryViewState.Error(result.exception?.message.toString()))
+                }
+            }
+//            breedIdsManager.getQueryBreedId().catch { exception ->
+//                _galleryViewState.postValue(exception.message?.let { GalleryViewState.Error(it) })
+//            }.collect { queryBreedId ->
+//                when (val result = queryBreedId?.let { getImagesByIdUseCase.getImagesById(it) }) {
+//                    is ResultWrapper.Success -> {
+//                        _galleryViewState.postValue(result.data.let { GalleryViewState.Success(it) })
+//                    }
+//
+//                    is ResultWrapper.Error -> {
+//                        _galleryViewState.postValue(GalleryViewState.Error(result.exception?.message.toString()))
+//                    }
+//
+//                    null -> _galleryViewState.postValue(GalleryViewState.Error())
+//                }
+//            }
+        }
+    }
+
+    private suspend fun getImagesById(imageId: String) {
+        when (val result = getImagesByIdUseCase.getImagesById(imageId)) {
+            is ResultWrapper.Success -> {
+                _galleryViewState.postValue(result.data.let { GalleryViewState.Success(it) })
+            }
+
+            is ResultWrapper.Error -> {
+                _galleryViewState.postValue(GalleryViewState.Error(result.exception?.message))
             }
         }
     }

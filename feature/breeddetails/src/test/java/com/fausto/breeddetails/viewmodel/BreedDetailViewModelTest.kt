@@ -5,7 +5,7 @@ import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewStat
 import com.fausto.breeddetails.viewmodel.base_info.BreedDetailViewModel
 import com.fausto.breeddetails.viewmodel.base_info.interact.BreedDetailInteract
 import com.fausto.common.result.ResultWrapper
-import com.fausto.datastore.querybreed.BreedIdsManager
+import com.fausto.datastore.querybreed.BreedIdsManagerImpl
 import com.fausto.domain.usecase.GetBreedByIdUseCase
 import com.fausto.model.BreedDetailModel
 import com.fausto.model.BreedModel
@@ -41,7 +41,7 @@ internal class BreedDetailViewModelTest {
     private lateinit var getBreedByIdUseCase: GetBreedByIdUseCase
 
     @MockK
-    private lateinit var breedIdsManager: BreedIdsManager
+    private lateinit var breedIdsManager: BreedIdsManagerImpl
 
     @RelaxedMockK
     private lateinit var analytics: Analytics

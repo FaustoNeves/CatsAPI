@@ -1,6 +1,5 @@
 package com.fausto.breeddetails.viewmodel.base_info
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -41,12 +40,10 @@ internal class BreedDetailViewModel @Inject constructor(
         viewModelScope.launch {
             when (val response = getBreedByIdUseCase.getBreedById(breedId)) {
                 is ResultWrapper.Success -> {
-                    Log.e("getBreedDetail 1", "success")
                     _breedDetailViewState.value = BreedDetailViewState.Success(response.data)
                 }
 
                 is ResultWrapper.Error -> {
-                    Log.e("getBreedDetail 1", "error")
                     _breedDetailViewState.value =
                         BreedDetailViewState.Error(response.exception?.message.toString())
                 }
@@ -57,13 +54,19 @@ internal class BreedDetailViewModel @Inject constructor(
     private fun getReferenceImageId() {
         viewModelScope.launch {
             _breedDetailViewState.value = BreedDetailViewState.Loading
-            breedIdsManager.getReferenceImageId().catch { exception ->
-                Log.e("getReferenceImageId 1", "exception")
-                BreedDetailViewState.Error(exception.message.toString())
-            }.collect { referenceImageId ->
-                Log.e("getReferenceImageId 1", referenceImageId.toString())
-                referenceImageId?.let { getBreedDetail(it) }
-                cancel()
+            when (val result = breedIdsManager.getReferenceImageId()) {
+                is ResultWrapper.Success -> {
+                    result.data.catch { exception ->
+                        exception.message?.let { BreedDetailViewState.Error(it) }
+                    }.collect { referenceImageId ->
+                        referenceImageId?.let { getBreedDetail(it) }
+                        cancel()
+                    }
+                }
+
+                is ResultWrapper.Error -> {
+                    result.exception?.message?.let { BreedDetailViewState.Error(it) }
+                }
             }
         }
     }

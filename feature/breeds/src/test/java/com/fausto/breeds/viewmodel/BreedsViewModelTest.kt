@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.fausto.breeds.viewmodel.interact.BreedsInteract
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
 import com.fausto.common.result.ResultWrapper
-import com.fausto.datastore.querybreed.BreedIdsManager
+import com.fausto.datastore.querybreed.BreedIdsManagerImpl
 import com.fausto.domain.usecase.GetBreedsBySearchUseCase
 import com.fausto.domain.usecase.GetBreedsUseCase
 import com.fausto.model.BreedsModel
@@ -17,12 +17,10 @@ import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.just
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -30,7 +28,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
-import kotlin.math.exp
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class BreedsViewModelTest {
@@ -47,7 +44,7 @@ internal class BreedsViewModelTest {
     private lateinit var getBreedBySearchUseCase: GetBreedsBySearchUseCase
 
     @MockK
-    private lateinit var breedIdsManager: BreedIdsManager
+    private lateinit var breedIdsManager: BreedIdsManagerImpl
 
     @RelaxedMockK
     private lateinit var analytics: Analytics
