@@ -10,7 +10,6 @@ import com.fausto.breeds.viewmodel.interact.BreedsInteract
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
 import com.fausto.common.result.ResultWrapper
 import com.fausto.datastore.querybreed.BreedIdsManager
-import com.fausto.datastore.querybreed.BreedIdsManagerImpl
 import com.fausto.domain.usecase.GetBreedsBySearchUseCase
 import com.fausto.domain.usecase.GetBreedsUseCase
 import com.fausto.model.SectionModel
@@ -50,7 +49,7 @@ internal class BreedsViewModel @Inject constructor(
             when (val response = getBreedsUseCase.getBreeds()) {
                 is ResultWrapper.Success -> {
                     val sectionModelsList =
-                        SectionModel(breedsList = response.data).buildSections(response.data)
+                        SectionModel(breedsList = response.data).buildSections()
                     _breedsViewState.value = BreedsViewState.Success(sectionModelsList)
                 }
 
@@ -68,7 +67,7 @@ internal class BreedsViewModel @Inject constructor(
             when (val response = getBreedBySearchUseCase.getBreedsBySearch(breedQuery)) {
                 is ResultWrapper.Success -> {
                     val sectionModelsList =
-                        SectionModel(breedsList = response.data).buildSections(response.data)
+                        SectionModel(breedsList = response.data).buildSections(breedQuery)
                     _breedsViewState.value = BreedsViewState.Success(sectionModelsList)
                 }
 

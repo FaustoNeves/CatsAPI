@@ -29,8 +29,6 @@ class BreedIdsManagerImpl @Inject constructor(private val context: Context) : Br
             context.dataStore.apply {
                 edit { settings ->
                     settings[REFERENCE_IMAGE_ID] = referenceImageId
-                }
-                edit { settings ->
                     settings[QUERY_BREED_ID] = queryBreedId
                 }
             }

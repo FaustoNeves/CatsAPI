@@ -3,8 +3,24 @@ package com.fausto.model
 class SectionModel(
     val section: String? = null, val breedsList: List<BreedsModel>
 ) {
-    fun buildSections(breedsList: List<BreedsModel>): List<SectionModel> {
-        val groupedBySection = breedsList.groupBy { it.section }.mapValues { it.value.toList() }
+    fun buildSections(breedQuery: String? = null): List<SectionModel> {
+        var filteredBreedsList = emptyList<BreedsModel>()
+        if (breedQuery?.isNotEmpty() == true) {
+            if (breedQuery.first().isLowerCase()) {
+                filteredBreedsList = breedsList.filter { breedModel ->
+                    breedModel.name.startsWith(breedQuery.replaceFirstChar { firstCharacter ->
+                        firstCharacter.uppercase()
+                    })
+                }
+            }
+        }
+
+        val breedsListToBeGrouped: List<BreedsModel> = filteredBreedsList.ifEmpty { breedsList }
+
+        val groupedBySection =
+            breedsListToBeGrouped.groupBy { breedQuery?.first()?.uppercase() ?: it.section }
+                .mapValues { it.value.toList() }
+
         return groupedBySection.map { (section, breeds) ->
             SectionModel(section, breeds)
         }

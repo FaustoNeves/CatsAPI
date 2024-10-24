@@ -10,6 +10,8 @@ import com.fausto.cats.R
 import com.fausto.cats.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+//TODO Após utilizar a barra de pesquisa e entrar na imagem de algum gato, no momento da volta, dois loads acontecem. O ideal é que ocorra apenas um
+
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 

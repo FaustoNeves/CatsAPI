@@ -50,21 +50,6 @@ internal class GalleryViewModel @Inject constructor(
                     _galleryViewState.postValue(GalleryViewState.Error(result.exception?.message.toString()))
                 }
             }
-//            breedIdsManager.getQueryBreedId().catch { exception ->
-//                _galleryViewState.postValue(exception.message?.let { GalleryViewState.Error(it) })
-//            }.collect { queryBreedId ->
-//                when (val result = queryBreedId?.let { getImagesByIdUseCase.getImagesById(it) }) {
-//                    is ResultWrapper.Success -> {
-//                        _galleryViewState.postValue(result.data.let { GalleryViewState.Success(it) })
-//                    }
-//
-//                    is ResultWrapper.Error -> {
-//                        _galleryViewState.postValue(GalleryViewState.Error(result.exception?.message.toString()))
-//                    }
-//
-//                    null -> _galleryViewState.postValue(GalleryViewState.Error())
-//                }
-//            }
         }
     }
 
