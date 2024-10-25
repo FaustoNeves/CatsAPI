@@ -20,17 +20,13 @@ steps:
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '17.0.6testResultsFiles'
     jdkArchitectureOption: 'x64'
-    tasks: 'clean bundleRelease'
+    tasks: 'clean test bundleRelease'
 
-#- task: AndroidSigning@3
-#  inputs:
-#    apkFiles: '**/*.aab'
-#    apksign: true
-#    apksignerKeystoreFile: '$(key.name)'
-#    apksignerKeystorePassword: '$(key.password)'
-#    apksignerKeystoreAlias: '$(key.alias)'
-#    apksignerKeyPassword: '$(keystore.password)'
-#    zipalign: false
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: '**/test-results/testDebugUnitTest/*.xml'  # Update this path as needed
+    failTaskOnFailedTests: true
+    testRunTitle: 'Unit Tests'
 
 - task: DownloadSecureFile@1
   name: DownloadKeystore
@@ -39,17 +35,10 @@ steps:
     secureFile: 'cats_key.jks'
 
 - script: |
-    echo "Removing existing signatures from the Android App Bundle..."
     zip -d app/build/outputs/bundle/release/app-release.aab 'META-INF/*'
   displayName: 'Remove existing signatures'
 
 - script: |
-    echo "Signing Android App Bundle with jarsigner..."
-    echo "Keystore file path: $(DownloadKeystore.secureFilePath)"
-    echo "Keystore password: $KEYSTORE_PASS"  # Be cautious when printing sensitive information
-    echo "Key password: $KEY_PASS"  # Be cautious when printing sensitive information
-    echo "Alias: $ALIAS"  # Be cautious when printing sensitive information
-    echo "Current directory contents:"
     ls -la  # List files in the current directory
     jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
     -keystore "$(DownloadKeystore.secureFilePath)" \
@@ -81,4 +70,4 @@ steps:
     action: 'SingleBundle'
     bundleFile: 'app/build/outputs/bundle/release/app-release-signed.aab'
     apkFile: '**/*.aab'
-    track: 'internal'
+    track: 'open'
