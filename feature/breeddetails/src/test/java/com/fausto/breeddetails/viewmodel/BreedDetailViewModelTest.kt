@@ -1,9 +1,9 @@
 package com.fausto.breeddetails.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.breeddetails.viewmodel.base_info.BreedDetailViewModel
 import com.fausto.breeddetails.viewmodel.base_info.interact.BreedDetailInteract
+import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.common.result.ResultWrapper
 import com.fausto.datastore.querybreed.BreedIdsManagerImpl
 import com.fausto.domain.usecase.GetBreedByIdUseCase
@@ -17,7 +17,7 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -110,7 +110,8 @@ internal class BreedDetailViewModelTest {
         )
         val breedModelMock = BreedModel("referenceImageIdMock", "url", listOfBreedDetailModelMock)
 
-        coEvery { breedIdsManager.getReferenceImageId() } returns flow { emit(referenceImageIdMock) }
+//        coEvery { breedIdsManager.getReferenceImageId() } returns flow { emit(referenceImageIdMock) }
+        coEvery { breedIdsManager.getReferenceImageId() } returns ResultWrapper.Success(flowOf(referenceImageIdMock))
 
         coEvery { getBreedByIdUseCase.getBreedById(referenceImageIdMock) } returns ResultWrapper.Success(
             breedModelMock

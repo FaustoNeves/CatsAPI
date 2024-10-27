@@ -60,7 +60,11 @@ internal class GalleryViewModelTest {
     @Test
     fun `test getImages success`() {
         val queryBreedId = "queryBreedId"
-        coEvery { breedIdsManager.getQueryBreedId() } returns flowOf(queryBreedId)
+        coEvery { breedIdsManager.getQueryBreedId() } returns ResultWrapper.Success(
+            flowOf(
+                queryBreedId
+            )
+        )
 
         val listOfBreedImageModelMock = listOf(BreedImageModel("url"))
 
@@ -79,7 +83,9 @@ internal class GalleryViewModelTest {
         val errorMessage = "Failed to retrieve breed images"
         val errorResult = ResultWrapper.Error(Exception(errorMessage))
 
-        coEvery { breedIdsManager.getQueryBreedId() } returns flowOf(queryBreedId)
+        coEvery { breedIdsManager.getQueryBreedId() } returns ResultWrapper.Success(
+            flowOf(queryBreedId)
+        )
 
         coEvery { getImagesByIdUseCase.getImagesById(queryBreedId) } returns errorResult
         galleryViewModel.interpret(GalleryInteract.ViewCrated)

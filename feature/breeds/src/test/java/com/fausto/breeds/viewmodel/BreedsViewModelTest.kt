@@ -10,8 +10,8 @@ import com.fausto.domain.usecase.GetBreedsUseCase
 import com.fausto.model.BreedsModel
 import com.fausto.model.SectionModel
 import com.fausto.tracking.analytics.Analytics
+import io.mockk.Awaits
 import io.mockk.MockKAnnotations
-import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
@@ -126,12 +126,10 @@ internal class BreedsViewModelTest {
     fun `test breedItemClick`() {
         val referenceImageId = "123"
         val queryBreedId = "abys"
-        coEvery { breedIdsManager.saveReferenceImageId(referenceImageId) } just Runs
-        coEvery { breedIdsManager.saveQueryBreedId(queryBreedId) } just Runs
+        coEvery { breedIdsManager.saveReferenceImageId(referenceImageId, queryBreedId) } just Awaits
 
         breedsViewModel.interpret(BreedsInteract.OnBreedClickAction(referenceImageId, queryBreedId))
 
-        coVerify { breedIdsManager.saveReferenceImageId(referenceImageId) }
-        coVerify { breedIdsManager.saveQueryBreedId(queryBreedId) }
+        coVerify { breedIdsManager.saveReferenceImageId(referenceImageId, queryBreedId) }
     }
 }
