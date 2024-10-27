@@ -70,4 +70,4 @@ steps:
     action: 'SingleBundle'
     bundleFile: 'app/build/outputs/bundle/release/app-release-signed.aab'
     apkFile: '**/*.aab'
-    track: 'open'
+    track: 'openTesting'
