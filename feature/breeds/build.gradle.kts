@@ -52,8 +52,8 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1-Beta")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
 
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hilt.compiler)
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
     testImplementation("io.mockk:mockk:1.13.10")

@@ -47,8 +47,8 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
 
-    implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hilt.compiler)
 
     val paging_version = "3.1.1"
     implementation("androidx.paging:paging-runtime:$paging_version")
