@@ -1,5 +1,6 @@
 [versions]
 android-version = "8.1.4"
+espressoCore = "3.6.1"
 kotlin-version = "2.0.21"
 ktx = "1.13.1"
 appcompat = "1.7.0"
@@ -7,8 +8,11 @@ composeBom = "2024.11.00"
 compose-plugin = "1.8.0-alpha01"
 dagger-hilt-version = "2.52"
 ksp-version = "1.9.22-1.0.17"
+material-version = "1.12.0"
+google-services-version = "4.4.1"
 
 [libraries]
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
 androidx-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "ktx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -16,14 +20,18 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-compose-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "dagger-hilt-version" }
-dagger-hilt-compiler = {group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "dagger-hilt-version"}
+dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "dagger-hilt-version" }
+material = { module = "com.google.android.material:material", version.ref = "material-version" }
 
 [plugins]
-android-library = { id = "com.android.library" , version.ref = "android-version"}
-android-application = {id = "com.android.application", version.ref = "android-version"}
+android-library = { id = "com.android.library", version.ref = "android-version" }
+android-application = { id = "com.android.application", version.ref = "android-version" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-version" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin-version" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-version" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp-version" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger-hilt-version" }
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services-version" }
+kapt = { id = "kapt" }
+kotlin-parcelize = { id = "kotlin-parcelize" }
