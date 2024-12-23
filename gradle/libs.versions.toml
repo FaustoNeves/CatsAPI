@@ -1,7 +1,7 @@
 [versions]
-android-version = "8.1.4"
+android-version = "8.3.2"
 espressoCore = "3.6.1"
-kotlin-version = "2.0.21"
+kotlin-version = "2.0.20"
 ktx = "1.13.1"
 appcompat = "1.7.0"
 composeBom = "2024.11.00"
