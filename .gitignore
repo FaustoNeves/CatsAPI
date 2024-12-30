@@ -11,6 +11,9 @@
 /.idea/kotlinc.xml
 /.idea/migrations.xml
 /.idea/runConfigurations.xml
+/.idea/compiler.xml
+/.idea/gradle.xml
+/.idea/misc.xml
 .DS_Store
 /build
 /captures
