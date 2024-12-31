@@ -53,7 +53,7 @@ dependencies {
 
     implementation(libs.material)
     implementation("com.squareup.picasso:picasso:2.8")
-    val lottieVersion = "3.4.0"
+    val lottieVersion = "6.6.2"
     implementation("com.airbnb.android:lottie:$lottieVersion")
     implementation(project(":core:texts"))
 }
