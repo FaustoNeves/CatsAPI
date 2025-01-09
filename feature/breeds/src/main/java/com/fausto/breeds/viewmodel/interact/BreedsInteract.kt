@@ -1,6 +1,6 @@
 package com.fausto.breeds.viewmodel.interact
 
-internal sealed interface BreedsInteract {
+sealed interface BreedsInteract {
     object ViewCreated : BreedsInteract
     object OnRefreshAction : BreedsInteract
     object OnErrorAction : BreedsInteract

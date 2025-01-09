@@ -15,6 +15,7 @@
 /.idea/gradle.xml
 /.idea/misc.xml
 /.idea/deploymentTargetDropDown.xml
+.idea/inspectionProfiles
 .DS_Store
 /build
 /captures
@@ -22,4 +23,5 @@
 .cxx
 local.properties
 cats.properties
+.kotlin
 

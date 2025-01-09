@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.fausto.designsystem.databinding.ScreenErrorBinding
 
-class ErrorScreen(
+class ErrorView(
     private val errorMessage: String?, private val retryAction: () -> Unit
 ) : DialogFragment() {
 

@@ -484,4 +484,3 @@ fun CatsAppTheme(
     content = content
   )
 }
-

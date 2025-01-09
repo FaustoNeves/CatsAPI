@@ -12,7 +12,7 @@ import com.fausto.breeddetails.viewmodel.base_info.BreedDetailViewModel
 import com.fausto.breeddetails.viewmodel.base_info.interact.BreedDetailInteract
 import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.breeddetails.databinding.FragmentBreedDetailBinding
-import com.fausto.designsystem.utils.ErrorScreen
+import com.fausto.designsystem.utils.ErrorView
 import com.fausto.designsystem.utils.GradientTransformation
 import com.fausto.designsystem.utils.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
@@ -82,7 +82,7 @@ class BreedDetailBaseFragment : Fragment() {
             successView.isVisible = false
             loadingScreen.root.isVisible = false
             loadingScreen.loadingAnimation.isVisible = false
-            ErrorScreen(state.errorMessage) {
+            ErrorView(state.errorMessage) {
                 viewModel.interpret(BreedDetailInteract.BaseOnErrorAction)
             }.show(parentFragmentManager, "")
         }

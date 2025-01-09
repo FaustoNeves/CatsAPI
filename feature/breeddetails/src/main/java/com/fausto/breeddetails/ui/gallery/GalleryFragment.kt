@@ -12,7 +12,7 @@ import com.fausto.breeddetails.databinding.FragmentGalleryBinding
 import com.fausto.breeddetails.viewmodel.gallery.GalleryViewModel
 import com.fausto.breeddetails.viewmodel.gallery.interact.GalleryInteract
 import com.fausto.breeddetails.viewmodel.gallery.viewstate.GalleryViewState
-import com.fausto.designsystem.utils.ErrorScreen
+import com.fausto.designsystem.utils.ErrorView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -69,7 +69,7 @@ internal class GalleryFragment : Fragment() {
             loadingView.root.isVisible = false
             successView.isVisible = false
         }
-        ErrorScreen(state.errorMessage) {
+        ErrorView(state.errorMessage) {
             viewModel.interpret(GalleryInteract.OnErrorAction)
         }.show(parentFragmentManager, "")
     }

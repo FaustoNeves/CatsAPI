@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class BreedsViewModel @Inject constructor(
+class BreedsViewModel @Inject constructor(
     private val getBreedsUseCase: GetBreedsUseCase,
     private val getBreedBySearchUseCase: GetBreedsBySearchUseCase,
     private val breedIdsManager: BreedIdsManager,

@@ -10,6 +10,9 @@ dagger-hilt-version = "2.52"
 ksp-version = "1.9.22-1.0.17"
 material-version = "1.12.0"
 google-services-version = "4.4.1"
+foundation-android-version = "1.7.6"
+lifecycle-viewmodel-compose = "2.6.1"
+androidx-activity = "1.9.3"
 
 [libraries]
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
@@ -19,9 +22,14 @@ compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = 
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidx-activity" }
 dagger-hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "dagger-hilt-version" }
 dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "dagger-hilt-version" }
 material = { module = "com.google.android.material:material", version.ref = "material-version" }
+androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundation-android-version" }
+androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
+androidx-compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "foundation-android-version" }
+androidx-lifecycle-viewmodel-compose = {group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel-compose"}
 
 [plugins]
 android-library = { id = "com.android.library", version.ref = "android-version" }

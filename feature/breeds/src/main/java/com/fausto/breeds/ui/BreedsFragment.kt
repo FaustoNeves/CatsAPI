@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -16,12 +17,14 @@ import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.fausto.breeds.BreedsRoute
 import com.fausto.breeds.databinding.FragmentBreedsBinding
 import com.fausto.breeds.ui.adapter.SectionAdapter
 import com.fausto.breeds.viewmodel.BreedsViewModel
 import com.fausto.breeds.viewmodel.interact.BreedsInteract
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
-import com.fausto.designsystem.utils.ErrorScreen
+import com.fausto.designsystem.theme.CatsAppTheme
+import com.fausto.designsystem.utils.ErrorView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,16 +41,24 @@ class BreedsFragment : Fragment() {
     ): View {
 
         _binding = FragmentBreedsBinding.inflate(inflater, container, false)
+        binding.composeView.apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                CatsAppTheme {
+                    BreedsRoute()
+                }
+            }
+        }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupObservers()
-        setupSwipeRefresh()
-        setupSearchAction()
-        initViewActions()
+//        setupObservers()
+//        setupSwipeRefresh()
+//        setupSearchAction()
+//        initViewActions()
     }
 
     private fun setupObservers() {
@@ -162,7 +173,7 @@ class BreedsFragment : Fragment() {
             loadingScreen.root.isVisible = false
             noDataAvailableScreen.root.isVisible = false
         }
-        ErrorScreen(state.errorMessage) {
+        ErrorView(state.errorMessage) {
             viewModel.interpret(BreedsInteract.OnErrorAction)
         }.show(parentFragmentManager, "")
     }
