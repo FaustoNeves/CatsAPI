@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.google.services)
     kotlin(libs.plugins.kapt.get().pluginId)
     id(libs.plugins.kotlin.parcelize.get().pluginId)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -43,6 +45,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 }
 
@@ -58,6 +61,22 @@ dependencies {
     kapt(libs.dagger.hilt.compiler)
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation(libs.kotlinx.serialization.json)
+
+    //Compose
+    val composeBom = platform(libs.compose.bom)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.compose.runtime.livedata)
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+    implementation(libs.androidx.compose.tooling.preview)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.navigation.compose)
+    debugImplementation(libs.androidx.compose.tooling)
+
     implementation(project(":feature:breeds"))
     implementation(project(":feature:breeddetails"))
     implementation(project(":core:common"))

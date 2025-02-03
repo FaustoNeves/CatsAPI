@@ -14,8 +14,8 @@ import com.fausto.designsystem.theme.CatsAppTheme
 fun ErrorScreen(
     errorMessage: String,
     retryAction: () -> Unit,
-    onDismissRequest: () -> Unit,
-    buttonText: String?,
+    onDismissRequest: (() -> Unit)? = null,
+    buttonText: String? = null,
     modifier: Modifier = Modifier
 ) {
     AlertDialog(
@@ -24,7 +24,7 @@ fun ErrorScreen(
             Text(modifier = modifier, text = errorMessage)
         },
         onDismissRequest = {
-            onDismissRequest()
+            onDismissRequest?.invoke()
         },
         confirmButton = {
             TextButton(modifier = modifier, onClick = {
@@ -39,8 +39,8 @@ fun ErrorScreen(
     )
 }
 
-@Composable
 @Preview
+@Composable
 fun ErrorScreenPreview() {
     CatsAppTheme {
         ErrorScreen(

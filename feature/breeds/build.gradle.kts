@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.compose.compiler) //Compose
+    alias(libs.plugins.compose.compiler)
     kotlin("kapt")
 }
 
@@ -68,6 +68,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
     debugImplementation(libs.androidx.compose.tooling)
 
     testImplementation("io.mockk:mockk:1.13.10")
