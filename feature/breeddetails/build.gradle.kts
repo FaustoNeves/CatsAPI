@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.compose.compiler)
     kotlin(libs.plugins.kapt.get().pluginId)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -48,6 +49,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)

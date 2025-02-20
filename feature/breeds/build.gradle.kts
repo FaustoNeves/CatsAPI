@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
     kotlin("kapt")
 }
 
@@ -56,6 +57,7 @@ dependencies {
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
+    implementation(libs.kotlinx.serialization.json)
 
     //Compose
     val composeBom = platform(libs.compose.bom)

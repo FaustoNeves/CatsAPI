@@ -4,42 +4,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
-import com.fausto.breeddetails.ui.DetailsScreen
-import com.fausto.breeds.ui.BreedsRoute
-import kotlinx.serialization.Serializable
-
-@Serializable
-object Breeds
-
-@Serializable
-data class Details(val breedId: String, val imageQueryId: String)
+import com.fausto.breeddetails.navigation.detailsScreen
+import com.fausto.breeddetails.navigation.navigateToDetailsScreen
+import com.fausto.breeds.navigation.BreedsRoute
+import com.fausto.breeds.navigation.breedsScreen
 
 @Composable
 fun CatsNavHost(
     modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()
 ) {
     NavHost(
-        modifier = modifier,
-        navController = navController,
-        startDestination = Breeds
+        modifier = modifier, navController = navController, startDestination = BreedsRoute
     ) {
-        composable<Breeds> {
-            BreedsRoute(onBreedClick = { breedId: String, imageQueryId: String ->
-                navController.navigate(
-                    route = Details(
-                        breedId = breedId,
-                        imageQueryId = imageQueryId
-                    )
-                )
-            })
+        breedsScreen { breedId, imageQueryId ->
+            navController.navigateToDetailsScreen(breedId, imageQueryId)
         }
-
-        composable<Details> { backStackEntry ->
-            val detailsRoute = backStackEntry.toRoute<Details>()
-            DetailsScreen(detailsRoute.breedId, detailsRoute.imageQueryId)
-        }
+        detailsScreen()
     }
 }

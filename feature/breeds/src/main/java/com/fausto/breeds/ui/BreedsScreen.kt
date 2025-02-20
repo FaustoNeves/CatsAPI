@@ -4,14 +4,18 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fausto.breeds.viewmodel.BreedsViewModel
 import com.fausto.breeds.viewmodel.interact.BreedsInteract
@@ -22,7 +26,7 @@ import com.fausto.model.BreedsModel
 import com.fausto.model.SectionModel
 
 @Composable
-fun BreedsRoute(
+internal fun BreedsRoute(
     modifier: Modifier = Modifier,
     onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
     breedsViewModel: BreedsViewModel = hiltViewModel()
@@ -46,7 +50,7 @@ fun BreedsRoute(
 }
 
 @Composable
-internal fun BreedsScreen(
+private fun BreedsScreen(
     modifier: Modifier = Modifier.fillMaxSize(),
     breedsViewState: BreedsViewState,
     onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
@@ -101,7 +105,11 @@ private fun SuccessState(
     ) {
         sectionModelList.forEach { currentSection ->
             item {
-                Text(modifier = Modifier, text = currentSection.section ?: "")
+                Text(
+                    modifier = Modifier.padding(top = 12.dp, bottom = 4.dp),
+                    text = currentSection.section ?: ""
+                )
+                HorizontalDivider(thickness = 2.dp)
             }
             items(items = currentSection.breedsList) { currentBreed ->
                 BreedItem(
