@@ -1,14 +1,15 @@
 package com.fausto.breeds.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -18,12 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fausto.breeds.viewmodel.BreedsViewModel
-import com.fausto.breeds.viewmodel.interact.BreedsInteract
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
-import com.fausto.designsystem.components.ErrorScreen
+import com.fausto.designsystem.components.dialog.ErrorDialog
 import com.fausto.designsystem.components.IndeterminateCircularIndicator
 import com.fausto.model.BreedsModel
 import com.fausto.model.SectionModel
+
 
 @Composable
 internal fun BreedsRoute(
@@ -36,17 +37,12 @@ internal fun BreedsRoute(
         modifier = modifier,
         breedsViewState = breedsViewState,
         onBreedClick = onBreedClick,
-        onScreenInitialized = { breedsViewModel.interpret(BreedsInteract.ViewCreated) },
-        onRefresh = { breedsViewModel.interpret(BreedsInteract.OnRefreshAction) },
-        onError = { breedsViewModel.interpret(BreedsInteract.OnErrorAction) },
-        onSearch = { queryId -> breedsViewModel.interpret(BreedsInteract.OnSearchBreedAction(queryId)) },
-        onClick = { referenceImageId, queryId ->
-            breedsViewModel.interpret(
-                BreedsInteract.OnBreedClickAction(
-                    referenceImageId, queryId
-                )
-            )
-        })
+        onScreenInitialized = breedsViewModel::getBreeds,
+        onError = breedsViewModel::getBreeds,
+        onSearch = breedsViewModel::getBreedsBySearch,
+        userInput = breedsViewModel.userInput,
+        updateUserInput = breedsViewModel::updateUserInput,
+    )
 }
 
 @Composable
@@ -55,10 +51,10 @@ private fun BreedsScreen(
     breedsViewState: BreedsViewState,
     onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
     onScreenInitialized: () -> Unit,
-    onRefresh: () -> Unit,
     onError: () -> Unit,
     onSearch: (String) -> Unit,
-    onClick: (String, String) -> Unit
+    userInput: String,
+    updateUserInput: (String) -> Unit
 ) {
     when (breedsViewState) {
         is BreedsViewState.Loading ->
@@ -73,11 +69,18 @@ private fun BreedsScreen(
         }
 
         is BreedsViewState.Success -> {
-            SuccessState(modifier = Modifier.fillMaxSize(), breedsViewState.sections, onBreedClick)
-        }
-
-        BreedsViewState.SaveReferenceImageIdSuccess -> {
-            Text(modifier = modifier.fillMaxSize(), text = "SaveReferenceImageIdSuccess")
+            Column {
+                BuildSearchTextField(
+                    onSearch, userInput,
+                    updateUserInput
+                )
+                SuccessState(
+                    modifier = Modifier,
+                    breedsViewState.sections,
+                    onBreedClick,
+//                onSearch
+                )
+            }
         }
     }
     LaunchedEffect(Unit) {
@@ -87,7 +90,7 @@ private fun BreedsScreen(
 
 @Composable
 private fun ErrorState(modifier: Modifier, errorMessage: String, retryAction: () -> Unit) {
-    ErrorScreen(modifier = modifier, errorMessage = errorMessage, retryAction = {
+    ErrorDialog(modifier = modifier, errorMessage = errorMessage, confirmButtonAction = {
         retryAction.invoke()
     })
 }
@@ -96,8 +99,10 @@ private fun ErrorState(modifier: Modifier, errorMessage: String, retryAction: ()
 private fun SuccessState(
     modifier: Modifier = Modifier,
     sectionModelList: List<SectionModel>,
-    onBreedClick: (breedId: String, imageQueryId: String) -> Unit
+    onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
+//    onSearch: (String) -> Unit
 ) {
+//        buildSearchTextField(onSearch)
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
@@ -109,7 +114,7 @@ private fun SuccessState(
                     modifier = Modifier.padding(top = 12.dp, bottom = 4.dp),
                     text = currentSection.section ?: ""
                 )
-                HorizontalDivider(thickness = 2.dp)
+                HorizontalDivider(modifier = Modifier.padding(bottom = 2.dp), thickness = 1.dp)
             }
             items(items = currentSection.breedsList) { currentBreed ->
                 BreedItem(
@@ -120,6 +125,26 @@ private fun SuccessState(
             }
         }
     }
+}
+
+@Composable
+private fun BuildSearchTextField(
+    onSearch: (String) -> Unit,
+    userInput: String,
+    updateUserInput: (String) -> Unit
+) {
+    OutlinedTextField(
+        modifier = Modifier.fillMaxWidth(),
+        value = userInput,
+        onValueChange = {
+            updateUserInput(it)
+            onSearch.invoke(userInput)
+        },
+        label = { Text("Input breed") },
+        placeholder = { Text("Persian...") },
+        singleLine = true,
+        maxLines = 1,
+    )
 }
 
 @Composable

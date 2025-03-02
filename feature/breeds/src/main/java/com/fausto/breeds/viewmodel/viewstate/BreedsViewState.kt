@@ -6,5 +6,4 @@ sealed class BreedsViewState {
     data object Loading : BreedsViewState()
     data class Success(val sections: List<SectionModel>) : BreedsViewState()
     data class Error(val errorMessage: String) : BreedsViewState()
-    data object SaveReferenceImageIdSuccess : BreedsViewState()
 }

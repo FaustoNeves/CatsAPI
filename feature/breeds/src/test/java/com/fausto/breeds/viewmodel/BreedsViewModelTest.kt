@@ -1,7 +1,6 @@
 package com.fausto.breeds.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.fausto.breeds.viewmodel.interact.BreedsInteract
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
 import com.fausto.common.result.ResultWrapper
 import com.fausto.datastore.querybreed.BreedIdsManagerImpl
@@ -70,7 +69,7 @@ internal class BreedsViewModelTest {
         val breedsModelListMock = listOf(breedModelMock1)
         coEvery { getBreedsUseCase.getBreeds() } returns ResultWrapper.Success(breedsModelListMock)
 
-        breedsViewModel.interpret(BreedsInteract.ViewCreated)
+        breedsViewModel.getBreeds()
 
         val sectionMock = "A"
         val sectionsListMock = breedsModelListMock.map {
@@ -88,7 +87,7 @@ internal class BreedsViewModelTest {
         val errorResult = ResultWrapper.Error(Exception(errorMessage))
         coEvery { getBreedsUseCase.getBreeds() } returns errorResult
 
-        breedsViewModel.interpret(BreedsInteract.ViewCreated)
+        breedsViewModel.getBreeds()
 
         val expectedViewState = BreedsViewState.Error(errorMessage)
         assertEquals(expectedViewState, breedsViewModel.breedsViewState.value)
@@ -103,7 +102,7 @@ internal class BreedsViewModelTest {
         coEvery { getBreedBySearchUseCase.getBreedsBySearch(breedQuery) } returns ResultWrapper.Success(
             searchedBreedsModelMockList
         )
-        breedsViewModel.interpret(BreedsInteract.OnSearchBreedAction(breedQuery))
+        breedsViewModel.getBreedsBySearch(breedQuery)
         val sectionsListMock = searchedBreedsModelMockList.map {
             SectionModel(sectionMock, listOf(it))
         }
@@ -117,7 +116,7 @@ internal class BreedsViewModelTest {
         val errorMessage = "Failed to retrieve breeds"
         val errorResult = ResultWrapper.Error(Exception(errorMessage))
         coEvery { getBreedBySearchUseCase.getBreedsBySearch(breedQuery) } returns errorResult
-        breedsViewModel.interpret(BreedsInteract.OnSearchBreedAction(breedQuery))
+        breedsViewModel.getBreedsBySearch(breedQuery)
         val expectedViewState = BreedsViewState.Error(errorMessage)
         assertEquals(expectedViewState, breedsViewModel.breedsViewState.value)
     }
@@ -128,7 +127,7 @@ internal class BreedsViewModelTest {
         val queryBreedId = "abys"
         coEvery { breedIdsManager.saveReferenceImageId(referenceImageId, queryBreedId) } just Awaits
 
-        breedsViewModel.interpret(BreedsInteract.OnBreedClickAction(referenceImageId, queryBreedId))
+        breedsViewModel.saveReferenceImageId(referenceImageId, queryBreedId)
 
         coVerify { breedIdsManager.saveReferenceImageId(referenceImageId, queryBreedId) }
     }
