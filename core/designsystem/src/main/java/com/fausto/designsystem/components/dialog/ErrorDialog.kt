@@ -6,6 +6,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,6 +31,7 @@ import com.fausto.designsystem.theme.CatsAppTheme
  * @param title title which should specify the purpose of the dialog. The title is not mandatory,
  *   because there may be sufficient information inside the [text].
  * @param text text which presents the details regarding the dialog's purpose.
+ * @param openAlertDialog manages the dialogs visibility
  */
 
 @Composable
@@ -40,7 +45,8 @@ fun ErrorDialog(
     errorMessage: String,
     buttonText: String? = null,
 ) {
-    AlertDialog(
+    var openAlertDialog by remember { mutableStateOf(true) }
+    if (openAlertDialog) AlertDialog(
         modifier = modifier,
         text = {
             Text(
@@ -49,25 +55,27 @@ fun ErrorDialog(
         },
         onDismissRequest = {
             onDismissRequest?.invoke()
+            openAlertDialog = false
         },
         confirmButton = {
             TextButton(onClick = {
                 confirmButtonAction()
+                openAlertDialog = false
             }, content = {
                 Text(
-                    text = buttonText ?: stringResource(R.string.try_again_button_text)
+                    text = buttonText ?: stringResource(R.string.try_again_button)
                 )
             })
         },
         dismissButton = {
-            TextButton(
-                onClick = {
-                    dismissButtonAction?.invoke()
-                },
-                content = {
-                    Text(text = stringResource(R.string.dismiss_button_text))
+            dismissButtonAction?.let { dismissAction ->
+                TextButton(onClick = {
+                    dismissAction.invoke()
+                    openAlertDialog = false
+                }, content = {
+                    Text(text = stringResource(R.string.dismiss_button))
+                })
                 }
-            )
         },
         icon = {
             Icon(
@@ -77,9 +85,7 @@ fun ErrorDialog(
             )
         },
         title = {
-            title?.let {
-                Text(text = it)
-            }
+            Text(text = title ?: stringResource(R.string.error_dialog_title))
         },
     )
 }
@@ -89,6 +95,7 @@ fun ErrorDialog(
 fun ErrorScreenPreview() {
     CatsAppTheme {
         ErrorDialog(
+            modifier = Modifier,
             onDismissRequest = {}, confirmButtonAction = {}, dismissButtonAction = {},
             title = "Error title",
             errorMessage = "Failed to retrieve cats",

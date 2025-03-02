@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fausto.breeds.viewmodel.BreedsViewModel
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
-import com.fausto.designsystem.components.dialog.ErrorDialog
 import com.fausto.designsystem.components.IndeterminateCircularIndicator
+import com.fausto.designsystem.components.dialog.ErrorDialog
 import com.fausto.model.BreedsModel
 import com.fausto.model.SectionModel
 
@@ -90,9 +90,13 @@ private fun BreedsScreen(
 
 @Composable
 private fun ErrorState(modifier: Modifier, errorMessage: String, retryAction: () -> Unit) {
-    ErrorDialog(modifier = modifier, errorMessage = errorMessage, confirmButtonAction = {
-        retryAction.invoke()
-    })
+    ErrorDialog(
+        modifier = modifier,
+        confirmButtonAction = {
+            retryAction.invoke()
+        },
+        errorMessage = errorMessage,
+    )
 }
 
 @Composable
