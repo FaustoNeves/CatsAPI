@@ -26,11 +26,9 @@ import com.fausto.designsystem.theme.CatsAppTheme
  * @param modifier the [Modifier] to be applied to this dialog
  * @param dismissButtonAction button which is meant to dismiss the dialog. The dialog does not set up any
  *   events for this button so they need to be set up by the caller.
- * @param icon optional icon that will appear above the [title] or above the [text], in case a title
- *   was not provided.
  * @param title title which should specify the purpose of the dialog. The title is not mandatory,
  *   because there may be sufficient information inside the [text].
- * @param text text which presents the details regarding the dialog's purpose.
+ * @param errorMessage text which presents the details regarding the dialog's purpose.
  * @param openAlertDialog manages the dialogs visibility
  */
 

@@ -1,5 +1,6 @@
 package com.fausto.breeddetails.navigation
 
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -14,9 +15,13 @@ fun NavController.navigateToDetailsScreen(breedId: String, imageQueryId: String)
     navigate(route = DetailsRoute(id = breedId, imageQueryId = imageQueryId))
 }
 
-fun NavGraphBuilder.detailsScreen() {
+fun NavGraphBuilder.detailsScreen(modifier: Modifier) {
     composable<DetailsRoute> { backStackEntry ->
         val detailsRoute = backStackEntry.toRoute<DetailsRoute>()
-        DetailsRoute(breedId = detailsRoute.id, imageQueryId = detailsRoute.imageQueryId)
+        DetailsRoute(
+            modifier = modifier,
+            breedId = detailsRoute.id,
+            imageQueryId = detailsRoute.imageQueryId
+        )
     }
 }

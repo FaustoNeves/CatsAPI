@@ -12,7 +12,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -25,7 +24,6 @@ import com.fausto.designsystem.components.dialog.ErrorDialog
 import com.fausto.model.BreedsModel
 import com.fausto.model.SectionModel
 
-
 @Composable
 internal fun BreedsRoute(
     modifier: Modifier = Modifier,
@@ -37,7 +35,6 @@ internal fun BreedsRoute(
         modifier = modifier,
         breedsViewState = breedsViewState,
         onBreedClick = onBreedClick,
-        onScreenInitialized = breedsViewModel::getBreeds,
         onError = breedsViewModel::getBreeds,
         onSearch = breedsViewModel::getBreedsBySearch,
         userInput = breedsViewModel.userInput,
@@ -50,12 +47,15 @@ private fun BreedsScreen(
     modifier: Modifier = Modifier.fillMaxSize(),
     breedsViewState: BreedsViewState,
     onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
-    onScreenInitialized: () -> Unit,
     onError: () -> Unit,
     onSearch: (String) -> Unit,
     userInput: String,
     updateUserInput: (String) -> Unit
 ) {
+    Column {
+        BuildSearchTextField(
+            onSearch, userInput, updateUserInput
+        )
     when (breedsViewState) {
         is BreedsViewState.Loading ->
             IndeterminateCircularIndicator()
@@ -69,22 +69,11 @@ private fun BreedsScreen(
         }
 
         is BreedsViewState.Success -> {
-            Column {
-                BuildSearchTextField(
-                    onSearch, userInput,
-                    updateUserInput
-                )
                 SuccessState(
-                    modifier = Modifier,
-                    breedsViewState.sections,
-                    onBreedClick,
-//                onSearch
+                    modifier = Modifier, breedsViewState.sections, onBreedClick, onSearch
                 )
-            }
         }
     }
-    LaunchedEffect(Unit) {
-        onScreenInitialized()
     }
 }
 
@@ -104,9 +93,8 @@ private fun SuccessState(
     modifier: Modifier = Modifier,
     sectionModelList: List<SectionModel>,
     onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
-//    onSearch: (String) -> Unit
+    onSearch: (String) -> Unit
 ) {
-//        buildSearchTextField(onSearch)
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()
@@ -142,7 +130,7 @@ private fun BuildSearchTextField(
         value = userInput,
         onValueChange = {
             updateUserInput(it)
-            onSearch.invoke(userInput)
+            if (it.isNotBlank()) onSearch.invoke(it)
         },
         label = { Text("Input breed") },
         placeholder = { Text("Persian...") },

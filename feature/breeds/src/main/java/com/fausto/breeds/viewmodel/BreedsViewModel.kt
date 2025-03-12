@@ -35,6 +35,10 @@ class BreedsViewModel @Inject constructor(
         userInput = input
     }
 
+    init {
+        getBreeds()
+    }
+
     internal fun getBreeds() {
         trackScreenView()
         viewModelScope.launch {
@@ -54,13 +58,13 @@ class BreedsViewModel @Inject constructor(
         }
     }
 
-    internal fun getBreedsBySearch(breedQuery: String) {
+    internal fun getBreedsBySearch(breeQuery: String) {
         viewModelScope.launch {
             _breedsViewState.value = BreedsViewState.Loading
-            when (val response = getBreedBySearchUseCase.getBreedsBySearch(breedQuery)) {
+            when (val response = getBreedBySearchUseCase.getBreedsBySearch(breeQuery)) {
                 is ResultWrapper.Success -> {
                     val sectionModelsList =
-                        SectionModel(breedsList = response.data).buildSections(breedQuery)
+                        SectionModel(breedsList = response.data).buildSections(breeQuery)
                     _breedsViewState.value = BreedsViewState.Success(sectionModelsList)
                 }
 
