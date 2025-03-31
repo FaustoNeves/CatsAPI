@@ -13,10 +13,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.fausto.breeds.viewmodel.BreedsViewModel
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
 import com.fausto.designsystem.components.IndeterminateCircularIndicator
@@ -30,12 +30,13 @@ internal fun BreedsRoute(
     onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
     breedsViewModel: BreedsViewModel = hiltViewModel()
 ) {
-    val breedsViewState by breedsViewModel.breedsViewState.observeAsState(BreedsViewState.Loading)
+//    val breedsViewState by breedsViewModel.breedsViewState.observeAsState()
+    val breedFlowViewState by breedsViewModel.breedFlowViewState.collectAsStateWithLifecycle(BreedsViewState.Loading)
     BreedsScreen(
         modifier = modifier,
-        breedsViewState = breedsViewState,
+        breedsViewState = breedFlowViewState,
         onBreedClick = onBreedClick,
-        onError = breedsViewModel::getBreeds,
+        onError = breedsViewModel::getStateFlowBreeds,
         onSearch = breedsViewModel::getBreedsBySearch,
         userInput = breedsViewModel.userInput,
         updateUserInput = breedsViewModel::updateUserInput,
@@ -45,7 +46,7 @@ internal fun BreedsRoute(
 @Composable
 private fun BreedsScreen(
     modifier: Modifier = Modifier.fillMaxSize(),
-    breedsViewState: BreedsViewState,
+    breedsViewState: BreedsViewState = BreedsViewState.Loading,
     onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
     onError: () -> Unit,
     onSearch: (String) -> Unit,
