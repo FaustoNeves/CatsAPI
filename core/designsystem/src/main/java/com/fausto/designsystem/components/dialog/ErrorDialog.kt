@@ -1,5 +1,6 @@
 package com.fausto.designsystem.components.dialog
 
+import android.util.Log
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -43,6 +44,7 @@ fun ErrorDialog(
     errorMessage: String,
     buttonText: String? = null,
 ) {
+    Log.e("ErrorDialog", "ErrorDialog creation")
     var openAlertDialog by remember { mutableStateOf(true) }
     if (openAlertDialog) AlertDialog(
         modifier = modifier,

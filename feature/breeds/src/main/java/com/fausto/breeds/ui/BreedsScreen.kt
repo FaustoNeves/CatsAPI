@@ -13,6 +13,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -30,23 +32,24 @@ internal fun BreedsRoute(
     onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
     breedsViewModel: BreedsViewModel = hiltViewModel()
 ) {
-//    val breedsViewState by breedsViewModel.breedsViewState.observeAsState()
-    val breedFlowViewState by breedsViewModel.breedFlowViewState.collectAsStateWithLifecycle(BreedsViewState.Loading)
-    BreedsScreen(
+    val breedFlowViewState by breedsViewModel.breedFlowViewState.collectAsStateWithLifecycle()
+    val breedsViewState by breedsViewModel.breedsViewState.observeAsState()
+    breedsViewState?.let { screenState ->
+        BreedsScreen(
         modifier = modifier,
-        breedsViewState = breedFlowViewState,
+            breedsViewState = screenState,
         onBreedClick = onBreedClick,
-        onError = breedsViewModel::getStateFlowBreeds,
+            onError = breedsViewModel::getBreedsWithinCoroutines,
         onSearch = breedsViewModel::getBreedsBySearch,
         userInput = breedsViewModel.userInput,
         updateUserInput = breedsViewModel::updateUserInput,
     )
+    }
 }
 
 @Composable
 private fun BreedsScreen(
-    modifier: Modifier = Modifier.fillMaxSize(),
-    breedsViewState: BreedsViewState = BreedsViewState.Loading,
+    modifier: Modifier = Modifier.fillMaxSize(), breedsViewState: BreedsViewState,
     onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
     onError: () -> Unit,
     onSearch: (String) -> Unit,
@@ -65,13 +68,14 @@ private fun BreedsScreen(
             ErrorState(
                 modifier = modifier,
                 errorMessage = breedsViewState.errorMessage,
-                retryAction = onError
+                retryAction = onError,
+                errorId = breedsViewState.errorId
             )
         }
 
         is BreedsViewState.Success -> {
                 SuccessState(
-                    modifier = Modifier, breedsViewState.sections, onBreedClick, onSearch
+                    modifier = Modifier, breedsViewState.sections, onBreedClick
                 )
         }
     }
@@ -79,7 +83,13 @@ private fun BreedsScreen(
 }
 
 @Composable
-private fun ErrorState(modifier: Modifier, errorMessage: String, retryAction: () -> Unit) {
+private fun ErrorState(
+    modifier: Modifier = Modifier,
+    errorMessage: String,
+    retryAction: () -> Unit,
+    errorId: String
+) {
+    key(errorId) {
     ErrorDialog(
         modifier = modifier,
         confirmButtonAction = {
@@ -87,6 +97,7 @@ private fun ErrorState(modifier: Modifier, errorMessage: String, retryAction: ()
         },
         errorMessage = errorMessage,
     )
+    }
 }
 
 @Composable
@@ -94,7 +105,6 @@ private fun SuccessState(
     modifier: Modifier = Modifier,
     sectionModelList: List<SectionModel>,
     onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
-    onSearch: (String) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -131,7 +141,7 @@ private fun BuildSearchTextField(
         value = userInput,
         onValueChange = {
             updateUserInput(it)
-            if (it.isNotBlank()) onSearch.invoke(it)
+            onSearch.invoke(it)
         },
         label = { Text("Input breed") },
         placeholder = { Text("Persian...") },

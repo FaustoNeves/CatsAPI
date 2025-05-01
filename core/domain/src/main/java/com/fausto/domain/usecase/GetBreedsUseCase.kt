@@ -14,10 +14,6 @@ class GetBreedsUseCaseImpl @Inject constructor(private val catsRepository: CatsR
     GetBreedsUseCase {
     override suspend fun getStateFlowBreeds(): ResultWrapper<List<BreedsModel>> {
         return ResultWrapper.Success(catsRepository.getBreeds())
-//        return flow {
-//            val breeds = catsRepository.getBreeds()
-//            emit(ResultWrapper.Success(breeds))
-//        }
     }
 
     override suspend fun getBreedsWithinCoroutines(): ResultWrapper<List<BreedsModel>> {

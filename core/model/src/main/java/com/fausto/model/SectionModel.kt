@@ -6,13 +6,11 @@ class SectionModel(
     fun buildSections(breedQuery: String? = null): List<SectionModel> {
         var filteredBreedsList = emptyList<BreedsModel>()
         if (breedQuery?.isNotEmpty() == true) {
-            if (breedQuery.first().isLowerCase()) {
                 filteredBreedsList = breedsList.filter { breedModel ->
                     breedModel.name.startsWith(breedQuery.replaceFirstChar { firstCharacter ->
                         firstCharacter.uppercase()
                     })
                 }
-            }
         }
 
         val breedsListToBeGrouped: List<BreedsModel> = filteredBreedsList.ifEmpty { breedsList }
