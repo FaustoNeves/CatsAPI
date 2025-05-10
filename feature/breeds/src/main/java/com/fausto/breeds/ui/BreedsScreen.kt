@@ -75,7 +75,7 @@ private fun BreedsScreen(
 
         is BreedsViewState.Success -> {
                 SuccessState(
-                    modifier = Modifier, breedsViewState.sections, onBreedClick
+                    modifier = Modifier, breedsViewState.breedsList, onBreedClick
                 )
         }
     }

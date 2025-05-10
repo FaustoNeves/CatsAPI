@@ -37,7 +37,6 @@ class BreedsViewModel @Inject constructor(
         userInput = input
     }
 
-
     private val _breedsViewState = MutableLiveData<BreedsViewState>()
     val breedsViewState: LiveData<BreedsViewState> get() = _breedsViewState
     internal fun getBreedsWithinCoroutines() {
@@ -45,7 +44,8 @@ class BreedsViewModel @Inject constructor(
             _breedsViewState.value = BreedsViewState.Loading
             when (val response = getBreedsUseCase.getBreedsWithinCoroutines()) {
                 is ResultWrapper.Success -> {
-                    val sectionModelsList = SectionModel(breedsList = response.data).buildSections()
+                    val sectionModelsList =
+                        SectionModel(breedsList = response.data).buildAllSections()
                     _breedsViewState.value = BreedsViewState.Success(sectionModelsList)
                 }
 
@@ -71,7 +71,7 @@ class BreedsViewModel @Inject constructor(
                 when (response) {
                     is ResultWrapper.Success -> {
                         val sectionModelsList =
-                            SectionModel(breedsList = response.data).buildSections()
+                            SectionModel(breedsList = response.data).buildAllSections()
                         emit(BreedsViewState.Success(sectionModelsList))
 
                     }
@@ -99,7 +99,7 @@ class BreedsViewModel @Inject constructor(
                 when (val response = getBreedBySearchUseCase.getBreedsBySearch(breedQuery)) {
                 is ResultWrapper.Success -> {
                     val sectionModelsList =
-                        SectionModel(breedsList = response.data).buildSections(breedQuery)
+                        SectionModel(breedsList = response.data).buildAllSections(breedQuery)
                     _breedsViewState.value = BreedsViewState.Success(sectionModelsList)
                 }
 
