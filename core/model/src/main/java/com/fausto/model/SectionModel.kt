@@ -25,9 +25,6 @@ class SectionModel(
              * */
             if (filteredBreedsList.isEmpty() && breedQuery.isNullOrBlank()) {
                 breedsList
-                /**
-                 *
-                 * */
             } else {
                 /**
                  * Filtra breedsList baseado no texto de pesquisa (breedQuery)
