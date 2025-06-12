@@ -1,54 +1,30 @@
 package com.fausto.breeds.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.fausto.breeds.viewmodel.BreedsViewModel
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
+import com.fausto.designsystem.components.BreedCard
+import com.fausto.designsystem.components.ErrorDialog
 import com.fausto.designsystem.components.IndeterminateCircularIndicator
-import com.fausto.designsystem.components.dialog.ErrorDialog
-import com.fausto.model.BreedsModel
+import com.fausto.designsystem.components.SearchTextField
 import com.fausto.model.SectionModel
 
-@Composable
-internal fun BreedsRoute(
-    modifier: Modifier = Modifier,
-    onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
-    breedsViewModel: BreedsViewModel = hiltViewModel()
-) {
-    val breedFlowViewState by breedsViewModel.breedFlowViewState.collectAsStateWithLifecycle()
-    val breedsViewState by breedsViewModel.breedsViewState.observeAsState()
-    breedsViewState?.let { screenState ->
-        BreedsScreen(
-        modifier = modifier,
-            breedsViewState = screenState,
-        onBreedClick = onBreedClick,
-            onError = breedsViewModel::getBreedsWithinCoroutines,
-        onSearch = breedsViewModel::getBreedsBySearch,
-        userInput = breedsViewModel.userInput,
-        updateUserInput = breedsViewModel::updateUserInput,
-    )
-    }
-}
+/**
+ * TODO
+ * Errors dialog can be closed if click on outside of it
+ * After reestablishing connection, the search must consider if there is any input on the search text field, if there is
+ * then the search must be by breed. If not, search all breeds
+ * */
 
 @Composable
-private fun BreedsScreen(
+internal fun BreedsScreen(
     modifier: Modifier = Modifier.fillMaxSize(), breedsViewState: BreedsViewState,
     onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
     onError: () -> Unit,
@@ -57,9 +33,7 @@ private fun BreedsScreen(
     updateUserInput: (String) -> Unit
 ) {
     Column {
-        BuildSearchTextField(
-            onSearch, userInput, updateUserInput
-        )
+        SearchTextField(onSearch, userInput, updateUserInput)
     when (breedsViewState) {
         is BreedsViewState.Loading ->
             IndeterminateCircularIndicator()
@@ -89,15 +63,14 @@ private fun ErrorState(
     retryAction: () -> Unit,
     errorId: String
 ) {
-    key(errorId) {
     ErrorDialog(
         modifier = modifier,
+        errorId = errorId,
         confirmButtonAction = {
             retryAction.invoke()
         },
         errorMessage = errorMessage,
     )
-    }
 }
 
 @Composable
@@ -113,18 +86,11 @@ private fun SuccessState(
     ) {
         sectionModelList.forEach { currentSection ->
             item {
-                Text(
-                    modifier = Modifier.padding(top = 12.dp, bottom = 4.dp),
-                    text = currentSection.section ?: ""
+                BreedCard(
+                    currentSection = currentSection.section ?: "",
+                    breedsCollection = currentSection.breedsList,
+                    onItemClick = onBreedClick
                 )
-                HorizontalDivider(modifier = Modifier.padding(bottom = 2.dp), thickness = 1.dp)
-            }
-            items(items = currentSection.breedsList) { currentBreed ->
-                BreedItem(
-                    modifier = modifier, breed = currentBreed
-                ) { queryBreedId, referenceImageId ->
-                    onBreedClick(queryBreedId, referenceImageId)
-                }
             }
         }
     }
@@ -148,15 +114,4 @@ private fun BuildSearchTextField(
         singleLine = true,
         maxLines = 1,
     )
-}
-
-@Composable
-private fun BreedItem(
-    modifier: Modifier,
-    breed: BreedsModel,
-    onItemClick: (queryBreedId: String, referenceImageId: String) -> Unit
-) {
-    Text(modifier = modifier.clickable {
-        onItemClick(breed.queryBreedId, breed.referenceImageId)
-    }, text = breed.name)
 }

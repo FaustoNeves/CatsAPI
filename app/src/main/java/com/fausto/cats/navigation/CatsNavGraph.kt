@@ -7,13 +7,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.fausto.breeddetails.navigation.detailsScreen
-import com.fausto.breeddetails.navigation.navigateToDetailsScreen
-import com.fausto.breeds.navigation.BreedsRoute
-import com.fausto.breeds.navigation.breedsScreen
+import com.fausto.breeddetails.route.detailsScreen
+import com.fausto.breeddetails.route.navigateToDetailsScreen
+import com.fausto.breeds.route.BreedsRoute
+import com.fausto.breeds.route.breedsScreen
 
 @Composable
-fun CatsNavHost(
+fun CatsNavGraph(
     modifier: Modifier = Modifier.padding(8.dp), navController: NavHostController = rememberNavController()
 ) {
     NavHost(
@@ -22,6 +22,8 @@ fun CatsNavHost(
         breedsScreen(modifier = modifier) { breedId, imageQueryId ->
             navController.navigateToDetailsScreen(breedId, imageQueryId)
         }
-        detailsScreen(modifier = modifier)
+        detailsScreen(modifier = modifier) {
+            navController.navigateUp()
+        }
     }
 }

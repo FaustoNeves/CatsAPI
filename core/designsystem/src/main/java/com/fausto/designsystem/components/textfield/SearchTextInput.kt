@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
-import androidx.core.view.size
 import com.fausto.designsystem.R
 import com.google.android.material.textfield.TextInputLayout
 

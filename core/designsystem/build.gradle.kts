@@ -62,4 +62,5 @@ dependencies {
     val lottieVersion = "6.6.2"
     implementation("com.airbnb.android:lottie:$lottieVersion")
     implementation(project(":core:texts"))
+    implementation(project(":core:model"))
 }

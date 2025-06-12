@@ -3,6 +3,7 @@ package com.fausto.cats.ui
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.fausto.cats.navigation.CatsNavGraph
 import com.fausto.designsystem.theme.CatsAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -12,7 +13,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CatsAppTheme {
-                CatsApp()
+                CatsNavGraph()
             }
         }
     }
