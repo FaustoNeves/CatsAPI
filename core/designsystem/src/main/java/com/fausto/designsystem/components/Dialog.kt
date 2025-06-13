@@ -1,5 +1,6 @@
 package com.fausto.designsystem.components
 
+import android.content.res.Configuration
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.window.DialogProperties
 import com.fausto.designsystem.R
 import com.fausto.designsystem.theme.CatsAppTheme
 
@@ -29,7 +31,7 @@ import com.fausto.designsystem.theme.CatsAppTheme
  * @param dismissButtonAction button which is meant to dismiss the dialog. The dialog does not set up any
  *   events for this button so they need to be set up by the caller.
  * @param title title which should specify the purpose of the dialog. The title is not mandatory,
- *   because there may be sufficient information inside the [text].
+ *   because there may be sufficient information inside the error message.
  * @param errorMessage text which presents the details regarding the dialog's purpose.
  * @param buttonText confirm button's text
  */
@@ -89,16 +91,17 @@ fun ErrorDialog(
         title = {
             Text(text = title ?: stringResource(R.string.error_dialog_title))
         },
+        properties = DialogProperties(dismissOnBackPress = false, dismissOnClickOutside = false)
     )
     }
 }
 
-@Preview
+@Preview(name = "light mode")
+@Preview(name = "dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun ErrorScreenPreview() {
     CatsAppTheme {
         ErrorDialog(
-            modifier = Modifier,
             errorId = "errorId",
             onDismissRequest = {}, confirmButtonAction = {}, dismissButtonAction = {},
             title = "Error title",

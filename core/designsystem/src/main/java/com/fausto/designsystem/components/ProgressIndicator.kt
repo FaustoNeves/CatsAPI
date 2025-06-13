@@ -1,5 +1,6 @@
 package com.fausto.designsystem.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.width
@@ -20,7 +21,8 @@ fun IndeterminateCircularIndicator(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
+@Preview(name = "light mode")
+@Preview(name = "dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun IndeterminateCircularIndicatorPreview() {
     CatsAppTheme {

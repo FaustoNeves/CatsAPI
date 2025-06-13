@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
@@ -33,7 +31,11 @@ internal fun BreedsScreen(
     updateUserInput: (String) -> Unit
 ) {
     Column {
-        SearchTextField(onSearch, userInput, updateUserInput)
+        SearchTextField(
+            onSearch = onSearch,
+            userInput = userInput,
+            updateUserInput = updateUserInput
+        )
     when (breedsViewState) {
         is BreedsViewState.Loading ->
             IndeterminateCircularIndicator()
@@ -94,24 +96,4 @@ private fun SuccessState(
             }
         }
     }
-}
-
-@Composable
-private fun BuildSearchTextField(
-    onSearch: (String) -> Unit,
-    userInput: String,
-    updateUserInput: (String) -> Unit
-) {
-    OutlinedTextField(
-        modifier = Modifier.fillMaxWidth(),
-        value = userInput,
-        onValueChange = {
-            updateUserInput(it)
-            onSearch.invoke(it)
-        },
-        label = { Text("Input breed") },
-        placeholder = { Text("Persian...") },
-        singleLine = true,
-        maxLines = 1,
-    )
 }
