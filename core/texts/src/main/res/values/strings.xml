@@ -20,6 +20,6 @@
     <string name="lifespan">Lifespan: %s years</string>
 
     <!-- TextField component -->
-    <string name="text_field_component_label">Input breed</string>
+    <string name="text_field_component_label">search breed</string>
     <string name="text_field_component_placeholder">Persian…</string>
 </resources>

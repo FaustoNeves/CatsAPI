@@ -2,6 +2,9 @@ package com.fausto.designsystem.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +37,13 @@ fun SearchTextField(
         placeholder = { Text(stringResource(com.fausto.texts.R.string.text_field_component_placeholder)) },
         singleLine = true,
         maxLines = 1,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = "",
+                modifier = Modifier
+            )
+        },
     )
 }
 
