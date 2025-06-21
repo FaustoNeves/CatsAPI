@@ -14,19 +14,12 @@ import com.fausto.designsystem.components.IndeterminateCircularIndicator
 import com.fausto.designsystem.components.SearchTextField
 import com.fausto.model.SectionModel
 
-/**
- * TODO
- * Errors dialog can be closed if click on outside of it
- * After reestablishing connection, the search must consider if there is any input on the search text field, if there is
- * then the search must be by breed. If not, search all breeds
- * */
-
 @Composable
 internal fun BreedsScreen(
     modifier: Modifier = Modifier.fillMaxSize(), breedsViewState: BreedsViewState,
     onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
     onError: () -> Unit,
-    onSearch: (String) -> Unit,
+    onSearch: () -> Unit,
     userInput: String,
     updateUserInput: (String) -> Unit
 ) {

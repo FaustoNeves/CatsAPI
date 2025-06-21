@@ -38,8 +38,8 @@ fun BreedsRoute(
             modifier = modifier,
             breedsViewState = screenState,
             onBreedClick = onBreedClick,
-            onError = breedsViewModel::getBreedsWithinCoroutines,
-            onSearch = breedsViewModel::getBreedsBySearch,
+            onError = breedsViewModel::getBreeds,
+            onSearch = breedsViewModel::getBreeds,
             userInput = breedsViewModel.userInput,
             updateUserInput = breedsViewModel::updateUserInput,
         )

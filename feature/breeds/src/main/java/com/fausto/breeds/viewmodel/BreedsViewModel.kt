@@ -14,6 +14,7 @@ import com.fausto.domain.usecase.GetBreedsUseCase
 import com.fausto.model.SectionModel
 import com.fausto.tracking.analytics.Analytics
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -37,9 +38,13 @@ class BreedsViewModel @Inject constructor(
         userInput = input
     }
 
+    private var searchBreedJob: Job? = null
+
     private val _breedsViewState = MutableLiveData<BreedsViewState>()
     val breedsViewState: LiveData<BreedsViewState> get() = _breedsViewState
-    internal fun getBreedsWithinCoroutines() {
+
+    private fun getBreedsWithinCoroutines() {
+        updateUserInput("")
         viewModelScope.launch {
             _breedsViewState.value = BreedsViewState.Loading
             when (val response = getBreedsUseCase.getBreedsWithinCoroutines()) {
@@ -92,20 +97,23 @@ class BreedsViewModel @Inject constructor(
         initialValue = BreedsViewState.Loading
     )
 
-    internal fun getBreedsBySearch(breedQuery: String) {
-        viewModelScope.launch {
+    internal fun getBreeds() {
+        if (searchBreedJob?.isActive == true) searchBreedJob?.cancel()
+        searchBreedJob = viewModelScope.launch {
             _breedsViewState.value = BreedsViewState.Loading
-            if (breedQuery.isNotBlank()) {
-                when (val response = getBreedBySearchUseCase.getBreedsBySearch(breedQuery)) {
-                is ResultWrapper.Success -> {
-                    val sectionModelsList =
-                        SectionModel(breedsList = response.data).buildAllSections(breedQuery)
-                    _breedsViewState.value = BreedsViewState.Success(sectionModelsList)
-                }
+            if (userInput.isNotBlank()) {
+                when (val response = getBreedBySearchUseCase.getBreedsBySearch(userInput)) {
+                    is ResultWrapper.Success -> {
+                        val sectionModelsList =
+                            SectionModel(breedsList = response.data).buildAllSections(
+                                userInput
+                            )
+                        _breedsViewState.value = BreedsViewState.Success(sectionModelsList)
+                    }
 
-                is ResultWrapper.Error -> _breedsViewState.value =
-                    BreedsViewState.Error(response.exception?.message.toString())
-            }
+                    is ResultWrapper.Error -> _breedsViewState.value =
+                        BreedsViewState.Error(response.exception?.message.toString())
+                }
             } else {
                 getBreedsWithinCoroutines()
             }

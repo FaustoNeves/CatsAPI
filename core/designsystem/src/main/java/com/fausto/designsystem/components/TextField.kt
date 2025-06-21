@@ -22,7 +22,7 @@ import com.fausto.designsystem.theme.CatsAppTheme
 @Composable
 fun SearchTextField(
     modifier: Modifier = Modifier,
-    onSearch: (String) -> Unit,
+    onSearch: () -> Unit,
     userInput: String,
     updateUserInput: (String) -> Unit
 ) {
@@ -31,7 +31,7 @@ fun SearchTextField(
         value = userInput,
         onValueChange = {
             updateUserInput(it)
-            onSearch.invoke(it)
+            onSearch.invoke()
         },
         label = { Text(stringResource(com.fausto.texts.R.string.text_field_component_label)) },
         placeholder = { Text(stringResource(com.fausto.texts.R.string.text_field_component_placeholder)) },
@@ -53,7 +53,7 @@ fun SearchTextField(
 fun SearchTextFieldPreview() {
     CatsAppTheme {
         SearchTextField(
-            onSearch = { _ -> },
+            onSearch = {},
             userInput = "",
             updateUserInput = { _ -> }
         )
