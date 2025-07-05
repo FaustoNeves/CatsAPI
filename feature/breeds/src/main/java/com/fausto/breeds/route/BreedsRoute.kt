@@ -29,7 +29,7 @@ fun NavGraphBuilder.breedsScreen(
 fun BreedsRoute(
     modifier: Modifier = Modifier,
     onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
-    breedsViewModel: BreedsViewModel = hiltViewModel()
+    breedsViewModel: BreedsViewModel = hiltViewModel(),
 ) {
     val breedFlowViewState by breedsViewModel.breedFlowViewState.collectAsStateWithLifecycle()
     val breedsViewState by breedsViewModel.breedsViewState.observeAsState()

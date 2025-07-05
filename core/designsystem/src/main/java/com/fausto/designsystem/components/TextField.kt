@@ -34,7 +34,6 @@ fun SearchTextField(
             onSearch.invoke()
         },
         label = { Text(stringResource(com.fausto.texts.R.string.text_field_component_label)) },
-        placeholder = { Text(stringResource(com.fausto.texts.R.string.text_field_component_placeholder)) },
         singleLine = true,
         maxLines = 1,
         leadingIcon = {
