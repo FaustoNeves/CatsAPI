@@ -27,7 +27,7 @@ fun BreedCard(
     modifier: Modifier = Modifier,
     currentSection: String,
     breedsCollection: List<BreedsModel>,
-    onItemClick: (queryBreedId: String, referenceImageId: String) -> Unit,
+    onItemClick: (queryBreedId: String) -> Unit,
 ) {
     ElevatedCard(
         modifier = Modifier.padding(8.dp),
@@ -43,7 +43,7 @@ fun BreedCard(
             Text(modifier = modifier
                 .padding(all = 8.dp)
                 .clickable {
-                    onItemClick(it.queryBreedId, it.referenceImageId)
+                    onItemClick(it.queryBreedId)
                 }, text = it.name
             )
         }
@@ -77,7 +77,7 @@ fun BreedCardPreview() {
                     "American Bobtail"
                 )
             ),
-            onItemClick = { _, _ -> },
+            onItemClick = {},
         )
     }
 }

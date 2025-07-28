@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.DialogProperties
 import com.fausto.designsystem.R
 import com.fausto.designsystem.theme.CatsAppTheme
+import java.util.UUID
 
 /**
  * @param errorId unique string to ensure that a new error dialog is always created
@@ -39,7 +40,6 @@ import com.fausto.designsystem.theme.CatsAppTheme
 @Composable
 fun ErrorDialog(
     modifier: Modifier = Modifier,
-    errorId: String,
     onDismissRequest: (() -> Unit)? = null,
     confirmButtonAction: () -> Unit,
     dismissButtonAction: (() -> Unit)? = null,
@@ -48,7 +48,8 @@ fun ErrorDialog(
     errorMessage: String,
     buttonText: String? = null,
 ) {
-    key(errorId) {
+    val errorKey = UUID.randomUUID().toString()
+    key(errorKey) {
     var openAlertDialog by remember { mutableStateOf(true) }
     if (openAlertDialog) AlertDialog(
         modifier = modifier,
@@ -102,7 +103,6 @@ fun ErrorDialog(
 fun ErrorScreenPreview() {
     CatsAppTheme {
         ErrorDialog(
-            errorId = "errorId",
             onDismissRequest = {}, confirmButtonAction = {}, dismissButtonAction = {},
             title = "Error title",
             errorMessage = "Failed to retrieve cats",

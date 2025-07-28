@@ -40,53 +40,53 @@ class BreedDetailBaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupLayout()
-        setupObservers()
-        initViewActions()
+//        setupObservers()
+//        initViewActions()
     }
 
-    private fun setupObservers() {
-        viewModel.breedDetailViewState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is BreedDetailViewState.Loading -> {
-                    setupLoadingView()
-                }
+//    private fun setupObservers() {
+//        viewModel.breedDetailViewState.observe(viewLifecycleOwner) { state ->
+//            when (state) {
+//                is BreedDetailViewState.Loading -> {
+//                    setupLoadingView()
+//                }
+//
+//                is BreedDetailViewState.Success -> {
+//                    setupSuccessView(state)
+//                }
+//
+//                is BreedDetailViewState.Error -> {
+//                    setupErrorView(state)
+//                }
+//            }
+//        }
+//    }
 
-                is BreedDetailViewState.Success -> {
-                    setupSuccessView(state)
-                }
+//    private fun initViewActions() {
+//        if (requireActivity().intent.data != null) {
+//            val deeplinkUri = requireActivity().intent.data
+//            requireActivity().intent.data = null
+//            deeplinkUri?.let {
+//                val breedQuery = it.getQueryParameter(BREED_QUERY)
+//                breedQuery?.let { imageId ->
+//                    viewModel.interpret(BreedDetailInteract.BaseHandleDeeplink(imageId))
+//                }
+//            }
+//        } else {
+//            viewModel.interpret(BreedDetailInteract.BaseViewCreated)
+//        }
+//    }
 
-                is BreedDetailViewState.Error -> {
-                    setupErrorView(state)
-                }
-            }
-        }
-    }
-
-    private fun initViewActions() {
-        if (requireActivity().intent.data != null) {
-            val deeplinkUri = requireActivity().intent.data
-            requireActivity().intent.data = null
-            deeplinkUri?.let {
-                val breedQuery = it.getQueryParameter(BREED_QUERY)
-                breedQuery?.let { imageId ->
-                    viewModel.interpret(BreedDetailInteract.BaseHandleDeeplink(imageId))
-                }
-            }
-        } else {
-            viewModel.interpret(BreedDetailInteract.BaseViewCreated)
-        }
-    }
-
-    private fun setupErrorView(state: BreedDetailViewState.Error) {
-        with(binding) {
-            successView.isVisible = false
-            loadingScreen.root.isVisible = false
-            loadingScreen.loadingAnimation.isVisible = false
-            ErrorView(state.errorMessage) {
-                viewModel.interpret(BreedDetailInteract.BaseOnErrorAction)
-            }.show(parentFragmentManager, "")
-        }
-    }
+//    private fun setupErrorView(state: BreedDetailViewState.Error) {
+//        with(binding) {
+//            successView.isVisible = false
+//            loadingScreen.root.isVisible = false
+//            loadingScreen.loadingAnimation.isVisible = false
+//            ErrorView(state.errorMessage) {
+//                viewModel.interpret(BreedDetailInteract.BaseOnErrorAction)
+//            }.show(parentFragmentManager, "")
+//        }
+//    }
 
     private fun setupSuccessView(state: BreedDetailViewState.Success) {
         with(binding) {

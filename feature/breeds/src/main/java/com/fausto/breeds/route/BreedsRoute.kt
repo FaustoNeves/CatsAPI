@@ -5,7 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.fausto.breeds.ui.BreedsScreen
@@ -16,11 +15,11 @@ import kotlinx.serialization.Serializable
 data object BreedsRoute
 
 fun NavGraphBuilder.breedsScreen(
-    modifier: Modifier, onBreedClick: (breedId: String, imageQueryId: String) -> Unit
+    modifier: Modifier, onBreedClick: (breedId: String) -> Unit
 ) {
     composable<BreedsRoute> {
-        BreedsRoute(modifier = modifier, onBreedClick = { breedId: String, imageQueryId: String ->
-            onBreedClick(breedId, imageQueryId)
+        BreedsRoute(modifier = modifier, onBreedClick = { breedId: String ->
+            onBreedClick(breedId)
         })
     }
 }
@@ -28,10 +27,9 @@ fun NavGraphBuilder.breedsScreen(
 @Composable
 fun BreedsRoute(
     modifier: Modifier = Modifier,
-    onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
+    onBreedClick: (breedId: String) -> Unit,
     breedsViewModel: BreedsViewModel = hiltViewModel(),
 ) {
-    val breedFlowViewState by breedsViewModel.breedFlowViewState.collectAsStateWithLifecycle()
     val breedsViewState by breedsViewModel.breedsViewState.observeAsState()
     breedsViewState?.let { screenState ->
         BreedsScreen(

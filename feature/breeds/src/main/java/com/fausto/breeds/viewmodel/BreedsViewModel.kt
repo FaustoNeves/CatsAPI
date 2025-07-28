@@ -15,12 +15,6 @@ import com.fausto.model.SectionModel
 import com.fausto.tracking.analytics.Analytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -91,35 +85,4 @@ class BreedsViewModel @Inject constructor(
             }
         }
     }
-
-    private var _breedFlowViewState: MutableStateFlow<Int> = MutableStateFlow(0)
-    var breedFlowViewState: StateFlow<BreedsViewState> = _breedFlowViewState.flatMapLatest {
-        flow {
-            emit(BreedsViewState.Loading)
-            runCatching {
-                getBreedsUseCase.getStateFlowBreeds()
-            }.onSuccess { response ->
-                when (response) {
-                    is ResultWrapper.Success -> {
-                        val sectionModelsList =
-                            SectionModel(breedsList = response.data).buildAllSections()
-                        emit(BreedsViewState.Success(sectionModelsList))
-
-                    }
-
-                    is ResultWrapper.Error -> {
-                        emit(BreedsViewState.Loading)
-                        emit(BreedsViewState.Error(response.exception?.message.toString()))
-                    }
-                }
-            }.onFailure { exception ->
-                emit(BreedsViewState.Loading)
-                emit(BreedsViewState.Error(exception.message.toString()))
-            }
-        }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.Eagerly,
-        initialValue = BreedsViewState.Loading
-    )
 }

@@ -24,16 +24,10 @@ import com.fausto.designsystem.components.IndeterminateCircularIndicator
 import com.fausto.designsystem.components.SearchTextField
 import com.fausto.model.SectionModel
 
-/**
- * Criar mapeamento de erros e exibir mensagens significativas
- *
- * Exibir componente para o caso de não existirem resultados à serem exibidos
- * */
-
 @Composable
 internal fun BreedsScreen(
     modifier: Modifier = Modifier.fillMaxSize(), breedsViewState: BreedsViewState,
-    onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
+    onBreedClick: (breedId: String) -> Unit,
     onError: () -> Unit,
     onSearch: () -> Unit,
     userInput: String,
@@ -57,7 +51,6 @@ internal fun BreedsScreen(
                 modifier = Modifier,
                 errorMessage = breedsViewState.errorMessage,
                 retryAction = onError,
-                errorId = breedsViewState.errorId
             )
         }
 
@@ -98,11 +91,9 @@ private fun ErrorState(
     modifier: Modifier = Modifier.fillMaxSize(),
     errorMessage: String,
     retryAction: () -> Unit,
-    errorId: String
 ) {
     ErrorDialog(
         modifier = modifier,
-        errorId = errorId,
         confirmButtonAction = {
             retryAction.invoke()
         },
@@ -114,7 +105,7 @@ private fun ErrorState(
 private fun SuccessState(
     modifier: Modifier = Modifier,
     sectionModelList: List<SectionModel>,
-    onBreedClick: (breedId: String, imageQueryId: String) -> Unit,
+    onBreedClick: (breedId: String) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier
