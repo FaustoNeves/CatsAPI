@@ -7,8 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.fausto.breeddetails.tracking.base_info.trackScreenView
 import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.common.result.ResultWrapper
-import com.fausto.datastore.querybreed.BreedIdsManager
 import com.fausto.domain.usecase.GetBreedByIdUseCase
+import com.fausto.domain.usecase.GetImagesByIdUseCase
+import com.fausto.model.BreedImageModel
+import com.fausto.model.BreedModel
 import com.fausto.tracking.analytics.Analytics
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BreedDetailViewModel @Inject constructor(
     private val getBreedByIdUseCase: GetBreedByIdUseCase,
-    private val breedIdsManager: BreedIdsManager,
+    private val getImagesByIdUseCase: GetImagesByIdUseCase,
     val analytics: Analytics
 ) : ViewModel() {
 
@@ -25,22 +27,38 @@ class BreedDetailViewModel @Inject constructor(
     val breedDetailViewState: LiveData<BreedDetailViewState> get() = _breedDetailViewState
 
     init {
-        _breedDetailViewState.value = BreedDetailViewState.Loading
+        _breedDetailViewState.value = BreedDetailViewState.InitialState
     }
 
-    fun getBreedDetail(breedId: String) {
+    fun getBreedDetail(referenceImageId: String, breedId: String) {
         trackScreenView()
         viewModelScope.launch {
-            _breedDetailViewState.value = BreedDetailViewState.InitialState
-            when (val response = getBreedByIdUseCase.getBreedById(breedId)) {
+            _breedDetailViewState.value = BreedDetailViewState.Loading
+            var getBreedByIdUseCaseData: BreedModel? = null
+            var getImagesByIdUseCaseData: List<BreedImageModel>? = null
+            when (val response = getBreedByIdUseCase.getBreedById(referenceImageId)) {
                 is ResultWrapper.Success -> {
-                    _breedDetailViewState.value = BreedDetailViewState.Success(response.data)
+                    getBreedByIdUseCaseData = response.data
                 }
 
                 is ResultWrapper.Error -> {
                     _breedDetailViewState.value =
                         BreedDetailViewState.Error(response.exception?.message.toString())
                 }
+            }
+            when (val response = getImagesByIdUseCase.getImagesById(breedId)) {
+                is ResultWrapper.Success -> {
+                    getImagesByIdUseCaseData = response.data
+                }
+
+                is ResultWrapper.Error -> {
+                    _breedDetailViewState.value =
+                        BreedDetailViewState.Error(response.exception?.message.toString())
+                }
+            }
+            if (getBreedByIdUseCaseData != null && getImagesByIdUseCaseData != null) {
+                _breedDetailViewState.value =
+                    BreedDetailViewState.Success(getBreedByIdUseCaseData, getImagesByIdUseCaseData)
             }
         }
     }

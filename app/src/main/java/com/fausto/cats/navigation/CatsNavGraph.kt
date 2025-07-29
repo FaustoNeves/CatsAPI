@@ -19,8 +19,8 @@ fun CatsNavGraph(
     NavHost(
         modifier = modifier, navController = navController, startDestination = BreedsRoute
     ) {
-        breedsScreen(modifier = modifier, onBreedClick = { breedId ->
-            navController.navigateToDetailsScreen(breedId)
+        breedsScreen(modifier = modifier, onBreedClick = { breedId, referenceImageId ->
+            navController.navigateToDetailsScreen(breedId, referenceImageId)
         })
         detailsScreen(modifier = modifier) {
             navController.navigateUp()

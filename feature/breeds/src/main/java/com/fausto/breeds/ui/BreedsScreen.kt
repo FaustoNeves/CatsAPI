@@ -27,7 +27,7 @@ import com.fausto.model.SectionModel
 @Composable
 internal fun BreedsScreen(
     modifier: Modifier = Modifier.fillMaxSize(), breedsViewState: BreedsViewState,
-    onBreedClick: (breedId: String) -> Unit,
+    onBreedClick: (breedId: String, referenceImageId: String) -> Unit,
     onError: () -> Unit,
     onSearch: () -> Unit,
     userInput: String,
@@ -105,7 +105,7 @@ private fun ErrorState(
 private fun SuccessState(
     modifier: Modifier = Modifier,
     sectionModelList: List<SectionModel>,
-    onBreedClick: (breedId: String) -> Unit,
+    onBreedClick: (breedId: String, referenceImageId: String) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier

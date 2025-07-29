@@ -14,10 +14,10 @@ import com.fausto.breeddetails.viewmodel.base_info.BreedDetailViewModel
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DetailsRoute(val id: String)
+data class DetailsRoute(val breedId: String, val referenceImageId: String)
 
-fun NavController.navigateToDetailsScreen(breedId: String) {
-    navigate(route = DetailsRoute(id = breedId))
+fun NavController.navigateToDetailsScreen(breedId: String, referenceImageId: String) {
+    navigate(route = DetailsRoute(breedId = breedId, referenceImageId = referenceImageId))
 }
 
 fun NavGraphBuilder.detailsScreen(modifier: Modifier, backButtonAction: () -> Unit) {
@@ -25,7 +25,8 @@ fun NavGraphBuilder.detailsScreen(modifier: Modifier, backButtonAction: () -> Un
         val detailsRoute = backStackEntry.toRoute<DetailsRoute>()
         DetailsRoute(
             modifier = modifier,
-            breedId = detailsRoute.id,
+            breedId = detailsRoute.breedId,
+            referenceImageId = detailsRoute.referenceImageId,
             backButtonAction = backButtonAction,
         )
     }
@@ -35,6 +36,7 @@ fun NavGraphBuilder.detailsScreen(modifier: Modifier, backButtonAction: () -> Un
 fun DetailsRoute(
     modifier: Modifier,
     breedId: String,
+    referenceImageId: String,
     backButtonAction: () -> Unit,
     breedDetailsViewModel: BreedDetailViewModel = hiltViewModel()
 ) {
@@ -43,7 +45,7 @@ fun DetailsRoute(
         DetailsScreen(
             modifier = modifier,
             breedDetailViewState = screenState,
-            getBreedDetail = { breedDetailsViewModel.getBreedDetail(breedId) },
+            getBreedDetail = { breedDetailsViewModel.getBreedDetail(referenceImageId, breedId) },
             backButtonAction = backButtonAction
         )
     }

@@ -15,11 +15,13 @@ import kotlinx.serialization.Serializable
 data object BreedsRoute
 
 fun NavGraphBuilder.breedsScreen(
-    modifier: Modifier, onBreedClick: (breedId: String) -> Unit
+    modifier: Modifier, onBreedClick: (breedId: String, referenceImageId: String) -> Unit
 ) {
     composable<BreedsRoute> {
-        BreedsRoute(modifier = modifier, onBreedClick = { breedId: String ->
-            onBreedClick(breedId)
+        BreedsRoute(
+            modifier = modifier,
+            onBreedClick = { breedId: String, referenceImageId: String ->
+                onBreedClick(breedId, referenceImageId)
         })
     }
 }
@@ -27,7 +29,7 @@ fun NavGraphBuilder.breedsScreen(
 @Composable
 fun BreedsRoute(
     modifier: Modifier = Modifier,
-    onBreedClick: (breedId: String) -> Unit,
+    onBreedClick: (breedId: String, referenceImageId: String) -> Unit,
     breedsViewModel: BreedsViewModel = hiltViewModel(),
 ) {
     val breedsViewState by breedsViewModel.breedsViewState.observeAsState()

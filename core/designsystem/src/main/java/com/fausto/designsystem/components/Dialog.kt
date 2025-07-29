@@ -22,7 +22,6 @@ import com.fausto.designsystem.theme.CatsAppTheme
 import java.util.UUID
 
 /**
- * @param errorId unique string to ensure that a new error dialog is always created
  * @param onDismissRequest called when the user tries to dismiss the Dialog by clicking outside or
  *   pressing the back button. This is not called when the dismiss button is clicked.
  * @param confirmButtonAction button which is meant to confirm a proposed action, thus resolving what
@@ -41,7 +40,7 @@ import java.util.UUID
 fun ErrorDialog(
     modifier: Modifier = Modifier,
     onDismissRequest: (() -> Unit)? = null,
-    confirmButtonAction: () -> Unit,
+    confirmButtonAction: (() -> Unit)? = null,
     dismissButtonAction: (() -> Unit)? = null,
     contentDescriptionIcon: String? = null,
     title: String? = null,
@@ -64,7 +63,7 @@ fun ErrorDialog(
         },
         confirmButton = {
             TextButton(onClick = {
-                confirmButtonAction()
+                confirmButtonAction?.invoke()
                 openAlertDialog = false
             }, content = {
                 Text(

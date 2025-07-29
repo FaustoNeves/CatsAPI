@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
+import com.fausto.designsystem.components.ErrorDialog
 import com.fausto.designsystem.components.IndeterminateCircularIndicator
 
 @Composable
@@ -22,10 +23,10 @@ internal fun DetailsScreen(
         Text("Voltar")
     }
     }
+
     when (breedDetailViewState) {
         is BreedDetailViewState.InitialState -> {
-            Text("Início")
-//            getBreedDetail.invoke()
+            getBreedDetail.invoke()
         }
 
         is BreedDetailViewState.Loading -> {
@@ -37,7 +38,7 @@ internal fun DetailsScreen(
         }
 
         is BreedDetailViewState.Error -> {
-//            ErrorDialog()
+            ErrorDialog(errorMessage = breedDetailViewState.errorMessage)
         }
     }
 }
