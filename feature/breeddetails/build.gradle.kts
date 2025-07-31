@@ -81,6 +81,8 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network)
     debugImplementation(libs.androidx.compose.tooling)
 
     implementation(project(":core:common"))

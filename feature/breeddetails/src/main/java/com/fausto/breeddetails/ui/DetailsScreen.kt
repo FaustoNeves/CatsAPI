@@ -5,9 +5,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import coil3.compose.AsyncImage
 import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.designsystem.components.ErrorDialog
 import com.fausto.designsystem.components.IndeterminateCircularIndicator
+import com.fausto.model.BreedImageModel
+import com.fausto.model.BreedModel
 
 @Composable
 internal fun DetailsScreen(
@@ -23,7 +26,6 @@ internal fun DetailsScreen(
         Text("Voltar")
     }
     }
-
     when (breedDetailViewState) {
         is BreedDetailViewState.InitialState -> {
             getBreedDetail.invoke()
@@ -34,11 +36,26 @@ internal fun DetailsScreen(
         }
 
         is BreedDetailViewState.Success -> {
-            Text("Sucesso carai")
+            SuccessState(
+                modifier = Modifier,
+                breedModel = breedDetailViewState.breed,
+                breedImages = breedDetailViewState.breedImages
+            )
         }
 
         is BreedDetailViewState.Error -> {
-            ErrorDialog(errorMessage = breedDetailViewState.errorMessage)
+            ErrorDialog(confirmButtonAction = {
+                backButtonAction.invoke()
+            }, errorMessage = breedDetailViewState.errorMessage)
         }
     }
+}
+
+@Composable
+private fun SuccessState(
+    modifier: Modifier = Modifier,
+    breedModel: BreedModel,
+    breedImages: List<BreedImageModel>
+) {
+    AsyncImage(modifier = Modifier, model = breedModel.url, contentDescription = "cat image")
 }

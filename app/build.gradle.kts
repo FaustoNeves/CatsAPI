@@ -11,7 +11,7 @@ plugins {
 
 android {
     namespace = "com.fausto.cats"
-    compileSdk = 34
+    compileSdk = 36
 
     buildFeatures {
         buildConfig = true
@@ -20,7 +20,7 @@ android {
     defaultConfig {
         applicationId = "com.fausto.cats"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 6
         versionName = "1.6"
 
