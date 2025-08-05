@@ -14,7 +14,7 @@ import com.fausto.breeds.route.breedsScreen
 
 @Composable
 fun CatsNavGraph(
-    modifier: Modifier = Modifier.padding(8.dp), navController: NavHostController = rememberNavController()
+    modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()
 ) {
     NavHost(
         modifier = modifier, navController = navController, startDestination = BreedsRoute

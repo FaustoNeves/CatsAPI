@@ -30,7 +30,7 @@ fun BreedCard(
     onItemClick: (queryBreedId: String, referenceImageId: String) -> Unit,
 ) {
     ElevatedCard(
-        modifier = Modifier.padding(8.dp),
+        modifier = Modifier.padding(top = 8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 24.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
     ) {

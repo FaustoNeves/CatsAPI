@@ -3,9 +3,8 @@ package com.fausto.breeds.ui
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -16,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.fausto.breeds.viewmodel.viewstate.BreedsViewState
 import com.fausto.designsystem.components.BreedCard
 import com.fausto.designsystem.components.CatsSnackbar
@@ -26,7 +26,7 @@ import com.fausto.model.SectionModel
 
 @Composable
 internal fun BreedsScreen(
-    modifier: Modifier = Modifier.fillMaxSize(), breedsViewState: BreedsViewState,
+    modifier: Modifier = Modifier, breedsViewState: BreedsViewState,
     onBreedClick: (breedId: String, referenceImageId: String) -> Unit,
     onError: () -> Unit,
     onSearch: () -> Unit,
@@ -35,10 +35,10 @@ internal fun BreedsScreen(
     snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.padding(start = 8.dp, end = 8.dp),
     ) {
         SearchTextField(
-            modifier = Modifier,
+            modifier = modifier,
             onSearch = onSearch,
             userInput = userInput,
             updateUserInput = updateUserInput
@@ -48,7 +48,7 @@ internal fun BreedsScreen(
 
         is BreedsViewState.Error -> {
             ErrorState(
-                modifier = Modifier,
+                modifier = modifier,
                 errorMessage = breedsViewState.errorMessage,
                 retryAction = onError,
             )
@@ -56,7 +56,7 @@ internal fun BreedsScreen(
 
         is BreedsViewState.Success -> {
                 SuccessState(
-                    modifier = Modifier, breedsViewState.breedsList, onBreedClick
+                    modifier = modifier, breedsViewState.breedsList, onBreedClick
                 )
         }
 
@@ -109,8 +109,6 @@ private fun SuccessState(
 ) {
     LazyColumn(
         modifier = modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
     ) {
         sectionModelList.forEach { currentSection ->
             item {
