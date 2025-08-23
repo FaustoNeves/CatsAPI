@@ -14,7 +14,7 @@ class GradientTransformation : Transformation {
     override fun transform(source: Bitmap): Bitmap {
         val x = source.width
         val y = source.height
-        val gradientBitmap = source.copy(source.config, true)
+        val gradientBitmap = source.copy(source.config!!, true)
         val canvas = Canvas(gradientBitmap)
         val grad = LinearGradient(
             (x / 2).toFloat(),

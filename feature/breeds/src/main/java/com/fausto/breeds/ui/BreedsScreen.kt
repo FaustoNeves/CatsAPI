@@ -38,7 +38,7 @@ internal fun BreedsScreen(
         modifier = modifier.padding(start = 8.dp, end = 8.dp),
     ) {
         SearchTextField(
-            modifier = modifier,
+            modifier = modifier.padding(start = 8.dp, end = 8.dp),
             onSearch = onSearch,
             userInput = userInput,
             updateUserInput = updateUserInput
@@ -48,7 +48,7 @@ internal fun BreedsScreen(
 
         is BreedsViewState.Error -> {
             ErrorState(
-                modifier = modifier,
+                modifier = modifier.fillMaxSize(),
                 errorMessage = breedsViewState.errorMessage,
                 retryAction = onError,
             )
@@ -56,7 +56,9 @@ internal fun BreedsScreen(
 
         is BreedsViewState.Success -> {
                 SuccessState(
-                    modifier = modifier, breedsViewState.breedsList, onBreedClick
+                    modifier = modifier.padding(start = 8.dp, end = 8.dp),
+                    breedsViewState.breedsList,
+                    onBreedClick
                 )
         }
 
@@ -88,7 +90,7 @@ private fun LoadingState(modifier: Modifier = Modifier) {
 
 @Composable
 private fun ErrorState(
-    modifier: Modifier = Modifier.fillMaxSize(),
+    modifier: Modifier = Modifier,
     errorMessage: String,
     retryAction: () -> Unit,
 ) {
@@ -114,7 +116,7 @@ private fun SuccessState(
             item {
                 BreedCard(
                     modifier = modifier,
-                    currentSection = currentSection.section ?: "",
+                    currentSection = currentSection.section,
                     breedsCollection = currentSection.breedsList,
                     onItemClick = onBreedClick
                 )

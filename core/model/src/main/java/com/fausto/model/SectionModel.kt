@@ -1,7 +1,7 @@
 package com.fausto.model
 
 class SectionModel(
-    val section: String? = null, var breedsList: List<BreedsModel>
+    val section: String = "", var breedsList: List<BreedsModel>
 ) {
 
     fun buildAllSections(breedQuery: String? = null): List<SectionModel> {

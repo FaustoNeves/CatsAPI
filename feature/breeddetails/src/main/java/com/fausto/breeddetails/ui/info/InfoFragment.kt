@@ -35,7 +35,7 @@ internal class InfoFragment : Fragment() {
     }
 
     private fun bindData(state: BreedDetailViewState.Success) {
-        state.breed.breeds[0].apply {
+        state.breed.breedDetails.apply {
             with(binding) {
                 catDescription.text = description
                 catTemperament.text = getString(com.fausto.texts.R.string.temperament, temperament)

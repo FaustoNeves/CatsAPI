@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.fausto.designsystem"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 24
@@ -57,6 +57,8 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     debugImplementation(libs.androidx.compose.tooling)
     implementation(libs.material)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network)
     
     implementation("com.squareup.picasso:picasso:2.8")
     val lottieVersion = "6.6.2"

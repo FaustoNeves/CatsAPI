@@ -10,12 +10,13 @@ import com.fausto.network.model.WeightResponse
 fun BreedResponse.toModel(): BreedModel {
     return BreedModel(id = id ?: "",
         url = url ?: "",
-        breeds = breeds?.map { it.toModel() } ?: emptyList())
+        breedDetails = breeds.first().toModel()
+    )
 }
 
 fun BreedDetailResponse.toModel(): BreedDetailModel {
     return BreedDetailModel(
-        weight = weight?.toModel(),
+        weight = weight.toModel(),
         id = id ?: "",
         name = name ?: "",
         temperament = temperament ?: "",
@@ -27,6 +28,6 @@ fun BreedDetailResponse.toModel(): BreedDetailModel {
 
 fun WeightResponse.toModel(): WeightModel {
     return WeightModel(
-        imperial = imperial ?: "", metric = metric ?: ""
+        imperial = imperial ?: "N/A", metric = metric ?: "N/A"
     )
 }

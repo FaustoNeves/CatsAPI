@@ -10,16 +10,18 @@
 
     <!-- Breed Detail -->
     <string name="breed_detail_fragment_label">Breed Detail</string>
-    <string name="info_tab_title">Info</string>
+    <string name="info_tab_title">Details</string>
     <string name="gallery_tab_title">Gallery</string>
-    <string name="weight">Weight</string>
+
+    <!-- TextField component -->
+    <string name="text_field_component_label">search breed</string>
+
+    <!-- Card component -->
+    <string name="weight">Weight:</string>
     <string name="temperament">Temperament: %s</string>
     <string name="origin">Origin: %s</string>
     <string name="weight_metric">%s kgs</string>
     <string name="weight_imperial">%s lbs</string>
     <string name="lifespan">Lifespan: %s years</string>
-
-    <!-- TextField component -->
-    <string name="text_field_component_label">search breed</string>
-    <string name="text_field_component_placeholder">Persian…</string>
+    <string name="description">Description: %s</string>
 </resources>

@@ -33,7 +33,7 @@ import java.util.UUID
  * @param title title which should specify the purpose of the dialog. The title is not mandatory,
  *   because there may be sufficient information inside the error message.
  * @param errorMessage text which presents the details regarding the dialog's purpose.
- * @param buttonText confirm button's text
+ * @param buttonText confirm button's text.
  */
 
 @Composable
