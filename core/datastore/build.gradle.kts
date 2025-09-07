@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.fausto.datastore"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24

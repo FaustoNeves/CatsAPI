@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.fausto.breeddetails"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
