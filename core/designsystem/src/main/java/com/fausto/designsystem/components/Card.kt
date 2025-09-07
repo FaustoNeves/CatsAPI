@@ -1,23 +1,25 @@
 package com.fausto.designsystem.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,7 +48,7 @@ fun BreedCard(
     onItemClick: (queryBreedId: String, referenceImageId: String) -> Unit,
 ) {
     ElevatedCard(
-        modifier = Modifier.padding(top = 8.dp),
+        modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 24.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
     ) {
@@ -108,7 +110,6 @@ private fun BreedInfoText(
     Text(
         modifier = modifier.padding(horizontal = 6.dp),
         fontSize = fontSize,
-        color = Color.White,
         text = text
     )
 }
@@ -126,31 +127,28 @@ fun DetailsBreedCard(
     contentDescription: String,
     breedDetailModel: BreedDetailModel
 ) {
-    Card(
-        modifier = modifier,
-        colors = CardDefaults.cardColors().copy(containerColor = MaterialTheme.colorScheme.scrim)
-    ) {
-        Box {
+    Column {
+        Box(
+            modifier = Modifier
+                .padding(top = 8.dp, start = 8.dp, end = 8.dp)
+                .size(240.dp)
+                .clip(shape = CircleShape)
+                .align(Alignment.CenterHorizontally),
+        ) {
             AsyncImage(
                 modifier = modifier.fillMaxSize(),
                 model = imageUrl,
                 contentDescription = contentDescription,
                 contentScale = ContentScale.Crop
             )
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.scrim.copy(alpha = .6F),
-                                MaterialTheme.colorScheme.scrim.copy(alpha = .6F)
-                            ),
-                        )
-                    )
-            )
+        }
+        ElevatedCard(
+            modifier = Modifier.padding(top = 8.dp, start = 8.dp, end = 8.dp, bottom = 8.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 24.dp),
+        ) {
             Column(
-                modifier = modifier.padding(8.dp), verticalArrangement = Arrangement.spacedBy(10.dp)
+                modifier = Modifier.verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 BreedInfoText(text = breedDetailModel.name, fontSize = 30.sp)
                 BreedInfoText(text = stringResource(id = R.string.origin, breedDetailModel.origin))

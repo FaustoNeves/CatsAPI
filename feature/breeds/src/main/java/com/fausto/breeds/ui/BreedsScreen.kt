@@ -43,7 +43,8 @@ internal fun BreedsScreen(
             userInput = userInput,
             updateUserInput = updateUserInput
         )
-    when (breedsViewState) {
+
+        when (breedsViewState) {
         is BreedsViewState.Loading -> LoadingState()
 
         is BreedsViewState.Error -> {
@@ -56,7 +57,7 @@ internal fun BreedsScreen(
 
         is BreedsViewState.Success -> {
                 SuccessState(
-                    modifier = modifier.padding(start = 8.dp, end = 8.dp),
+                    modifier = Modifier,
                     breedsViewState.breedsList,
                     onBreedClick
                 )

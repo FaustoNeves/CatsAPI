@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,11 +37,10 @@ internal fun DetailsScreen(
     getBreedDetail: () -> Unit,
     backButtonAction: () -> Unit,
 ) {
-    val scrollState = rememberScrollState()
     Column(
         modifier = modifier
             .padding(start = 8.dp, end = 8.dp)
-            .verticalScroll(scrollState)
+            .fillMaxSize()
     ) {
         IconButton(onClick = {
             backButtonAction.invoke()
@@ -55,11 +52,11 @@ internal fun DetailsScreen(
         }
 
         when (breedDetailViewState) {
+            is BreedDetailViewState.Loading -> LoadingState()
+
             is BreedDetailViewState.InitialState -> {
                 getBreedDetail.invoke()
             }
-
-            is BreedDetailViewState.Loading -> LoadingState()
 
             is BreedDetailViewState.Error -> {
                 ErrorState(
@@ -71,7 +68,7 @@ internal fun DetailsScreen(
 
             is BreedDetailViewState.Success -> {
                 SuccessState(
-                    modifier = Modifier,
+                    modifier = modifier,
                     breedModel = breedDetailViewState.breed,
                     breedImages = breedDetailViewState.breedImages
                 )
