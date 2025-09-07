@@ -35,10 +35,6 @@ steps:
     secureFile: 'cats_key.jks'
 
 - script: |
-    zip -d app/build/outputs/bundle/release/app-release.aab 'META-INF/*'
-  displayName: 'Remove existing signatures'
-
-- script: |
     ls -la  # List files in the current directory
     jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
     -keystore "$(DownloadKeystore.secureFilePath)" \
