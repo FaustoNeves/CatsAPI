@@ -13,7 +13,7 @@ fun BreedImageResponse.toModel(): BreedImageModel {
 
 fun BreedsResponse.toModel(): BreedsModel {
     return BreedsModel(
-        section = name?.first().toString(),
+        section = name?.firstOrNull().toString(),
         queryBreedId = queryBreedId ?: "",
         referenceImageId = referenceImageId ?: "",
         name = name ?: ""

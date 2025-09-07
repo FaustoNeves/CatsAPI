@@ -7,12 +7,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.fausto.breeddetails.ui.base.BreedDetailBaseFragment.BreedDetailsBaseFragmentConstants.BREED_QUERY
-import com.fausto.breeddetails.viewmodel.base_info.BreedDetailViewModel
-import com.fausto.breeddetails.viewmodel.base_info.interact.BreedDetailInteract
-import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.breeddetails.databinding.FragmentBreedDetailBinding
-import com.fausto.designsystem.utils.ErrorScreen
+import com.fausto.breeddetails.viewmodel.base_info.BreedDetailViewModel
+import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.designsystem.utils.GradientTransformation
 import com.fausto.designsystem.utils.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
@@ -38,54 +35,7 @@ class BreedDetailBaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupLayout()
-        setupObservers()
-        initViewActions()
-    }
-
-    private fun setupObservers() {
-        viewModel.breedDetailViewState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is BreedDetailViewState.Loading -> {
-                    setupLoadingView()
-                }
-
-                is BreedDetailViewState.Success -> {
-                    setupSuccessView(state)
-                }
-
-                is BreedDetailViewState.Error -> {
-                    setupErrorView(state)
-                }
-            }
-        }
-    }
-
-    private fun initViewActions() {
-        if (requireActivity().intent.data != null) {
-            val deeplinkUri = requireActivity().intent.data
-            requireActivity().intent.data = null
-            deeplinkUri?.let {
-                val breedQuery = it.getQueryParameter(BREED_QUERY)
-                breedQuery?.let { imageId ->
-                    viewModel.interpret(BreedDetailInteract.BaseHandleDeeplink(imageId))
-                }
-            }
-        } else {
-            viewModel.interpret(BreedDetailInteract.BaseViewCreated)
-        }
-    }
-
-    private fun setupErrorView(state: BreedDetailViewState.Error) {
-        with(binding) {
-            successView.isVisible = false
-            loadingScreen.root.isVisible = false
-            loadingScreen.loadingAnimation.isVisible = false
-            ErrorScreen(state.errorMessage) {
-                viewModel.interpret(BreedDetailInteract.BaseOnErrorAction)
-            }.show(parentFragmentManager, "")
-        }
     }
 
     private fun setupSuccessView(state: BreedDetailViewState.Success) {
@@ -94,7 +44,7 @@ class BreedDetailBaseFragment : Fragment() {
             loadingScreen.loadingAnimation.isVisible = false
             successView.isVisible = true
             setCatBanner(state.breed.url)
-            catName.text = state.breed.breeds[0].name
+            catName.text = state.breed.breedDetails.name
         }
     }
 

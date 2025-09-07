@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.serialization)
     kotlin("kapt")
 }
 
@@ -33,6 +35,7 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
+        compose = true
         viewBinding = true
     }
 }
@@ -51,13 +54,27 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1-Beta")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
-
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
+    implementation(libs.kotlinx.serialization.json)
+
+    //Compose
+    val composeBom = platform(libs.compose.bom)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.compose.runtime.livedata)
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+    implementation(libs.androidx.compose.tooling.preview)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+    debugImplementation(libs.androidx.compose.tooling)
 
     testImplementation("io.mockk:mockk:1.13.10")
-
     implementation(project(":core:common"))
     implementation(project(":core:model"))
     implementation(project(":core:network"))

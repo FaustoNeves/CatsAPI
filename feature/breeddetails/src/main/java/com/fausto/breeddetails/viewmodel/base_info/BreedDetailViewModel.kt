@@ -5,42 +5,40 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fausto.breeddetails.tracking.base_info.trackScreenView
-import com.fausto.breeddetails.viewmodel.base_info.interact.BreedDetailInteract
 import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
 import com.fausto.common.result.ResultWrapper
-import com.fausto.datastore.querybreed.BreedIdsManager
 import com.fausto.domain.usecase.GetBreedByIdUseCase
+import com.fausto.domain.usecase.GetImagesByIdUseCase
+import com.fausto.model.BreedImageModel
+import com.fausto.model.BreedModel
 import com.fausto.tracking.analytics.Analytics
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-internal class BreedDetailViewModel @Inject constructor(
+class BreedDetailViewModel @Inject constructor(
     private val getBreedByIdUseCase: GetBreedByIdUseCase,
-    private val breedIdsManager: BreedIdsManager,
+    private val getImagesByIdUseCase: GetImagesByIdUseCase,
     val analytics: Analytics
 ) : ViewModel() {
 
     private val _breedDetailViewState = MutableLiveData<BreedDetailViewState>()
     val breedDetailViewState: LiveData<BreedDetailViewState> get() = _breedDetailViewState
 
-    fun interpret(interaction: BreedDetailInteract) {
-        when (interaction) {
-            is BreedDetailInteract.BaseViewCreated -> getReferenceImageId()
-            is BreedDetailInteract.BaseHandleDeeplink -> getBreedDetail(interaction.breedQueryId)
-            is BreedDetailInteract.BaseOnErrorAction -> getReferenceImageId()
-        }
+    init {
+        _breedDetailViewState.value = BreedDetailViewState.InitialState
     }
 
-    private fun getBreedDetail(breedId: String) {
+    fun getBreedDetail(referenceImageId: String, breedId: String) {
         trackScreenView()
         viewModelScope.launch {
-            when (val response = getBreedByIdUseCase.getBreedById(breedId)) {
+            _breedDetailViewState.value = BreedDetailViewState.Loading
+            var getBreedByIdUseCaseData: BreedModel? = null
+            var getImagesByIdUseCaseData: List<BreedImageModel>? = null
+            when (val response = getBreedByIdUseCase.getBreedById(referenceImageId)) {
                 is ResultWrapper.Success -> {
-                    _breedDetailViewState.value = BreedDetailViewState.Success(response.data)
+                    getBreedByIdUseCaseData = response.data
                 }
 
                 is ResultWrapper.Error -> {
@@ -48,25 +46,19 @@ internal class BreedDetailViewModel @Inject constructor(
                         BreedDetailViewState.Error(response.exception?.message.toString())
                 }
             }
-        }
-    }
-
-    private fun getReferenceImageId() {
-        viewModelScope.launch {
-            _breedDetailViewState.value = BreedDetailViewState.Loading
-            when (val result = breedIdsManager.getReferenceImageId()) {
+            when (val response = getImagesByIdUseCase.getImagesById(breedId)) {
                 is ResultWrapper.Success -> {
-                    result.data.catch { exception ->
-                        exception.message?.let { BreedDetailViewState.Error(it) }
-                    }.collect { referenceImageId ->
-                        referenceImageId?.let { getBreedDetail(it) }
-                        cancel()
-                    }
+                    getImagesByIdUseCaseData = response.data
                 }
 
                 is ResultWrapper.Error -> {
-                    result.exception?.message?.let { BreedDetailViewState.Error(it) }
+                    _breedDetailViewState.value =
+                        BreedDetailViewState.Error(response.exception?.message.toString())
                 }
+            }
+            if (getBreedByIdUseCaseData != null && getImagesByIdUseCaseData != null) {
+                _breedDetailViewState.value =
+                    BreedDetailViewState.Success(getBreedByIdUseCaseData, getImagesByIdUseCaseData)
             }
         }
     }

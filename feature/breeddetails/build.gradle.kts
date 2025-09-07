@@ -2,7 +2,9 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.compose.compiler)
     kotlin(libs.plugins.kapt.get().pluginId)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -32,6 +34,7 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
+        compose = true
         viewBinding = true
     }
 }
@@ -46,6 +49,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.dagger.hilt)
     kapt(libs.dagger.hilt.compiler)
@@ -63,6 +67,23 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1-Beta")
     testImplementation("io.mockk:mockk:1.13.10")
     testImplementation("androidx.arch.core:core-testing:2.1.0")
+
+    //Compose
+    val composeBom = platform(libs.compose.bom)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.compose.runtime.livedata)
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+    implementation(libs.androidx.compose.tooling.preview)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network)
+    debugImplementation(libs.androidx.compose.tooling)
 
     implementation(project(":core:common"))
     implementation(project(":core:model"))

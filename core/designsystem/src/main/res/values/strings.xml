@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="try_again_button_text">Try Again</string>
+    <string name="try_again_button">Try Again</string>
+    <string name="dismiss_button">Dismiss</string>
+    <string name="error_dialog_title">Something went wrong</string>
 </resources>

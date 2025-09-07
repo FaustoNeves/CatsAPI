@@ -1,0 +1,60 @@
+package com.fausto.designsystem.components
+
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.fausto.designsystem.theme.CatsAppTheme
+
+/**
+ * @param onSearch callback to search breed based on the input
+ * @param userInput users search text input
+ * @param updateUserInput callback to hold the search text input
+ * */
+
+@Composable
+fun SearchTextField(
+    modifier: Modifier = Modifier,
+    onSearch: () -> Unit,
+    userInput: String,
+    updateUserInput: (String) -> Unit
+) {
+    OutlinedTextField(
+        modifier = modifier.fillMaxWidth(),
+        value = userInput,
+        onValueChange = {
+            updateUserInput(it)
+            onSearch.invoke()
+        },
+        label = { Text(stringResource(com.fausto.texts.R.string.text_field_component_label)) },
+        singleLine = true,
+        maxLines = 1,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = "",
+                modifier = Modifier
+            )
+        },
+    )
+}
+
+@Preview(name = "light mode")
+@Preview(name = "dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun SearchTextFieldPreview() {
+    CatsAppTheme {
+        SearchTextField(
+            onSearch = {},
+            userInput = "",
+            updateUserInput = { _ -> }
+        )
+    }
+}
