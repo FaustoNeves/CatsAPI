@@ -21,8 +21,8 @@ android {
         applicationId = "com.fausto.cats"
         minSdk = 24
         targetSdk = 36
-        versionCode = 8
-        versionName = "1.6"
+        versionCode = 9
+        versionName = "1.9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
