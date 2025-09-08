@@ -49,6 +49,12 @@ steps:
     KEY_PASS: $(keystore.password)
     ALIAS: $(key.alias)
 
+- script: |
+    "${ANDROID_HOME}/build-tools/34.0.0/zipalign" -v -p 4 \
+    app/build/outputs/bundle/release/app-release-signed.aab \
+    app/build/outputs/bundle/release/app-release-aligned.aab
+  displayName: 'Zipalign Android App Bundle'
+
 - task: CopyFiles@2
   inputs:
     SourceFolder: 'app/build/outputs/bundle/release/'
