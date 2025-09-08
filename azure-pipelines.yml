@@ -50,7 +50,11 @@ steps:
     ALIAS: $(key.alias)
 
 - script: |
-    "${ANDROID_HOME}/build-tools/33.0.2/zipalign" -v -p 4 \
+    yes | sdkmanager --install "build-tools;33.0.2"
+  displayName: 'Install Android Build Tools 33.0.2'
+
+- script: |
+    zipalign -v -p 4 \
     app/build/outputs/bundle/release/app-release-signed.aab \
     app/build/outputs/bundle/release/app-release-aligned.aab
   displayName: 'Zipalign Android App Bundle'
