@@ -50,7 +50,7 @@ steps:
     ALIAS: $(key.alias)
 
 - script: |
-    yes | sdkmanager --install "build-tools;33.0.2"
+    yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "build-tools;33.0.2"
   displayName: 'Install Android Build Tools 33.0.2'
 
 - script: |
