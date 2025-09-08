@@ -1,11 +1,11 @@
-package com.fausto.breeddetails.viewmodel.base_info
+package com.fausto.breeddetails.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fausto.breeddetails.tracking.base_info.trackScreenView
-import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
+import com.fausto.breeddetails.tracking.trackScreenView
+import com.fausto.breeddetails.viewmodel.viewstate.BreedDetailViewState
 import com.fausto.common.result.ResultWrapper
 import com.fausto.domain.usecase.GetBreedByIdUseCase
 import com.fausto.domain.usecase.GetImagesByIdUseCase
