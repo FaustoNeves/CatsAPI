@@ -1,88 +1,43 @@
-plugins {
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.google.services)
-    kotlin(libs.plugins.kapt.get().pluginId)
-    id(libs.plugins.kotlin.parcelize.get().pluginId)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.compose.compiler)
-}
+trigger:
+- main
 
-android {
-    namespace = "com.fausto.cats"
-    compileSdk = 36
+pool:
+  vmImage: 'macos-latest'
 
-    buildFeatures {
-        buildConfig = true
-    }
+variables:
+  - group: android-signing-variables
 
-    defaultConfig {
-        applicationId = "com.fausto.cats"
-        minSdk = 24
-        targetSdk = 36
-        versionCode = 10
-        versionName = "10.1"
+steps:
+- task: DownloadSecureFile@1
+  name: DownloadKeystore
+  displayName: 'Download Keystore'
+  inputs:
+    secureFile: 'cats_key.jks'
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
+- task: Gradle@3
+  displayName: 'Build and Sign App Bundle'
+  inputs:
+    gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '17' # Simplified version number
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: true
+    testResultsFiles: '**/test-results/testDebugUnitTest/*.xml'
+    tasks: 'clean bundleRelease' # 'bundleRelease' will build AND sign the AAB
+  env:
+    # Pass secrets from your variable group and the secure file path to Gradle
+    KEYSTORE_FILE: $(DownloadKeystore.secureFilePath)
+    KEYSTORE_PASS: $(key.password)
+    KEY_PASS: $(keystore.password)
+    ALIAS: $(key.alias)
 
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    buildFeatures {
-        viewBinding = true
-        compose = true
-    }
-}
-
-dependencies {
-
-    implementation(libs.androidx.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.8.1")
-    implementation("androidx.navigation:navigation-ui-ktx:2.8.1")
-    implementation(libs.dagger.hilt)
-    kapt(libs.dagger.hilt.compiler)
-    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation(libs.kotlinx.serialization.json)
-
-    //Compose
-    val composeBom = platform(libs.compose.bom)
-    implementation(libs.androidx.foundation.android)
-    implementation(libs.androidx.compose.foundation.layout)
-    implementation(libs.androidx.compose.runtime.livedata)
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
-    implementation(libs.androidx.compose.tooling.preview)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.navigation.compose)
-    debugImplementation(libs.androidx.compose.tooling)
-
-    implementation(project(":feature:breeds"))
-    implementation(project(":feature:breeddetails"))
-    implementation(project(":core:common"))
-    implementation(project(":core:model"))
-    implementation(project(":core:network"))
-    implementation(project(":core:data"))
-    implementation(project(":core:domain"))
-    implementation(project(":core:designsystem"))
-    implementation(project(":core:texts"))
-}
+- task: GooglePlayRelease@4
+  displayName: 'Upload to Google Play Beta'
+  inputs:
+    serviceConnection: 'catsdevops'
+    applicationId: 'com.fausto.cats'
+    action: 'SingleBundle'
+    # The bundleFile now points to the original, correctly signed file from Gradle
+    bundleFile: 'app/build/outputs/bundle/release/app-release.aab'
+    track: 'beta'
