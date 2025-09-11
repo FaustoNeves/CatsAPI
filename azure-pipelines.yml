@@ -39,3 +39,4 @@ steps:
       action: 'SingleBundle'
       bundleFile: 'app/build/outputs/bundle/release/app-release.aab'
       track: 'beta'
+      changesNotSentForReview: true
