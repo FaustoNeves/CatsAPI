@@ -1,6 +1,6 @@
-package com.fausto.breeddetails.tracking.base_info
+package com.fausto.breeddetails.tracking
 
-import com.fausto.breeddetails.viewmodel.base_info.BreedDetailViewModel
+import com.fausto.breeddetails.viewmodel.BreedDetailViewModel
 import com.fausto.tracking.constants.breeddetail.base_info.BreedDetailsAnalyticsValues
 
 internal fun BreedDetailViewModel.trackScreenView() {

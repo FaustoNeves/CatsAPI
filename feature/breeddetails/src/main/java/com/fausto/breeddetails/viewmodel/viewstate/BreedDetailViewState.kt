@@ -1,4 +1,4 @@
-package com.fausto.breeddetails.viewmodel.base_info.viewstate
+package com.fausto.breeddetails.viewmodel.viewstate
 
 import com.fausto.model.BreedImageModel
 import com.fausto.model.BreedModel

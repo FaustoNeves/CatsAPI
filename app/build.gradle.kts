@@ -34,6 +34,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
         }
+
+        create("qa") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".qa"
+            versionNameSuffix = "-QA"
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

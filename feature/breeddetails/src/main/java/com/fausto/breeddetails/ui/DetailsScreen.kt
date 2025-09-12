@@ -19,7 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.fausto.breeddetails.viewmodel.base_info.viewstate.BreedDetailViewState
+import com.fausto.breeddetails.viewmodel.viewstate.BreedDetailViewState
 import com.fausto.designsystem.components.DetailsBreedCard
 import com.fausto.designsystem.components.DetailsScreenTab
 import com.fausto.designsystem.components.ErrorDialog

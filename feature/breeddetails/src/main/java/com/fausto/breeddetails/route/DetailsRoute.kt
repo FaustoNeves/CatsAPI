@@ -10,7 +10,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.fausto.breeddetails.ui.DetailsScreen
-import com.fausto.breeddetails.viewmodel.base_info.BreedDetailViewModel
+import com.fausto.breeddetails.viewmodel.BreedDetailViewModel
 import kotlinx.serialization.Serializable
 
 @Serializable
