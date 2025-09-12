@@ -1,10 +1,5 @@
-# Android
-# Build your Android project with Gradle.
-# Add steps that test, sign, and distribute the APK, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/android
-
 trigger:
-- main
+  - main
 
 pool:
   vmImage: 'macos-latest'
@@ -13,57 +8,34 @@ variables:
   - group: android-signing-variables
 
 steps:
-- task: Gradle@3
-  inputs:
-    gradleWrapperFile: 'gradlew'
-    gradleOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '17.0.6testResultsFiles'
-    jdkArchitectureOption: 'x64'
-    tasks: 'clean test bundleRelease'
+  - task: DownloadSecureFile@1
+    name: DownloadKeystore
+    displayName: 'Download Keystore'
+    inputs:
+      secureFile: 'cats_key.jks'
 
-- task: PublishTestResults@2
-  inputs:
-    testResultsFiles: '**/test-results/testDebugUnitTest/*.xml'  # Update this path as needed
-    failTaskOnFailedTests: true
-    testRunTitle: 'Unit Tests'
+  - task: Gradle@3
+    displayName: 'Build and Sign App Bundle'
+    inputs:
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx3072m'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '17'
+      jdkArchitectureOption: 'x64'
+      publishJUnitResults: true
+      testResultsFiles: '**/test-results/testDebugUnitTest/*.xml'
+      tasks: 'clean bundleRelease' # 'bundleRelease' will build AND sign the AAB
+    env:
+      KEYSTORE_FILE: $(DownloadKeystore.secureFilePath)
+      KEYSTORE_PASS: $(key.password)
+      KEY_PASS: $(keystore.password)
+      ALIAS: $(key.alias)
 
-- task: DownloadSecureFile@1
-  name: DownloadKeystore
-  displayName: 'Download Keystore'
-  inputs:
-    secureFile: 'cats_key.jks'
-
-- script: |
-    ls -la  # List files in the current directory
-    jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
-    -keystore "$(DownloadKeystore.secureFilePath)" \
-    -storepass "$KEYSTORE_PASS" \
-    -keypass "$KEY_PASS" \
-    -tsa http://timestamp.digicert.com \
-    -signedjar app/build/outputs/bundle/release/app-release-signed.aab \
-    app/build/outputs/bundle/release/app-release.aab "$ALIAS"
-  displayName: 'Sign Android App Bundle with jarsigner'
-  env:
-    KEYSTORE_PASS: $(key.password)
-    KEY_PASS: $(keystore.password)
-    ALIAS: $(key.alias)
-
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: 'app/build/outputs/bundle/release/'
-    apkFiles: '**/*.aab'
-    targetFolder: '$(build.artifactStagingDirectory)'
-    overWrite: true
-
-- script: ls -R $(build.artifactStagingDirectory)
-  displayName: 'List files in artifact staging directory'
-
-- task: GooglePlayRelease@4
-  inputs:
-    serviceConnection: 'catsdevops'
-    applicationId: 'com.fausto.cats'
-    action: 'SingleBundle'
-    bundleFile: 'app/build/outputs/bundle/release/app-release-signed.aab'
-    apkFile: '**/*.aab'
-    track: 'beta'
+  - task: GooglePlayRelease@4
+    displayName: 'Upload to Google Play Beta'
+    inputs:
+      serviceConnection: 'catsdevops'
+      applicationId: 'com.fausto.cats'
+      action: 'SingleBundle'
+      bundleFile: 'app/build/outputs/bundle/release/app-release.aab'
+      track: 'beta'

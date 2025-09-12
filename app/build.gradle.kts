@@ -21,10 +21,26 @@ android {
         applicationId = "com.fausto.cats"
         minSdk = 24
         targetSdk = 36
-        versionCode = 8
-        versionName = "1.6"
+        versionCode = 11
+        versionName = "10.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        create("release") {
+            val storeFile = project.findProperty("RELEASE_STORE_FILE") as? String ?: System.getenv("KEYSTORE_FILE")
+            val storePassword = project.findProperty("RELEASE_STORE_PASSWORD") as? String ?: System.getenv("KEYSTORE_PASS")
+            val keyAlias = project.findProperty("RELEASE_KEY_ALIAS") as? String ?: System.getenv("ALIAS")
+            val keyPassword = project.findProperty("RELEASE_KEY_PASSWORD") as? String ?: System.getenv("KEY_PASS")
+
+            if (storeFile != null) {
+                this.storeFile = file(storeFile)
+                this.storePassword = storePassword
+                this.keyAlias = keyAlias
+                this.keyPassword = keyPassword
+            }
+        }
     }
 
     buildTypes {
@@ -33,6 +49,7 @@ android {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
 
         create("qa") {
