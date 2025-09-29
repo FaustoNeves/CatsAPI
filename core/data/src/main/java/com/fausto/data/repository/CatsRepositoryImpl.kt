@@ -13,6 +13,7 @@ class CatsRepositoryImpl @Inject constructor(
 
     override suspend fun getBreeds(): List<BreedsModel> =
         catsService.getBreeds().map { it.toModel() }
+
     override suspend fun getBreedsBySearch(breedQuery: String) =
         catsService.getBreedsBySearch(breedQuery)
 

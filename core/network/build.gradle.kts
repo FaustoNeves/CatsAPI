@@ -40,7 +40,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.squareup.retrofit2)
     implementation(libs.squareup.okhttp)
-    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
     implementation(libs.dagger.hilt)
     implementation(libs.retrofit.serialization.converter)
     implementation(libs.kotlinx.serialization.json)

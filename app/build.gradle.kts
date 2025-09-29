@@ -21,8 +21,8 @@ android {
         applicationId = "com.fausto.cats"
         minSdk = 24
         targetSdk = 36
-        versionCode = 11
-        versionName = "10.2"
+        versionCode = 12
+        versionName = "10.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,18 +44,23 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+            resValue("string", "app_name", "Debug")
+        }
+
         release {
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("release")
+            resValue("string", "app_name", "Cats")
         }
 
         create("qa") {
             initWith(getByName("debug"))
-            applicationIdSuffix = ".qa"
-            versionNameSuffix = "-QA"
+            resValue("string", "app_name", "QA")
         }
     }
     compileOptions {

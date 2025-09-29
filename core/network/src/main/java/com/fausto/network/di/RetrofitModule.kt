@@ -9,7 +9,6 @@ import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
 @Module
@@ -20,11 +19,8 @@ internal object CatsServiceModule {
     fun provideCatsService(): CatsService {
         val json = Json { ignoreUnknownKeys = true }
         val contentType = "application/json".toMediaType()
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return Retrofit.Builder().baseUrl("https://api.thecatapi.com/v1/").client(
             OkHttpClient.Builder()
-//                .addInterceptor(loggingInterceptor)
                 .build()
         ).addConverterFactory(json.asConverterFactory(contentType)).build()
             .create(CatsService::class.java)
