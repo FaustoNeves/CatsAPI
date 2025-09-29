@@ -1,9 +1,13 @@
 package com.fausto.network.model
 
-import com.google.gson.annotations.SerializedName
+import android.annotation.SuppressLint
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class BreedsResponse(
-    @SerializedName("id") val queryBreedId: String?,
-    @SerializedName("reference_image_id") val referenceImageId: String?,
-    val name: String?
+    @SerialName("id") val queryBreedId: String? = null,
+    @SerialName("reference_image_id") val referenceImageId: String? = null,
+    val name: String? = null
 )

@@ -1,7 +1,10 @@
 package com.fausto.network.model
+import android.annotation.SuppressLint
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-import com.google.gson.annotations.SerializedName
-
+@SuppressLint("UnsafeOptInUsageError")
+@Serializable
 data class BreedDetailResponse(
     val weight: WeightResponse,
     val id: String?,
@@ -9,5 +12,5 @@ data class BreedDetailResponse(
     val temperament: String?,
     val origin: String?,
     val description: String?,
-    @SerializedName("life_span") val lifeSpan: String?,
+    @SerialName("life_span") val lifeSpan: String?,
 )
