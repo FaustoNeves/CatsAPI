@@ -1,8 +1,8 @@
-package com.fausto.network.service
+package com.fausto.data.service
 
-import com.fausto.network.model.BreedImageResponse
-import com.fausto.network.model.BreedResponse
-import com.fausto.network.model.BreedsResponse
+import com.fausto.data.model.BreedImageResponse
+import com.fausto.data.model.BreedResponse
+import com.fausto.data.model.BreedsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

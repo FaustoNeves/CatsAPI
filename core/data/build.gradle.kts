@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.serialization)
     kotlin(libs.plugins.kapt.get().pluginId)
 }
 
@@ -39,7 +40,10 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.dagger.hilt)
+    implementation(libs.squareup.retrofit2)
+    implementation(libs.squareup.okhttp)
+    implementation(libs.retrofit.serialization.converter)
+    implementation(libs.kotlinx.serialization.json)
     kapt(libs.dagger.hilt.compiler)
-    implementation(project(":core:network"))
     implementation(project(":core:model"))
 }

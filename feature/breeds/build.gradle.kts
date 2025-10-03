@@ -77,7 +77,6 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.10")
     implementation(project(":core:common"))
     implementation(project(":core:model"))
-    implementation(project(":core:network"))
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
     implementation(project(":core:designsystem"))

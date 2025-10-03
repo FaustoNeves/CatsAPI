@@ -1,10 +1,9 @@
-package com.fausto.network.model
-
+package com.fausto.data.model
 import android.annotation.SuppressLint
 import kotlinx.serialization.Serializable
 
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable
-data class BreedResponse(
-    val id: String?, val url: String?, val breeds: List<BreedDetailResponse>
+data class BreedImageResponse(
+    val url: String?
 )

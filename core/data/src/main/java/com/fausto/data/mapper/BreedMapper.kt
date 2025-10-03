@@ -1,11 +1,11 @@
-package com.fausto.network.mapper
+package com.fausto.data.mapper
 
 import com.fausto.model.BreedDetailModel
 import com.fausto.model.BreedModel
 import com.fausto.model.WeightModel
-import com.fausto.network.model.BreedDetailResponse
-import com.fausto.network.model.BreedResponse
-import com.fausto.network.model.WeightResponse
+import com.fausto.data.model.BreedDetailResponse
+import com.fausto.data.model.BreedResponse
+import com.fausto.data.model.WeightResponse
 
 fun BreedResponse.toModel(): BreedModel {
     return BreedModel(id = id ?: "",

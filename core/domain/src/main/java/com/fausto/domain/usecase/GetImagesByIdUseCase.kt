@@ -3,7 +3,7 @@ package com.fausto.domain.usecase
 import com.fausto.common.result.ResultWrapper
 import com.fausto.data.repository.CatsRepository
 import com.fausto.model.BreedImageModel
-import com.fausto.network.mapper.toModel
+import com.fausto.data.mapper.toModel
 import javax.inject.Inject
 
 fun interface GetImagesByIdUseCase {

@@ -1,6 +1,6 @@
-package com.fausto.network.di
+package com.fausto.data.di
 
-import com.fausto.network.service.CatsService
+import com.fausto.data.service.CatsService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

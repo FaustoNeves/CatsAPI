@@ -1,9 +1,9 @@
-package com.fausto.network.mapper
+package com.fausto.data.mapper
 
 import com.fausto.model.BreedImageModel
 import com.fausto.model.BreedsModel
-import com.fausto.network.model.BreedImageResponse
-import com.fausto.network.model.BreedsResponse
+import com.fausto.data.model.BreedImageResponse
+import com.fausto.data.model.BreedsResponse
 
 fun BreedImageResponse.toModel(): BreedImageModel {
     return BreedImageModel(

@@ -1,9 +1,9 @@
 package com.fausto.data.repository
 
 import com.fausto.model.BreedsModel
-import com.fausto.network.model.BreedImageResponse
-import com.fausto.network.model.BreedResponse
-import com.fausto.network.model.BreedsResponse
+import com.fausto.data.model.BreedImageResponse
+import com.fausto.data.model.BreedResponse
+import com.fausto.data.model.BreedsResponse
 
 interface CatsRepository {
     suspend fun getBreeds(): List<BreedsModel>
